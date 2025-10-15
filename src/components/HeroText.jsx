@@ -1,7 +1,7 @@
 import { FlipWords } from "./FlipWords";
 import { motion } from "motion/react";
-import { FaLaptopCode } from "react-icons/fa";      // pour le développement web
-import { MdDesignServices } from "react-icons/md";  // pour le design UI/UX
+import { FaLaptopCode } from "react-icons/fa";     
+import { MdDesignServices } from "react-icons/md"; 
 import { RiBrainLine } from "react-icons/ri";  
 
 const HeroText = () => {
@@ -16,7 +16,7 @@ const words = [
   </>,
   <>
     <RiBrainLine className="inline text-yellow-500 mr-2" />
-    Créateur de contenu
+    Pionnier Créatif
   </>,
 ];  const variants = {
     hidden: { opacity: 0, x: -50 },
@@ -76,17 +76,17 @@ const words = [
           animate="visible"
           transition={{ delay: 1 }}
         >
-                    Hi,I'm Ali
+                    Hello, Je suis
         </motion.p>
         <div>
           <motion.p
-            className="text-5xl font-black text-neutral-300"
+            className="text-3xl font-medium text-neutral-300"
             variants={variants}
             initial="hidden"
             animate="visible"
             transition={{ delay: 1.2 }}
           >
-            Building
+            Frédérick A.
           </motion.p>
           <motion.div
             variants={variants}
@@ -100,13 +100,13 @@ const words = [
             />
           </motion.div>
           <motion.p
-            className="text-4xl font-black text-neutral-300"
+            className="text-2xl font-black text-neutral-300"
             variants={variants}
             initial="hidden"
             animate="visible"
             transition={{ delay: 1.8 }}
           >
-            Web Applications
+            Solutions Digitales
           </motion.p>
         </div>
       </div>

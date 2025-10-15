@@ -1,17 +1,38 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+
 const CopyEmailButton = () => {
   const [copied, setCopied] = useState(false);
-  const email = "Your Email Address";
+  const email = "frederick@example.com";
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-
-    setTimeout(() => {
-      setCopied(false);
-    }, 2000);
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.error("Erreur lors de la copie:", err);
+      // Fallback pour les navigateurs plus anciens
+      const textArea = document.createElement("textarea");
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
+      } catch (err2) {
+        console.error("Fallback échoué:", err2);
+      }
+      document.body.removeChild(textArea);
+    }
   };
+
   return (
     <motion.button
       onClick={copyToClipboard}
@@ -30,7 +51,7 @@ const CopyEmailButton = () => {
             transition={{ duration: 0.1, ease: "easeInOut" }}
           >
             <img src="assets/copy-done.svg" className="w-5" alt="copy Icon" />
-            Email has Copied
+            Email Copié
           </motion.p>
         ) : (
           <motion.p
@@ -42,7 +63,7 @@ const CopyEmailButton = () => {
             transition={{ duration: 0.1 }}
           >
             <img src="assets/copy.svg" className="w-5" alt="copy icon" />
-            Copy Email Address
+            Copier l'Email
           </motion.p>
         )}
       </AnimatePresence>
