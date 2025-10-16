@@ -10,6 +10,7 @@ import Contact from "./sections/Contact";
 import ChatBox from "./components/ChatBox";
 import Footer from './sections/Footer';
 import Cookie from './components/Cookie';
+import Privacy from './pages/privacy';
 
 const App = () => {
   return (
@@ -23,9 +24,9 @@ const App = () => {
             <Projects />
             <Experiences />
             <Testimonial />
-            <Contact />
-          </>
+            <Contact />          </>
         } />
+        <Route path="/privacy" element={<Privacy />} />
       </Routes>
       <ChatBox />
       <Cookie/>
