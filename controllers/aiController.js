@@ -1,6 +1,6 @@
 import { generateAIResponse } from "../services/aiService.js";
 
-export const chatWithAI = async (req, res) => {
+export async function chatWithAI(req, res) {
   try {
     const { message, context } = req.body;
 
@@ -8,11 +8,10 @@ export const chatWithAI = async (req, res) => {
       return res.status(400).json({ error: "Le message est requis." });
     }
 
-    const aiResponse = await generateAIResponse(message, context);
-    res.status(200).json({ response: aiResponse });
-
+    const reply = await generateAIResponse(message, context || "");
+    res.json({ reply });
   } catch (error) {
-    console.error("Erreur chat:", error);
-    res.status(500).json({ error: "Erreur interne du serveur." });
+    console.error("Erreur chatWithAI:", error);
+    res.status(500).json({ error: "Impossible de générer la réponse." });
   }
-};
+}

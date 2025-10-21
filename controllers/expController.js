@@ -35,11 +35,22 @@ export const addExperience = async (req, res) => {
 };
 
 export const editExperience = async (req, res) => {
-  try {
-    const updatedExp = await updateExperience(req.params.id, req.body);
-    res.json(updatedExp);
+   try {
+    const { id } = req.params; // Ancien ID depuis l'URL
+    const experienceData = req.body; // Peut contenir un nouvel ID
+    
+    const updated = await updateExperience(id, experienceData);
+    
+    res.json({
+      success: true,
+      data: updated,
+      message: "Expérience mise à jour avec succès"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
