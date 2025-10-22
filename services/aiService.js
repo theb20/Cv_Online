@@ -1,5 +1,5 @@
 // ==========================================
-// AI SERVICE - ARCHITECTURE OPTIMISÉE
+// AI SERVICE - RÉPONSES COURTES ET DIRECTES
 // ==========================================
 
 import { db } from '../config/db.js';
@@ -19,10 +19,11 @@ const CONFIG = {
   AI_PROVIDER: process.env.AI_PROVIDER || 'groq',
   AI_FALLBACK: true,
   
-  // Réponses
+  // Réponses - OPTIMISÉ POUR RÉPONSES COURTES
   MAX_SUGGESTIONS: 4,
-  MAX_AI_TOKENS: 300,
-  TEMPERATURE: 0.7,
+  MAX_AI_TOKENS: 150, // Réduit de 300 à 150
+  MAX_WORDS: 50, // Maximum 50 mots
+  TEMPERATURE: 0.6, // Réduit pour plus de précision
   
   // Providers
   providers: {
@@ -64,9 +65,10 @@ class CacheManager {
     this.queries = new Map();
     this.aiResponses = new Map();
     this.topics = new Set();
+    this.conversationStarted = false;
+    this.messageCount = 0;
   }
 
-  // Profile cache
   getProfile() {
     if (this.profile && Date.now() - this.profileTimestamp < CONFIG.CACHE_TTL) {
       return this.profile;
@@ -79,7 +81,6 @@ class CacheManager {
     this.profileTimestamp = Date.now();
   }
 
-  // Query cache
   getQuery(key) {
     const cached = this.queries.get(key);
     if (cached && Date.now() - cached.timestamp < CONFIG.CACHE_TTL) {
@@ -94,7 +95,6 @@ class CacheManager {
     this._cleanCache(this.queries);
   }
 
-  // AI Response cache
   getAIResponse(key) {
     const cached = this.aiResponses.get(key);
     if (cached && Date.now() - cached.timestamp < CONFIG.CACHE_TTL) {
@@ -109,16 +109,26 @@ class CacheManager {
     this._cleanCache(this.aiResponses);
   }
 
-  // Topics tracking
   addTopic(topic) {
     this.topics.add(topic);
+    this.messageCount++;
+    if (!this.conversationStarted) {
+      this.conversationStarted = true;
+    }
   }
 
   getTopics() {
     return Array.from(this.topics);
   }
 
-  // Cache cleanup
+  isConversationStarted() {
+    return this.conversationStarted;
+  }
+
+  getMessageCount() {
+    return this.messageCount;
+  }
+
   _cleanCache(cache) {
     if (cache.size > CONFIG.MAX_CACHE_SIZE) {
       const firstKey = cache.keys().next().value;
@@ -126,7 +136,6 @@ class CacheManager {
     }
   }
 
-  // Reset
   reset() {
     this.topics.clear();
   }
@@ -196,33 +205,44 @@ class DatabaseService {
         await Promise.all([
           this.fetchTable('users', { limit: 1 }),
           this.fetchTable('experiences', { orderBy: 'start_date DESC' }),
-          this.fetchTable('education', { orderBy: 'end_year DESC' }),
-          this.fetchTable('certification', { orderBy: 'end_year DESC' }),
+          this.fetchTable('education', { orderBy: 'start_year DESC' }),
+          this.fetchTable('certification', { orderBy: 'start_year DESC' }),
           this.fetchTable('projects', { orderBy: 'created_at DESC' }),
-          this.fetchTable('skills', { orderBy: 'level DESC' }),
+          this.fetchTable('skills', { orderBy: 'id ASC' }),
           this.fetchTable('social_links')
         ]);
 
       const user = users[0];
-      if (!user) return null;
+      if (!user) {
+        console.error('❌ Aucun utilisateur trouvé dans la base de données');
+        return null;
+      }
+
+      console.log('✅ Profil chargé:', {
+        name: user.fullname,
+        experiencesCount: experiences.length,
+        projectsCount: projects.length,
+        skillsCount: skills.length
+      });
 
       const profile = {
         ...user,
-        experiences,
-        education,
-        certifications,
-        projects: projects.map(p => ({
+        experiences: experiences || [],
+        education: education || [],
+        certifications: certifications || [],
+        projects: (projects || []).map(p => ({
           ...p,
+          name: p.title, // Mapper 'title' vers 'name'
           technologies: [p.techno_1, p.techno_2, p.techno_3, p.techno_4].filter(Boolean)
         })),
-        skills,
-        socialLinks
+        skills: skills || [],
+        socialLinks: socialLinks || []
       };
 
       cache.setProfile(profile);
       return profile;
     } catch (error) {
-      console.error('Profile fetch error:', error.message);
+      console.error('❌ Erreur lors de la récupération du profil:', error.message);
       return cache.getProfile() || null;
     }
   }
@@ -237,7 +257,7 @@ const dbService = new DatabaseService();
 class IntentDetector {
   constructor() {
     this.patterns = {
-      greeting: /^(salut|bonjour|hello|hey|hi|coucou|yo|bonsoir)\b/i,
+      greeting: /^(salut|bonjour|hello|hey|hi|coucou|yo|bonsoir)[\s!?]*$/i,
       presentation: /(?:qui|présente|nom|parle.*toi|connais|découvrir|à propos)/i,
       skills: /(?:compétence|technologie|stack|langage|framework|outil|maîtrise|capable|sais.*faire)/i,
       experience: /(?:expérience|travail|job|poste|carrière|parcours|travaillé|mission)/i,
@@ -255,6 +275,7 @@ class IntentDetector {
   detect(message) {
     const normalized = message.toLowerCase().trim();
     
+    // Ne détecter "greeting" que si c'est UNIQUEMENT un mot de salutation
     for (const [intent, pattern] of Object.entries(this.patterns)) {
       if (pattern.test(normalized)) {
         return intent;
@@ -273,41 +294,119 @@ const intentDetector = new IntentDetector();
 
 class ProfileAnalyzer {
   analyze(profile) {
-    if (!profile) return null;
+    if (!profile) {
+      console.error('❌ ProfileAnalyzer: Profil vide');
+      return null;
+    }
 
     const experiences = profile.experiences || [];
     const skills = profile.skills || [];
     const projects = profile.projects || [];
+    const certifications = profile.certifications || [];
+
+    console.log('📊 Analyse du profil:', {
+      name: profile.fullname,
+      experiencesCount: experiences.length,
+      skillsCount: skills.length,
+      projectsCount: projects.length
+    });
 
     const totalYears = this._calculateYearsOfExperience(experiences);
-    const expertSkills = skills.filter(s => ['expert', 'advanced'].includes(s.level));
+    const expertSkills = skills.filter(s => ['Expert', 'Avancé', 'expert', 'advanced'].includes(s.level));
     const topSkills = skills.slice(0, 5);
 
-    return {
+    // Déterminer le genre depuis le prénom (pas de champ gender dans la BDD)
+    const pronouns = this._determinePronouns(profile.fullname);
+
+    const insights = {
       name: profile.fullname || 'Développeur',
-      currentRole: experiences[0]?.position || 'Développeur',
-      yearsOfExperience: Math.round(totalYears),
+      currentRole: experiences[0]?.position || 'Développeur Web',
+      currentCompany: experiences[0]?.company || '',
+      yearsOfExperience: Math.max(1, Math.round(totalYears)),
       totalProjects: projects.length,
-      totalCertifications: (profile.certifications || []).length,
+      totalCertifications: certifications.length,
       expertSkillsCount: expertSkills.length,
       topSkills: topSkills.map(s => ({ name: s.name, level: s.level })),
-      topSkillsNames: topSkills.map(s => s.name).join(', '),
-      mainTech: skills[0]?.name || 'Développement web',
-      recentProjects: projects.slice(0, 3),
-      email: profile.email,
-      phone: profile.phone,
-      socialLinks: profile.socialLinks || []
+      topSkillsNames: topSkills.map(s => s.name).join(', ') || 'Développement web',
+      mainTech: skills[0]?.name || 'React',
+      recentProjects: projects.slice(0, 7),
+      email: profile.email || '',
+      phone: profile.phone || '',
+      socialLinks: profile.socialLinks || [],
+      country: profile.country || '',
+      city: profile.city || '',
+      website: profile.website || '',
+      linkedin: profile.linkedin || '',
+      github: profile.github || '',
+      whatsapp: profile.whatsapp || '',
+      instagram: profile.instagram || '',
+      pronouns: pronouns,
+      bio: profile.bio || ''
+    };
+
+    console.log('✅ Insights générés:', {
+      name: insights.name,
+      role: insights.currentRole,
+      years: insights.yearsOfExperience,
+      projects: insights.totalProjects,
+      skills: insights.topSkillsNames
+    });
+
+    return insights;
+  }
+
+  _determinePronouns(fullname = '') {
+    // Détecter le genre depuis le prénom (première partie du nom complet)
+    const firstName = fullname.split(' ')[0].toLowerCase();
+    
+    // Liste de prénoms féminins courants
+    const femaleNames = [
+      'marie', 'julie', 'sarah', 'laura', 'émilie', 'sophie', 'camille', 
+      'léa', 'manon', 'chloé', 'laura', 'pauline', 'alice', 'clara',
+      'amélie', 'anaïs', 'jessica', 'aurélie', 'céline', 'nathalie'
+    ];
+    
+    // Liste de prénoms masculins courants
+    const maleNames = [
+      'pierre', 'paul', 'jean', 'marc', 'luc', 'françois', 'nicolas',
+      'julien', 'thomas', 'alexandre', 'maxime', 'antoine', 'lucas',
+      'matthieu', 'simon', 'hugo', 'nathan', 'théo', 'louis', 'arthur',
+      'frédérick', 'frederick', 'frédéric', 'frederic'
+    ];
+    
+    // Vérifier si le prénom est dans une des listes
+    if (femaleNames.includes(firstName)) {
+      return {
+        subject: 'elle',
+        object: 'la',
+        possessive: 'sa',
+        article: 'une',
+        adjective: 'e',
+        title: 'Mme'
+      };
+    }
+    
+    // Par défaut masculin (incluant les prénoms masculins reconnus)
+    return {
+      subject: 'il',
+      object: 'le',
+      possessive: 'son',
+      article: 'un',
+      adjective: '',
+      title: 'M.'
     };
   }
 
   _calculateYearsOfExperience(experiences) {
+    if (!experiences || experiences.length === 0) return 1;
+
     let totalMs = 0;
     const now = Date.now();
 
     for (const exp of experiences) {
       if (!exp.start_date) continue;
       const start = new Date(exp.start_date).getTime();
-      const end = exp.end_date === 'Present' || !exp.end_date
+      const end = exp.end_date === null || !exp.end_date
         ? now
         : new Date(exp.end_date).getTime();
       totalMs += end - start;
@@ -351,9 +450,11 @@ class AIProvider {
         const result = await this._executeRequest(provider, prompt);
         
         if (result) {
-          cache.setAIResponse(cacheKey, result, this.config.AI_PROVIDER);
+          // Tronquer si trop long
+          const truncated = this._truncateResponse(result);
+          cache.setAIResponse(cacheKey, truncated, this.config.AI_PROVIDER);
           console.log(`✅ [${this.config.AI_PROVIDER}] Réponse générée!`);
-          return { response: result, source: this.config.AI_PROVIDER };
+          return { response: truncated, source: this.config.AI_PROVIDER };
         }
       } catch (error) {
         console.error(`❌ [${this.config.AI_PROVIDER}] Tentative ${attempt + 1}:`, error.message);
@@ -364,6 +465,18 @@ class AIProvider {
     }
 
     return { response: null, source: 'api-failed' };
+  }
+
+  _truncateResponse(text) {
+    if (!text) return text;
+    
+    // Limiter au nombre de mots maximum
+    const words = text.trim().split(/\s+/);
+    if (words.length > CONFIG.MAX_WORDS) {
+      return words.slice(0, CONFIG.MAX_WORDS).join(' ') + '...';
+    }
+    
+    return text;
   }
 
   async _executeRequest(provider, prompt) {
@@ -404,7 +517,7 @@ class AIProvider {
         messages: [
           {
             role: 'system',
-            content: 'Tu es un assistant professionnel et enthousiaste. Réponds en français de manière concise et engageante.'
+            content: 'Tu es un assistant professionnel. Réponds en français de manière TRÈS COURTE (maximum 40 mots), directe et concise. Utilise 1 emoji pertinent. Sois courtois mais va droit au but.'
           },
           { role: 'user', content: prompt }
         ],
@@ -417,7 +530,8 @@ class AIProvider {
       return {
         model: provider.model,
         message: prompt,
-        temperature: CONFIG.TEMPERATURE
+        temperature: CONFIG.TEMPERATURE,
+        max_tokens: CONFIG.MAX_AI_TOKENS
       };
     }
 
@@ -480,77 +594,169 @@ class AIProvider {
 const aiProvider = new AIProvider(CONFIG);
 
 // ==========================================
-// 7. RESPONSE BUILDER (CLASS)
+// 7. RESPONSE BUILDER (CLASS) - OPTIMISÉ
 // ==========================================
 
 class ResponseBuilder {
-  buildPrompt(intent, insights, message) {
-    return `Tu es ${insights.name}, ${insights.currentRole} avec ${insights.yearsOfExperience}+ ans d'expérience.
-
-Compétences principales: ${insights.topSkillsNames}
-Projets réalisés: ${insights.totalProjects}
-Spécialité: ${insights.mainTech}
+  buildPrompt(intent, insights, message, isFirstMessage) {
+    const conversationContext = isFirstMessage 
+      ? ''
+      : '\n\nCeci est une conversation en cours, ne redis pas bonjour.';
+    
+    const adjective = insights.pronouns.adjective;
+    const article = insights.pronouns.article;
+    
+    return `Tu es ${insights.name}, ${article} ${insights.currentRole} passionné${adjective} basé${adjective} à ${insights.city}, ${insights.country}.
+Expérience: ${insights.yearsOfExperience}+ ans
+Compétences clés: ${insights.topSkillsNames}
+Bio: ${insights.bio.substring(0, 150)}...${conversationContext}
 
 Question de l'utilisateur: "${message}"
 
-Instructions:
-- Réponds de manière professionnelle et enthousiaste
-- Maximum 150 mots
-- Utilise 1-2 emojis pertinents
-- Sois concret et précis
-- Réponds en français
-
-Réponse:`;
+IMPORTANT: Réponds à la première personne ("je", "mon", "ma") avec accord masculin.
+Ton style: professionnel${adjective}, enthousiaste, direct${adjective}.
+Réponds en 2-3 phrases courtes (40 mots max). Utilise 1 emoji pertinent.`;
   }
 
-  buildLocalResponse(intent, insights) {
+  buildLocalResponse(intent, insights, isFirstMessage) {
+    const { pronouns, name, currentRole, yearsOfExperience, expertSkillsCount, totalProjects, topSkills, recentProjects, email, phone, socialLinks, mainTech, city, country, linkedin, github, whatsapp } = insights;
+    const adj = pronouns.adjective;
+    const article = pronouns.article;
+    
     const responses = {
       greeting: {
-        text: `Bonjour ! Je suis ${insights.name}, ${insights.currentRole} avec ${insights.yearsOfExperience}+ ans d'expérience. Comment puis-je vous aider ?`,
+        text: isFirstMessage 
+          ? `Bonjour ! 👋 Je suis ${name}, ${currentRole} basé${adj} à ${city}. Comment puis-je vous aider ?`
+          : `Oui ? Comment puis-je vous aider ? 😊`,
         emoji: '👋',
         type: 'welcome'
       },
       
       presentation: {
-        text: `Je suis ${insights.name}, ${insights.currentRole} passionné avec ${insights.yearsOfExperience}+ années d'expérience.\n\n✨ ${insights.expertSkillsCount} technologies maîtrisées\n🚀 ${insights.totalProjects} projets livrés\n🎯 Spécialisé en ${insights.mainTech}`,
+        text: `Je suis ${name}, ${article} ${currentRole} passionné${adj} basé${adj} à ${city}, ${country}. ${yearsOfExperience} ans d'expérience, ${expertSkillsCount} technologies maîtrisées, ${totalProjects} projets livrés.`,
         emoji: '👨‍💻',
         type: 'profile'
       },
       
       skills: {
-        text: `Mes compétences principales:\n\n${insights.topSkills.map(s => `• ${s.name} - ${s.level}`).join('\n')}\n\nTotal: ${insights.expertSkillsCount} technologies de niveau expert/avancé`,
+        text: `Voici mes compétences principales :`,
         emoji: '💻',
         type: 'skills',
-        data: insights.topSkills
-      },
-      
-      projects: {
-        text: `J'ai réalisé ${insights.totalProjects} projets professionnels.\n\nProjets récents:\n${insights.recentProjects.map(p => `• ${p.name}`).join('\n')}`,
-        emoji: '🚀',
-        type: 'projects',
-        data: insights.recentProjects
-      },
-      
-      contact: {
-        text: `Contactez-moi facilement:\n\n📧 Email: ${insights.email || 'Voir profil'}\n📱 Téléphone: ${insights.phone || 'Voir profil'}\n\nRéseaux: ${insights.socialLinks.map(s => s.platform).join(', ')}`,
-        emoji: '📬',
-        type: 'contact',
         data: {
-          email: insights.email,
-          phone: insights.phone,
-          social: insights.socialLinks
+          skills: topSkills.map(s => ({
+            name: s.name,
+            level: s.level,
+            icon: s.icon || null
+          })),
+          total: expertSkillsCount,
+          summary: `${expertSkillsCount} technologies au niveau avancé/expert`
         }
       },
       
+      projects: {
+        text: `J'ai réalisé ${totalProjects} projets professionnels :`,
+        emoji: '🚀',
+        type: 'projects',
+        data: {
+          projects: recentProjects.map(p => ({
+            title: p.name,
+            description: p.description || 'Projet web professionnel',
+            technologies: p.technologies || [],
+            url: p.project_url || p.link_url || null,
+            image: p.image_url || null
+          })),
+          total: totalProjects
+        }
+      },
+      
+      experience: {
+        text: `${yearsOfExperience} années d'expérience en ${currentRole}. Spécialisé${adj} en ${mainTech} et développement full-stack (React, Node.js, MySQL).`,
+        emoji: '💼',
+        type: 'experience'
+      },
+      
+      contact: {
+        text: `Voici mes coordonnées :`,
+        emoji: '📬',
+        type: 'contact',
+        data: {
+          contacts: [
+            { type: 'email', label: 'Email', value: email, icon: '📧', link: `mailto:${email}` },
+            { type: 'phone', label: 'Téléphone', value: phone, icon: '📱', link: `tel:${phone}` },
+            { type: 'linkedin', label: 'LinkedIn', value: 'Profil LinkedIn', icon: '💼', link: linkedin },
+            { type: 'github', label: 'GitHub', value: 'Profil GitHub', icon: '💻', link: github },
+            { type: 'whatsapp', label: 'WhatsApp', value: 'Contacter sur WhatsApp', icon: '📞', link: whatsapp }
+          ].filter(c => c.link)
+        }
+      },
+
+      availability: {
+        text: `Je suis actuellement disponible et ouvert${adj} aux opportunités ! N'hésitez pas à me contacter pour discuter de votre projet.`,
+        emoji: '✅',
+        type: 'availability'
+      },
+
+      strengths: {
+        text: `Mes atouts principaux :`,
+        emoji: '⭐',
+        type: 'strengths',
+        data: {
+          strengths: [
+            { title: 'Expérience', value: `${yearsOfExperience} ans`, description: 'Développement web professionnel' },
+            { title: 'Technologies', value: `${expertSkillsCount} technologies`, description: 'Niveau avancé/expert' },
+            { title: 'Projets', value: `${totalProjects} projets`, description: 'Livrés avec succès' },
+            { title: 'Stack', value: topSkills.slice(0, 3).map(s => s.name).join(', '), description: 'Technologies principales' }
+          ]
+        }
+      },
+      
+      education: {
+        text: `Mon parcours de formation :`,
+        emoji: '🎓',
+        type: 'education',
+        data: {
+          education: [
+            {
+              school: 'Webitech',
+              diploma: 'Bachelor - Concepteur développeur d\'applications',
+              period: '2024-2025',
+              status: 'Terminé'
+            },
+            {
+              school: 'Institut Voltaire',
+              diploma: 'BTS - Réseaux Informatique & Télécommunication',
+              period: '2019-2022',
+              status: 'Terminé'
+            }
+          ],
+          certifications: [
+            {
+              institute: 'OpenClassrooms',
+              name: 'Développeur Web Full Stack',
+              status: 'En cours',
+              year: '2024-2025'
+            }
+          ]
+        }
+      },
+
+      why: {
+        text: `Je suis passionné${adj} par le développement web et la création digitale. J'aime allier technique et créativité pour transformer des idées en expériences interactives impactantes.`,
+        emoji: '💡',
+        type: 'motivation'
+      },
+      
       thanks: {
-        text: `Merci ! N'hésitez pas si vous avez d'autres questions sur mon parcours ou mes compétences.`,
+        text: `Merci beaucoup ! 🙏 N'hésitez pas si vous avez d'autres questions sur mes projets ou compétences.`,
         emoji: '🙏',
         type: 'acknowledgment'
       }
     };
 
     const fallback = {
-      text: `Je suis ${insights.name}, ${insights.currentRole}. Posez-moi des questions sur mes compétences, projets ou expériences !`,
+      text: isFirstMessage 
+        ? `Je suis ${name}, ${currentRole}. Posez-moi des questions sur mes compétences, projets ou expériences !`
+        : `Que souhaitez-vous savoir d'autre sur mon parcours ?`,
       emoji: '💡',
       type: 'general'
     };
@@ -559,24 +765,34 @@ Réponse:`;
   }
 
   async build(intent, profile, message) {
+    const isFirstMessage = !cache.isConversationStarted();
     cache.addTopic(intent);
     const insights = profileAnalyzer.analyze(profile);
 
     if (!insights) {
       return this._formatResponse('error', {
-        text: 'Impossible de charger les données du profil.',
+        text: 'Impossible de charger le profil.',
         emoji: '⚠️',
         type: 'error'
       });
     }
 
-    // Tentative avec IA
+    // TOUJOURS utiliser les réponses locales pour les intents avec données précises
+    const useLocalResponse = ['skills', 'projects', 'contact', 'education', 'presentation'].includes(intent);
+
+    if (useLocalResponse) {
+      console.log(`📋 Utilisation de la réponse locale pour: ${intent}`);
+      const localResponse = this.buildLocalResponse(intent, insights, isFirstMessage);
+      return this._formatResponse('local', localResponse);
+    }
+
+    // Tentative avec IA pour les autres intents
     if (CONFIG.USE_AI) {
       try {
-        const prompt = this.buildPrompt(intent, insights, message);
+        const prompt = this.buildPrompt(intent, insights, message, isFirstMessage);
         const aiResult = await aiProvider.call(prompt);
 
-        if (aiResult.response && aiResult.response.length > 20) {
+        if (aiResult.response && aiResult.response.length > 10) {
           return this._formatResponse(aiResult.source, {
             text: aiResult.response,
             emoji: aiResult.source === 'cache' ? '⚡' : '🤖',
@@ -590,7 +806,8 @@ Réponse:`;
     }
 
     // Fallback sur réponse locale
-    const localResponse = this.buildLocalResponse(intent, insights);
+    console.log(`📋 Fallback réponse locale pour: ${intent}`);
+    const localResponse = this.buildLocalResponse(intent, insights, isFirstMessage);
     return this._formatResponse('local', localResponse);
   }
 
@@ -655,7 +872,7 @@ export async function generateAIResponse(message, conversationHistory = []) {
 
   if (!trimmed) {
     return responseBuilder._formatResponse('system', {
-      text: 'Posez-moi n\'importe quelle question !',
+      text: 'Posez-moi une question !',
       emoji: '💬',
       type: 'prompt'
     });
@@ -666,7 +883,7 @@ export async function generateAIResponse(message, conversationHistory = []) {
 
     if (!profile) {
       return responseBuilder._formatResponse('error', {
-        text: 'Impossible de charger les données du profil.',
+        text: 'Impossible de charger le profil.',
         emoji: '⚠️',
         type: 'error'
       });
@@ -679,7 +896,7 @@ export async function generateAIResponse(message, conversationHistory = []) {
   } catch (error) {
     console.error('AI Error:', error.message);
     return responseBuilder._formatResponse('error', {
-      text: 'Une erreur est survenue. Veuillez réessayer.',
+      text: 'Une erreur est survenue.',
       emoji: '🔧',
       type: 'error'
     });
@@ -696,8 +913,9 @@ export function resetConversation() {
 
 export function getConversationStats() {
   return {
-    messagesCount: cache.topics.size,
+    messagesCount: cache.getMessageCount(),
     topicsExplored: cache.getTopics(),
+    conversationStarted: cache.isConversationStarted(),
     provider: CONFIG.AI_PROVIDER,
     aiEnabled: CONFIG.USE_AI,
     cacheSize: {
