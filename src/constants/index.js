@@ -1,3 +1,4 @@
+
 export const myProjects = [
   {
     id: 1,
@@ -278,51 +279,52 @@ export const experiences = [
 ];
 export const reviews = [
   {
-    name: "Jack",
-    username: "@jack",
-    body: "I've never seen anything like this before. It's amazing. I love it.",
+    name: "Yao",
+    username: "@yao",
+    body: "J’ai confié la création de mon site à lui, et je ne regrette pas une seconde. Il a su comprendre mes besoins et livrer un travail propre et professionnel.",
     img: "https://robohash.org/jack",
   },
   {
-    name: "Jill",
-    username: "@jill",
-    body: "I don't know what to say. I'm speechless. This is amazing.",
+    name: "Awa",
+    username: "@awa",
+    body: "Une expérience exceptionnelle ! Toujours à l’écoute et force de proposition. Mon projet digital a vraiment pris une nouvelle dimension grâce à lui.",
     img: "https://robohash.org/jill",
   },
   {
-    name: "John",
-    username: "@john",
-    body: "I'm at a loss for words. This is amazing. I love it.",
+    name: "Koffi",
+    username: "@koffi",
+    body: "Un vrai passionné de son métier. Le rendu final dépasse largement mes attentes. Je le recommande sans hésiter !",
     img: "https://robohash.org/john",
   },
   {
-    name: "Alice",
-    username: "@alice",
-    body: "This is hands down the best thing I've experienced. Highly recommend!",
+    name: "Nadia",
+    username: "@nadia",
+    body: "Très professionnel et créatif. Il a su transformer mes idées en un design moderne et élégant. Le résultat est parfait.",
     img: "https://robohash.org/alice",
   },
   {
-    name: "Bob",
-    username: "@bob",
-    body: "Incredible work! The attention to detail is phenomenal.",
+    name: "Serge",
+    username: "@serge",
+    body: "J’ai rarement vu quelqu’un d’aussi impliqué. Il prend le temps de bien faire les choses et ça se ressent dans le résultat final.",
     img: "https://robohash.org/bob",
   },
   {
-    name: "Charlie",
-    username: "@charlie",
-    body: "This exceeded all my expectations. Absolutely stunning!",
+    name: "Marie-Claire",
+    username: "@marieclaire",
+    body: "Disponible, patient et à l’écoute. Il a su m’accompagner tout au long du processus avec professionnalisme et gentillesse.",
     img: "https://robohash.org/charlie",
   },
   {
-    name: "Dave",
-    username: "@dave",
-    body: "Simply breathtaking. The best decision I've made in a while.",
+    name: "Didier",
+    username: "@didier",
+    body: "Grâce à lui, mon site est devenu beaucoup plus fluide et attrayant. Un excellent développeur et un bon communicant.",
     img: "https://robohash.org/dave",
   },
   {
-    name: "Eve",
-    username: "@eve",
-    body: "So glad I found this. It has changed the game for me.",
+    name: "Clarisse",
+    username: "@clarisse",
+    body: "Je suis ravie du résultat ! Il a su donner vie à mon projet avec créativité et efficacité. Une très belle expérience.",
     img: "https://robohash.org/eve",
   },
 ];
+

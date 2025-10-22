@@ -76,7 +76,7 @@ const words = [
           animate="visible"
           transition={{ delay: 1 }}
         >
-                    Hi,I'm Ali
+                    Hello, je suis <br/> Frédérick A.
         </motion.p>
         <div>
           <motion.p

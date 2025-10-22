@@ -2,6 +2,7 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import Alert from "../components/Alert";
 import { Particles } from "../components/Particles";
+import messageServices from "../config/Services/messageServices.js"
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -62,23 +63,22 @@ const Contact = () => {
       {showAlert && <Alert type={alertType} text={alertMessage} />}
       <div className="flex flex-col items-center justify-center max-w-md p-5 mx-auto border border-white/10 rounded-2xl bg-primary">
         <div className="flex flex-col items-start w-full gap-5 mb-10">
-          <h2 className="text-heading">Let's Talk</h2>
+          <h2 className="text-heading">Parlons</h2>
           <p className="font-normal text-neutral-400">
-            Whether you're loking to build a new website, improve your existing
-            platform, or bring a unique project to life, I'm here to help
+            Que vous souhaitiez créer un nouveau site web, améliorer votre plateforme existante ou donner vie à un projet unique, je suis là pour vous aider.
           </p>
         </div>
         <form className="w-full" onSubmit={handleSubmit}>
           <div className="mb-5">
             <label htmlFor="name" className="feild-label">
-              Full Name
+              Nom complet
             </label>
             <input
               id="name"
               name="name"
               type="text"
               className="field-input field-input-focus"
-              placeholder="John Doe"
+              placeholder="Entrez votre nom complet"
               autoComplete="name"
               value={formData.name}
               onChange={handleChange}
@@ -94,7 +94,7 @@ const Contact = () => {
               name="email"
               type="email"
               className="field-input field-input-focus"
-              placeholder="JohnDoe@email.com"
+              placeholder="Entrez votre adresse mail"
               autoComplete="email"
               value={formData.email}
               onChange={handleChange}
@@ -111,7 +111,7 @@ const Contact = () => {
               type="text"
               rows="4"
               className="field-input field-input-focus"
-              placeholder="Share your thoughts..."
+              placeholder="Partagez vos idées..."
               autoComplete="message"
               value={formData.message}
               onChange={handleChange}
@@ -122,7 +122,7 @@ const Contact = () => {
             type="submit"
             className="w-full px-1 py-3 text-lg text-center rounded-md cursor-pointer bg-radial from-lavender to-royal hover-animation"
           >
-            {!isLoading ? "Send" : "Sending..."}
+            {!isLoading ? "Envoyer" : "Envoi en cours..."}
           </button>
         </form>
       </div>

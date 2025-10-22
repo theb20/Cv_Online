@@ -59,7 +59,7 @@ const ParallaxBackground = () => {
             backgroundSize: "cover",
             y: mountain1Y,
           }}*/}
-        />
+        /
       </div>
     </section>
   );

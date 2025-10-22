@@ -10,7 +10,7 @@ function Navigation() {
       </li>
       <li className="nav-li">
         <a className="nav-link" href="#about">
-          Cursus
+          À Propos
         </a>
       </li>
       <li className="nav-li">

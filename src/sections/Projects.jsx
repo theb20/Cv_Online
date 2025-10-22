@@ -1,8 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Project from "../components/Project";
-import { myProjects } from "../constants";
+import projectService from '../config/Services/projectServices.js'
 import { motion, useMotionValue, useSpring } from "motion/react";
 const Projects = () => {
+  const [myProjects, setMyProjects] = useState([]);
+
+  useEffect(() => {
+    projectService.getProject()
+      .then((res) => setMyProjects(res))
+      .catch((err) => setError(err.message));
+  }, []);
+  console.log('dada', myProjects);
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { damping: 10, stiffness: 50 });
@@ -17,7 +26,7 @@ const Projects = () => {
       onMouseMove={handleMouseMove}
       className="relative c-space section-spacing"
     >
-      <h2 className="text-heading">My Selected Projects</h2>
+      <h2 className="text-heading">Travaux & Projets</h2>
       <div className="bg-gradient-to-r from-transparent via-neutral-700 to-transparent mt-12 h-[1px] w-full" />
       {myProjects.map((project) => (
         <Project key={project.id} {...project} setPreview={setPreview} />
