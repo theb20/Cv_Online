@@ -6,7 +6,7 @@ import About from "./sections/About";
 import Projects from "./sections/Projects";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
-import Contact from "./sections/Contact";
+import Contact from "./sections/CvWidget";
 import ChatBox from "./components/ChatBox";
 import Footer from './sections/Footer';
 import Login from './sections/Login';
@@ -24,7 +24,6 @@ const App = () => {
             <Projects />
             <Experiences />
             <Testimonial />
-            <Contact />
             <ChatBox />
             <Footer/>
           </>
