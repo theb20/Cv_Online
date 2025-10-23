@@ -10,6 +10,7 @@ import Contact from "./sections/CvWidget";
 import ChatBox from "./components/ChatBox";
 import Footer from './sections/Footer';
 import Login from './sections/Login';
+import Cookies from './sections/Cookies';
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
             <Testimonial />
             <ChatBox />
             <Footer/>
+            <Cookies/>
           </>
         } />
       </Routes>

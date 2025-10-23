@@ -1,33 +1,32 @@
 import { useState } from "react";
 import { motion } from "motion/react";
-function Navigation() {
+
+function Navigation({ onLinkClick }) {
   return (
     <ul className="nav-ul">
-      <li className="nav-li">
-        <a className="nav-link" href="#home">
-          Home
-        </a>
-      </li>
-      <li className="nav-li">
-        <a className="nav-link" href="#about">
-          À Propos
-        </a>
-      </li>
-      <li className="nav-li">
-        <a className="nav-link" href="#work">
-          Expérience
-        </a>
-      </li>
-      <li className="nav-li">
-        <a className="nav-link" href="#contact">
-          Contact
-        </a>
-      </li>
+      {[
+        { href: "#hero", label: "Accueil" },
+        { href: "#about", label: "À Propos" },
+        { href: "#projects", label: "Projets" },
+        { href: "#work", label: "Expériences" },
+      ].map((link) => (
+        <li key={link.href} className="nav-li">
+          <a
+            className="nav-link"
+            href={link.href}
+            onClick={() => onLinkClick?.()} // ✅ ferme la navbar au clic
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
     </ul>
   );
 }
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="fixed inset-x-0 z-20 w-full backdrop-blur-lg bg-primary/40">
       <div className="mx-auto c-space max-w-7xl">
@@ -35,9 +34,12 @@ const Navbar = () => {
           <a
             href="/"
             className="text-xl font-bold transition-colors text-neutral-400 hover:text-white"
+            onClick={() => setIsOpen(false)} // ferme aussi si on clique sur le logo
           >
-           Frédérick A.
+            Frédérick A.
           </a>
+
+          {/* Bouton burger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="flex cursor-pointer text-neutral-400 hover:text-white focus:outline-none sm:hidden"
@@ -48,21 +50,25 @@ const Navbar = () => {
               alt="toggle"
             />
           </button>
+
+          {/* Menu desktop */}
           <nav className="hidden sm:flex">
             <Navigation />
           </nav>
         </div>
       </div>
+
+      {/* Menu mobile */}
       {isOpen && (
         <motion.div
           className="block overflow-hidden text-center sm:hidden"
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          style={{ maxHeight: "100vh" }}
-          transition={{ duration: 1 }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
         >
           <nav className="pb-5">
-            <Navigation />
+            {/* ✅ Passe la fonction pour fermer après clic */}
+            <Navigation onLinkClick={() => setIsOpen(false)} />
           </nav>
         </motion.div>
       )}
