@@ -290,6 +290,7 @@ const startServer = async () => {
     console.error("   3. Vérifiez que Railway MySQL est accessible");
     console.error("   4. Vérifiez que le port n'est pas déjà utilisé");
     console.error("   5. Vérifiez votre pare-feu Windows/Mac\n");
+    console.error("❌ Arrêt du serveur avec code d'erreur 1");
     
     process.exit(1);
   }
