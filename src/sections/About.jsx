@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { PiGitPullRequestLight } from "react-icons/pi";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import Card from "../components/Card";
 import Request from "../components/Request";
 import { Globe } from "../components/globe";
@@ -12,13 +13,28 @@ const About = () => {
   const grid2Container = useRef();
   const [user, setUser] = useState([]);
   const [request, setRequest] = useState(false);
+  const [expandedBio, setExpandedBio] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
   const handleRequest = () => {
-    if (!request) {
-      setRequest(true);
-    }else{
-      setRequest(false);
-    }
+    setRequest(!request);
   };
+
+  const toggleBio = () => {
+    setExpandedBio(!expandedBio);
+  };
+
+  // Détecte si on est sur mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -31,6 +47,13 @@ const About = () => {
     };
     fetchUser();
   }, []);
+
+  // Fonction pour tronquer le texte
+  const truncateText = (text, maxLength = 150) => {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
 
   return (
     <>
@@ -48,7 +71,38 @@ const About = () => {
                 />
                 <div className="z-10">
                   <p className="headtext">Hello, Je suis {item.fullname}</p>
-                  <p className="subtext text-justify">{item.bio}</p>
+                  
+                  {/* Bio avec expansion pour mobile */}
+                  <div className="relative">
+                    <p 
+                      className={`subtext text-justify transition-all duration-300 ${
+                        isMobile && !expandedBio ? 'line-clamp-3' : ''
+                      }`}
+                    >
+                      {isMobile && !expandedBio 
+                        ? truncateText(item.bio) 
+                        : item.bio
+                      }
+                    </p>
+                    
+                    {/* Bouton "Lire plus" visible uniquement sur mobile si le texte est long */}
+                    {isMobile && item.bio && item.bio.length > 150 && (
+                      <button
+                        onClick={toggleBio}
+                        className="flex items-center gap-1 mt-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors"
+                      >
+                        {expandedBio ? (
+                          <>
+                            Lire moins <ChevronUp className="w-4 h-4" />
+                          </>
+                        ) : (
+                          <>
+                            Lire plus <ChevronDown className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className="absolute inset-x-0 pointer-events-none -bottom-4 h-1/2 sm:h-1/3 bg-gradient-to-t from-indigo" />
               </div>
@@ -122,8 +176,12 @@ const About = () => {
                   <p className="text-center headtext">
                     Vous souhaitez démarrer un projet ensemble ?
                   </p>
-                  <button onClick={handleRequest} className=" px-1 py-3 text-sm text-center rounded-full font-extralight bg-white animate-bounce w-[12rem] cursor-pointer overflow-hidden text-nowrap text-black">
-                   <PiGitPullRequestLight className="inline-block text-xl text-black mr-1"/> Collaboration
+                  <button 
+                    onClick={handleRequest} 
+                    className="px-1 py-3 text-sm text-center rounded-full font-extralight bg-white animate-bounce w-[12rem] cursor-pointer overflow-hidden text-nowrap text-black"
+                  >
+                    <PiGitPullRequestLight className="inline-block text-xl text-black mr-1" /> 
+                    Collaboration
                   </button>
                   <CopyEmailButton />
                 </div>
@@ -134,7 +192,7 @@ const About = () => {
                 <div className="z-10 w-[50%]">
                   <p className="headText">Stack Technique</p>
                   <p className="subtext">
-                    J’utilise une variété de langages, frameworks, outils de développement et logiciels de design pour concevoir des projets web et digitaux , évolutifs et centrés sur l’utilisateur
+                    J'utilise une variété de langages, frameworks, outils de développement et logiciels de design pour concevoir des projets web et digitaux, évolutifs et centrés sur l'utilisateur
                   </p>
                 </div>
                 <div className="absolute inset-y-0 md:inset-y-9 w-full h-full start-[50%] md:scale-125">
