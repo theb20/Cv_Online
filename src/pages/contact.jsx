@@ -356,9 +356,9 @@ const ContactPage = () => {
   // ============================================
 
   return (
-    <div className="min-h-screen text-white">
+    <div  className="min-h-screen text-white">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 overflow-hidden">
+      <section className="relative py-20 px-6 overflow-hidden" id="contact">
         <div 
           style={{ backgroundImage: 'url(/wall-contact.png)' }} 
           className="absolute bg-cover bg-center inset-0 before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-b before:from-neutral-900/50 before:to-black" 
