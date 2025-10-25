@@ -14,18 +14,20 @@ import Cookies from './sections/Cookies';
 
 const App = () => {
   return (
-    <div className="container mx-auto max-w-7xl">
+    <div className="relative mx-auto max-w-full">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/" element={
           <>
             <Navbar />
+            <div className="container mx-auto max-w-7xl">
             <Hero />
             <About />
             <Projects />
             <Experiences />
             <Testimonial />
             <ChatBox />
+            </div>
             <Footer/>
             <Cookies/>
           </>

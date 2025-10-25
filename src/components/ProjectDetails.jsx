@@ -1,91 +1,107 @@
 import { motion } from "motion/react";
+import { X, ArrowUpRight } from "lucide-react";
 
-const ProjectDetails = ({
+export default function ProjectDetailsPro({
   title,
   description,
   image,
   link_url,
-  techno_1,
-  icon_url_1,
-  techno_2,
-  icon_url_2,
-  techno_3,
-  icon_url_3,
-  techno_4,
-  icon_url_4,
-  closeModal, // ajouté ici
-}) => {
-  // On regroupe les techno + icônes pour simplifier le rendu
-  console.log('titre:', image);
+  techno_1, icon_url_1,
+  techno_2, icon_url_2,
+  techno_3, icon_url_3,
+  techno_4, icon_url_4,
+  closeModal,
+}) {
   const techs = [
     { name: techno_1, icon: icon_url_1 },
     { name: techno_2, icon: icon_url_2 },
     { name: techno_3, icon: icon_url_3 },
     { name: techno_4, icon: icon_url_4 },
-  ].filter((t) => t.name); // on garde seulement ceux qui existent
+  ].filter((t) => t.name);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 h-screen backdrop-blur-md p-4 sm:p-6"
+      onClick={closeModal}
+    >
       <motion.div
-        className="relative max-w-2xl w-full mx-4 border shadow-md rounded-2xl bg-gradient-to-l from-midnight to-navy border-white/10 overflow-hidden"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={{ opacity: 1, scale: 1 }}
+        className="relative w-full max-w-6xl bg-neutral-900 rounded-2xl overflow-hidden shadow-2xl flex flex-col md:grid md:grid-cols-2"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+        onClick={(e) => e.stopPropagation()}
       >
-        {/* Bouton de fermeture */}
+        {/* Close button */}
         <button
           onClick={closeModal}
-          className="absolute p-2 rounded-md top-5 right-5 bg-midnight hover:bg-gray-500 transition"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-9 h-9 sm:w-10 sm:h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
         >
-          <img src="assets/close.svg" className="w-6 h-6" alt="Fermer" />
+          <X className="w-5 h-5" />
         </button>
 
-        {/* Image du projet */}
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-60 object-cover rounded-t-2xl"
-        />
+        {/* Left: Image */}
+        <div className="relative h-56 sm:h-72 md:h-auto">
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent md:bg-gradient-to-r" />
+        </div>
 
-        {/* Contenu du modal */}
-        <div className="p-6 text-white">
-          <h5 className="mb-2 text-2xl font-bold">{title}</h5>
-          <p className="mb-4 text-neutral-300">{description}</p>
+        {/* Right: Content */}
+        <div className="p-6 sm:p-8 md:p-12 flex flex-col justify-between">
+          <div className="space-y-5 sm:space-y-6">
+            {/* Header */}
+            <div className="space-y-2 sm:space-y-3">
+              <span className="text-xs uppercase tracking-widest text-neutral-500">
+                Projet
+              </span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-medium text-white">
+                {title}
+              </h2>
+            </div>
 
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-4 items-center mb-6">
-            {techs.map((tech, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-2 bg-white/10 px-3 py-2 rounded-lg"
-              >
-                {tech.icon && (
-                  <img
-                    src={tech.icon}
-                    alt={tech.name}
-                    className="w-6 h-6 object-contain"
-                  />
-                )}
-                <span className="text-sm">{tech.name}</span>
+            {/* Description */}
+            <p className="text-neutral-400 leading-relaxed text-base max-h-24 lg:max-h-full overflow-y-scroll sm:text-lg">
+              {description}
+            </p>
+
+            {/* Technologies */}
+            <div className="space-y-3">
+              <span className="text-xs uppercase tracking-widest text-neutral-500">
+                Technologies
+              </span>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                {techs.map((tech, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-neutral-800 rounded-lg border border-neutral-700"
+                  >
+                    {tech.icon && (
+                      <img src={tech.icon} alt={tech.name} className="w-4 h-4 sm:w-5 sm:h-5" />
+                    )}
+                    <span className="text-sm text-neutral-300">{tech.name}</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
 
-          {/* Bouton vers le projet */}
+          {/* CTA */}
           {link_url && (
             <a
               href={link_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-medium text-sky-400 hover:text-sky-300 transition"
+              className="group mt-6 sm:mt-8 inline-flex items-center gap-2 sm:gap-3 px-5 sm:px-6 py-3 sm:py-4 bg-white text-black rounded-lg hover:bg-neutral-200 transition-all w-fit"
             >
-              Voir le projet
-              <img src="assets/arrow-up.svg" alt="" className="w-4 h-4" />
+              <span className="font-medium text-sm sm:text-base">Visiter le site</span>
+              <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
           )}
         </div>
       </motion.div>
     </div>
   );
-};
-
-export default ProjectDetails;
+}

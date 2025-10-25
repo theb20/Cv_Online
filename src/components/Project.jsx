@@ -25,8 +25,8 @@ const Project = ({
     { name: techno_2, icon: icon_url_2 },
     { name: techno_3, icon: icon_url_3 },
     { name: techno_4, icon: icon_url_4 },
-  ].filter((tech) => tech.name); // Évite les champs vides
-  console.log('data:', image_url);
+  ].filter((tech) => tech.name); 
+  
   return (
     <>
       <div
