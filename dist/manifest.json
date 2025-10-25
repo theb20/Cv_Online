@@ -13,30 +13,47 @@
       "src": "/assets/favicon/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     },
     {
       "src": "/assets/favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
       "name": "Portfolio de Frédérick Ahobaut",
-    "short_name": "PortFred",
+      "short_name": "PortFred",
       "url": "/#portfolio",
-      "icons": [{ "src": "/assets/favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "/assets/favicon/web-app-manifest-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Contact",
       "short_name": "Contact",
       "url": "/#about",
-      "icons": [{ "src": "/assets/favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [
+        {
+          "src": "/assets/favicon/web-app-manifest-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "categories": ["portfolio", "web development", "full stack"],
   "related_applications": [],
-  "prefer_related_applications": false
+  "prefer_related_applications": false,
+  "developer": {
+    "name": "Frédérick Ahobaut",
+    "url": "https://cv-online-633z.onrender.com",
+    "email": "contact@cv-online-633z.onrender.com"
+  }
 }
