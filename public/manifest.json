@@ -1,0 +1,42 @@
+{
+  "name": "Portfolio de Frédérick Ahobaut",
+  "short_name": "PortFred",
+  "description": "Portfolio professionnel de Frédérick Ahobaut, développeur web créatif spécialisé en conception d’applications modernes et performantes.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "lang": "fr-FR",
+  "icons": [
+    {
+      "src": "/assets/favicon/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/favicon/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Portfolio de Frédérick Ahobaut",
+    "short_name": "PortFred",
+      "url": "/#portfolio",
+      "icons": [{ "src": "/assets/favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "url": "/#about",
+      "icons": [{ "src": "/assets/favicon/web-app-manifest-192x192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "categories": ["portfolio", "web development", "full stack"],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
