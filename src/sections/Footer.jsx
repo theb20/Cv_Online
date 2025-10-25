@@ -51,7 +51,7 @@ const Footer = () => {
       />
 
       {/* Floating Particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
@@ -160,18 +160,18 @@ const Footer = () => {
           }`}
         >
           <a
-            href="#terms"
+            href="/terms"
             className="hover:text-blue-400 transition-colors duration-300 relative group"
           >
-            Terms & Conditions
+            Termes & Conditions
             <span className="absolute inset-x-0 -bottom-0.5 h-px bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
           </a>
           <span className="text-neutral-700">|</span>
           <a
-            href="#privacy"
+            href="/privacy"
             className="hover:text-blue-400 transition-colors duration-300 relative group"
           >
-            Privacy Policy
+            Politique de Confidentialité
             <span className="absolute inset-x-0 -bottom-0.5 h-px bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
           </a>
         </div>

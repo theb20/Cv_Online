@@ -5,10 +5,11 @@ function Navigation({ onLinkClick }) {
   return (
     <ul className="nav-ul">
       {[
-        { href: "#hero", label: "Accueil" },
-        { href: "#about", label: "À Propos" },
-        { href: "#projects", label: "Projets" },
-        { href: "#work", label: "Expériences" },
+        { href: "/#hero", label: "Accueil" },
+        { href: "/#about", label: "À Propos" },
+        { href: "/#projects", label: "Projets" },
+        { href: "/#work", label: "Expériences" },
+        { href: "/contact", label: "Contact" },
       ].map((link) => (
         <li key={link.href} className="nav-li">
           <a
