@@ -356,7 +356,7 @@ const ContactPage = () => {
   // ============================================
 
   return (
-    <div  className="min-h-screen flex flex-col items-center justify-center relative z-50 text-white">
+    <div  className="min-h-screen section-spacing flex flex-col items-center justify-center relative z-7 text-white">
       {/* Hero Section */}
       <section className="relative w-screen py-20 px-6 overflow-hidden" id="contact">
         <div 

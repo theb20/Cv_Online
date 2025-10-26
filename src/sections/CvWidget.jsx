@@ -3,8 +3,14 @@ import { Send, User, Mail, FileText, X, Download } from "lucide-react";
 import requestService from "../config/Services/requestService.js";
 
 const styles = `
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
   .animate-slideUp { animation: slideUp 0.6s ease-out; }
 `;
@@ -37,6 +43,7 @@ export default function CVWidget() {
     requiredFields.forEach((field) => {
       if (!formData[field].trim()) newErrors[field] = true;
     });
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -44,25 +51,8 @@ export default function CVWidget() {
 
     setLoading(true);
     try {
-      const res = await requestService.createRequestWithPDF(formData);
-      const contentType = res.headers['content-type'];
-
-      if (contentType && contentType.includes('application/pdf')) {
-        // PDF reçu → téléchargement automatique
-        const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'Curriculum_Vitae_Frédérick_Ahobaut.pdf';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.URL.revokeObjectURL(url);
-        setSent(true);
-        setOpen(false);
-      } else {
-        // Sinon JSON normal
-        setSent(true);
-      }
+      await requestService.createRequest(formData);
+      setSent(true);
     } catch (error) {
       console.error("Erreur lors de la demande de CV :", error);
     } finally {
@@ -81,15 +71,20 @@ export default function CVWidget() {
   return (
     <>
       <style>{styles}</style>
+
       <section className="py-20 z-10 relative text-center text-gray-200 from-slate-950 via-gray-900 to-slate-950">
         <div className="max-w-2xl mx-auto">
+          {/* Badge */}
           <div className="inline-flex items-center gap-2 backdrop-blur-md bg-purple-600/20 border border-purple-500/30 text-purple-300 px-4 py-2 rounded-full mb-6">
             <FileText className="w-4 h-4" />
             <span className="text-sm font-medium tracking-wide">Demande de CV</span>
           </div>
 
           <h2 className="text-4xl font-extrabold mb-4">
-            Obtenez mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Curriculum Vitae</span>
+            Obtenez mon{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+              Curriculum Vitae
+            </span>
           </h2>
           <p className="text-gray-400 mb-10">
             Pour recevoir mon CV complet, veuillez remplir une courte demande.

@@ -15,12 +15,13 @@ const ParallaxBackground = () => {
         <div
           className="absolute inset-0 w-full h-screen -z-50"
           style={{
-            backgroundImage: "url(/assets/sky.jpg)",
+            backgroundImage: "url(/design.png)",
             backgroundPosition: "top",
             backgroundSize: "cover",
           }}
         />
         {/* Mountain Layer 3 */}
+       
         <motion.div
           className="absolute inset-0 -z-40"
           style={{
@@ -52,14 +53,14 @@ const ParallaxBackground = () => {
         />
         {/* Mountaine Layer 1 
         <motion.div
-          className="absolute inset-0 -z-10"
+          className="absolute inset-0 -z-0"
           style={{
-            backgroundImage: "url(/assets/mountai-1.png)",
+            backgroundImage: "url(/design.png)",
             backgroundPosition: "bottom",
             backgroundSize: "cover",
             y: mountain1Y,
-          }}*/}
-        /
+          }}
+        />*/}
       </div>
     </section>
   );
