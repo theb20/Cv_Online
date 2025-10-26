@@ -11,6 +11,7 @@ import Projects from "./sections/Projects";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
 import ChatBox from "./components/ChatBox";
+import CVWidget from "./sections/CvWidget";
 import Terms from "./pages/terms";
 import Privacy from "./pages/privacy";
 import ContactPage from "./pages/contact";
@@ -49,6 +50,7 @@ const HomePage = () => (
     <Projects />
     <Experiences />
     <Testimonial />
+    <CVWidget />
     <ContactPage />
     <ChatBox />
   </div>
