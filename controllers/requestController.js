@@ -6,8 +6,7 @@ import {
   deleteRequest,
 } from '../models/request.js';
 import sendCollaborationNotification from '../services/mail.js';
-import fs from 'fs';
-import path from 'path';
+
 
 
 export const createRequestController = async (req, res) => {
@@ -15,22 +14,6 @@ export const createRequestController = async (req, res) => {
     const data = req.body;
     const request = await createRequest(data);
     await sendCollaborationNotification(request.email, request.description);
-
-      // Condition : si budget = "0", renvoyer le PDF
-    if (request.budget === '0' || Number(request.budget) === 0) {
-      const pdfPath = path.resolve('files/secure.pdf'); // place ton secure.pdf dans backend/files
-
-      if (fs.existsSync(pdfPath)) {
-        res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Content-Disposition', 'attachment; filename="secure.pdf"');
-        const fileStream = fs.createReadStream(pdfPath);
-        fileStream.pipe(res);
-        return; // stop pour ne pas envoyer JSON après
-      } else {
-        return res.status(404).json({ error: 'Fichier PDF introuvable.' });
-      }
-    }
-
     res.status(201).json(request);
   } catch (error) {
     res.status(400).json({ error: error.message });
