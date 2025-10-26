@@ -36,12 +36,12 @@ export const Timeline = ({ data = [] }) => {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen  lg:px-20 px-6 scroll-smooth"
+      className="relative min-h-screen  lg:px-20 px-6 scroll-smooth "
     >
       {/* --- Background animé --- */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)]" />
-      <div className="absolute top-40 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse delay-1000" />
+      <div className="absolute top-40 left-30 w-72 h-72 bg-blue-500/20 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-20 right-70 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse delay-1000" />
 
       <div className="relative z-10 max-w-7xl mx-auto py-20">
         {/* --- Header --- */}

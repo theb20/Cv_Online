@@ -55,10 +55,15 @@
 body {
   background: #030412;
   font-family: "Funnel Display", sans-serif;
-  color: white;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+  color: white;         /* permet de scroll*/
 }
+
+body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  display: none; /* Chrome, Safari, Opera */
+}
+
 
 .c-space {
   @apply sm:px-10 px-5 lg:px-15;
@@ -69,7 +74,7 @@ body {
 }
 
 .section-spacing {
-  @apply min-h-screen mt-20 md:mt-30;
+  @apply mt-20 md:mt-30;
 }
 
 .text-heading {

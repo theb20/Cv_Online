@@ -356,9 +356,9 @@ const ContactPage = () => {
   // ============================================
 
   return (
-    <div  className="min-h-screen text-white">
+    <div  className="min-h-screen flex flex-col items-center justify-center relative z-50 text-white">
       {/* Hero Section */}
-      <section className="relative py-20 px-6 overflow-hidden" id="contact">
+      <section className="relative w-screen py-20 px-6 overflow-hidden" id="contact">
         <div 
           style={{ backgroundImage: 'url(/wall-contact.png)' }} 
           className="absolute bg-cover bg-center inset-0 before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-b before:from-neutral-900/50 before:to-black" 
@@ -384,7 +384,7 @@ const ContactPage = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-16 px-6">
+      <section className="container py-16 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-12">
             {/* Colonne Gauche: Informations de Contact */}
@@ -551,7 +551,7 @@ const ContactPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-6 px-6  border-neutral-800">
+      <section className="container py-6 px-6  border-neutral-800">
         <div className="max-w-7xl mx-auto">
                 <h2 className="lg:text-5xl text-3xl font-medium mb-12 text-center">Questions fréquentes</h2>
                 <InputField
@@ -635,7 +635,7 @@ const ContactPage = () => {
         </button>
 
         <span className="text-gray-400">
-          Page <span className="text-white">{currentPage}</span> / {totalPages}
+          <span className="text-white">{currentPage}</span> / {totalPages}
         </span>
 
         <button

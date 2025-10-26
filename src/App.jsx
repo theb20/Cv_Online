@@ -22,9 +22,9 @@ const MainLayout = () => {
   const [showPrivacy, setShowPrivacy] = useState(false);
 
   return (
-    <div className="relative mx-auto max-w-full">
+    <div className="relative overflow-hidden ">
       <Navbar />
-      <main className="container mx-auto max-w-7xl overflow-y-auto">
+      <main className="">
         <Outlet />
       </main>
 
@@ -43,7 +43,7 @@ const MainLayout = () => {
 
 // Page d'accueil
 const HomePage = () => (
-  <>
+  <div className="relative w-screen flex flex-col items-center justify-center  overflow-hidden">
     <Hero />
     <About />
     <Projects />
@@ -51,7 +51,7 @@ const HomePage = () => (
     <Testimonial />
     <ContactPage />
     <ChatBox />
-  </>
+  </div>
 );
 
 const App = () => {

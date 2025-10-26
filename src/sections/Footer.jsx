@@ -36,12 +36,12 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
   }, []);
 
   return (
-    <footer id="footer" className="relative w-screen text-neutral-400">
+    <footer id="footer" className="relative w-screen bg-black/50 text-neutral-400">
       {/* Gradient interactif */}
       <div
         className="absolute inset-0 opacity-30 transition-all duration-1000 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(99,102,241,0.15), transparent 50%)`,
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(11, 55, 202, 0.16), transparent 50%)`,
         }}
       />
 
@@ -69,7 +69,7 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
               isVisible ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
             }`}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse" />
+          <div className="absolute inset-0   from-transparent via-purple-500 to-transparent animate-pulse" />
         </div>
 
         {/* Brand */}
@@ -172,27 +172,11 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
           </p>
         </div>
 
-        {/* Scroll to Top */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className={`group fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-110 z-50 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-          aria-label="Scroll to top"
-        >
-          <svg
-            className="w-6 h-6 mx-auto text-white transition-transform duration-500 group-hover:-translate-y-1"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </button>
+       
       </section>
 
       {/* Bottom Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-32 bg-gradient-to-t from-blue-600/10 via-purple-600/5 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-32  from-blue-600/10 via-purple-600/5 to-transparent blur-3xl pointer-events-none" />
     </footer>
   );
 };

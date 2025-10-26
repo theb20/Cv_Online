@@ -341,7 +341,7 @@ const AIChatbot = () => {
         {/* Floating Button - Minimal & Professional */}
         <button 
           onClick={() => setIsActive(!isActive)}
-          className={`fixed bottom-26 right-7 z-[1001] transition-all duration-300 ${
+          className={`fixed bottom-6 right-7 z-[1001] transition-all duration-300 ${
             isActive ? 'scale-0 opacity-0' : 'scale-100 opacity-100'
           }`}
         >

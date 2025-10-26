@@ -3,7 +3,7 @@ import { ArrowLeft, Shield, Calendar } from 'lucide-react';
 
 const Privacy = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex justify-center items-start  overflow-y-auto">
+    <div className="fixed inset-0 z-70 bg-black/80 flex justify-center items-start  overflow-y-auto">
       {/* Conteneur principal */}
       <div className="relative w-full bg-neutral-900 rounded-2xl px-8 py-22 shadow-lg">
         {/* Bouton de fermeture */}

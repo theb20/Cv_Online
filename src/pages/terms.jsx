@@ -3,7 +3,7 @@ import { ArrowLeft, Calendar, Mail } from "lucide-react";
 
 const TermsAndConditions = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 z-50 bg-neutral-900 text-white overflow-y-auto">
+    <div className="fixed inset-0 z-70 bg-neutral-900 text-white overflow-y-auto">
       {/* Bouton de fermeture */}
       {onClose && (
         <button

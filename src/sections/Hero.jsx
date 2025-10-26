@@ -1,5 +1,4 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useState, useEffect } from "react";
 import HeroText from "../components/HeroText";
 import ParallaxBackground from "../components/parallaxBackground";
 import { Astronaut } from "../components/Astronaut";
@@ -16,24 +15,24 @@ const Hero = () => {
 
   return (
     <section id="hero" className="flex items-start justify-center min-h-screen overflow-hidden md:items-start md:justify-start c-space">
-      <HeroText />
-      <ParallaxBackground />
-      <figure
-        className="absolute inset-0"
-        style={{ width: "100vw", height: "100vh" }}
-      >
-        <Canvas camera={{ position: [0, 1, 3] }}>
-          <Suspense fallback={<Loader />}>
-            <Float>
-              <Astronaut
-                scale={isMobile && 0.23}
-                position={isMobile && [0, -1.5, 0]}
-              />
-            </Float>
-            <Rig />
-          </Suspense>
-        </Canvas>
-      </figure>
+        <HeroText />
+        <ParallaxBackground />
+        <figure
+          className="absolute inset-0"
+          style={{ width: "100vw", height: "100vh" }}
+        >
+          <Canvas camera={{ position: [0, 1, 3] }}>
+            <Suspense fallback={<Loader />}>
+              <Float>
+                <Astronaut
+                  scale={isMobile && 0.23}
+                  position={isMobile && [0, -1.5, 0]}
+                />
+              </Float>
+              <Rig />
+            </Suspense>
+          </Canvas>
+        </figure>
     </section>
   );
 };

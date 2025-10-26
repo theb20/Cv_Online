@@ -81,7 +81,7 @@ useEffect(() => {
     <>
       {user && user.length > 0 ? (
         user.map((item, index) => (
-          <section key={index} className="c-space section-spacing" id="about">
+          <section key={index} className="c-space section-spacing container" id="about">
             <h2 className="text-heading animate-fade-in">Profil</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:auto-rows-[18rem] mt-12">
               
