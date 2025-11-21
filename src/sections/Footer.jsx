@@ -123,7 +123,7 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
           }`}
         >
-          {["about", "projects", "contact", "blog"].map((id) => (
+          {["about", "projects", "contact"].map((id) => (
             <a
               key={id}
               href={`#${id}`}
