@@ -1,5 +1,0 @@
-User-agent: *
-Disallow: /admin/
-Allow: /
-
-Sitemap: https://cv-online-633z.onrender.com/sitemap.xml

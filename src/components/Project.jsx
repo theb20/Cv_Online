@@ -57,6 +57,9 @@ const Project = ({
                       src={tech.icon}
                       className="w-3.5 h-3.5"
                       alt={tech.name}
+                      loading="lazy"
+                      width="14"
+                      height="14"
                     />
                   )}
                   <span>{tech.name}</span>
@@ -129,6 +132,9 @@ const ProjectDetails = ({ title, description, image, link_url, techList, closeMo
               src={image}
               alt={title}
               className="w-full h-full object-cover"
+              loading="lazy"
+              width="640"
+              height="224"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
           </div>

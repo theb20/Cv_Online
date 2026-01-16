@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./sections/Navbar";
 import Footer from "./sections/Footer";
 import Cookies from "./sections/Cookies";
-
-// Pages / Sections
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Projects from "./sections/Projects";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
-import ChatBox from "./components/ChatBox";
 import CVWidget from "./sections/CvWidget";
-import Terms from "./pages/terms";
-import Privacy from "./pages/privacy";
-import ContactPage from "./pages/contact";
-import Login from "./sections/Login";
+import ChatBox from "./components/ChatBox";
 
-// Layout principal pour toutes les pages sauf login
+const Terms = lazy(() => import("./pages/terms"));
+const Privacy = lazy(() => import("./pages/privacy"));
+const ContactPage = lazy(() => import("./pages/contact"));
+const Login = lazy(() => import("./sections/Login"));
+
 const MainLayout = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacy, setShowPrivacy] = useState(false);
@@ -59,15 +57,43 @@ const HomePage = () => (
 const App = () => {
   return (
     <Routes>
-      {/* Page de login sans layout */}
-      <Route path="/login" element={<Login />} />
-
-      {/* Pages avec Navbar/Footer */}
+      <Route
+        path="/login"
+        element={
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+            <Login />
+          </Suspense>
+        }
+      />
       <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/contact" element={<ContactPage />} />
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
+        <Route
+          path="/terms"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <Terms />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/privacy"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <Privacy />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <ContactPage />
+            </Suspense>
+          }
+        />
       </Route>
     </Routes>
   );

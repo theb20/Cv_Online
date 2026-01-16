@@ -40,20 +40,21 @@ const Navbar = () => {
             Frédérick A.
           </a>
 
-          {/* Bouton burger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="flex cursor-pointer text-neutral-400 hover:text-white focus:outline-none sm:hidden"
+            aria-label={isOpen ? "Fermer le menu de navigation" : "Ouvrir le menu de navigation"}
           >
             <img
               src={isOpen ? "assets/close.svg" : "assets/menu.svg"}
               className="w-6 h-6"
-              alt="toggle"
+              alt=""
+              aria-hidden="true"
             />
           </button>
 
           {/* Menu desktop */}
-          <nav className="hidden sm:flex">
+          <nav className="hidden sm:flex" aria-label="Navigation principale">
             <Navigation onLinkClick={() => {}} /> {/* Desktop ne ferme rien */}
           </nav>
         </div>

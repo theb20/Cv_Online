@@ -110,8 +110,11 @@ useEffect(() => {
                     <div className="absolute h-[100%] w-full overflow-hidden">
                       <img
                         src="assets/coding-pov.png"
-                        alt="Coding POV"
+                        alt="Vue d'un poste de travail de développeur"
                         className="w-full h-full object-cover object-center scale-110 transition-transform duration-700"
+                        loading="lazy"
+                        width="800"
+                        height="600"
                       />
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-indigo" />
                     </div>
@@ -163,11 +166,14 @@ useEffect(() => {
                   </>
                 ) : (
                   // --- VERSION DESKTOP ---
-                  <>
+                    <>
                     <img
                       src="assets/coding-pov.png"
-                      alt="Coding POV"
+                      alt="Vue d'un poste de travail de développeur"
                       className="absolute scale-[1.75] -right-[5rem] -top-[1rem] md:scale-[3] md:left-50 md:inset-y-10 lg:scale-[2.5] transition-all duration-1000 ease-out group-hover:scale-[1.9] md:group-hover:scale-[3.2] lg:group-hover:scale-[2.7]"
+                      loading="lazy"
+                      width="800"
+                      height="600"
                     />
                     <div className="z-10 w-full absolute bottom-0 left-0 p-6">
                       <p className="headtext animate-fade-in">

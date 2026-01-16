@@ -45,6 +45,9 @@ export default function ProjectDetailsPro({
             src={image}
             alt={title}
             className="w-full h-full object-cover"
+            loading="lazy"
+            width="640"
+            height="320"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-transparent md:bg-gradient-to-r" />
         </div>

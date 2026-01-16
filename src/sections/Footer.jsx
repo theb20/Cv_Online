@@ -144,6 +144,7 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
           <button
             onClick={onOpenTerms}
             className="hover:text-blue-400 transition-colors duration-300 relative group"
+            type="button"
           >
             Termes & Conditions
             <span className="absolute inset-x-0 -bottom-0.5 h-px bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
@@ -152,6 +153,7 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
           <button
             onClick={onOpenPrivacy}
             className="hover:text-blue-400 transition-colors duration-300 relative group"
+            type="button"
           >
             Politique de Confidentialité
             <span className="absolute inset-x-0 -bottom-0.5 h-px bg-blue-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
