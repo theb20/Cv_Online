@@ -14,6 +14,13 @@ const AuthProvider = ({ children }) => {
 
   // 🔍 Vérifie si un utilisateur est déjà connecté
   const checkAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await authService.getMe();
       if (response?.data) {

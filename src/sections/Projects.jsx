@@ -2,13 +2,23 @@ import { useState, useEffect } from "react";
 import Project from "../components/Project";
 import projectService from '../config/Services/projectServices.js'
 import { motion, useMotionValue, useSpring } from "motion/react";
+import { projects as projectsData } from "../data/projects";
 const Projects = () => {
   const [myProjects, setMyProjects] = useState([]);
 
   useEffect(() => {
     projectService.getProject()
-      .then((res) => setMyProjects(res))
-      .catch((err) => setError(err.message));
+      .then((res) => {
+        if (Array.isArray(res) && res.length > 0) {
+          setMyProjects(res);
+        } else {
+          setMyProjects(projectsData);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching projects:", err);
+        setMyProjects(projectsData);
+      });
   }, []);
   console.log('dada', myProjects);
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import authService from "../config/Services/authServices.js";
+import { profile } from "../data/profile";
 
 const CopyEmailButton = () => {
   const [copied, setCopied] = useState(false);
@@ -16,7 +17,8 @@ const CopyEmailButton = () => {
         setUser(response);
       } catch (err) {
         console.error("Erreur lors de la récupération de l'utilisateur :", err);
-        setError("Impossible de charger l'utilisateur 😅");
+        setUser(profile);
+        setError(null);
       } finally {
         setLoading(false);
       }

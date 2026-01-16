@@ -7,10 +7,12 @@ import { Globe } from "../components/globe";
 import CopyEmailButton from "../components/CopyEmailButton";
 import { Frameworks } from "../components/Frameworks";
 import authService from "../config/Services/authServices.js";
+import { profile } from "../data/profile";
 
 const About = () => {
   const grid2Container = useRef();
   const [user, setUser] = useState([]);
+  const [loadingUser, setLoadingUser] = useState(true);
   const [request, setRequest] = useState(false);
   const [expandedBio, setExpandedBio] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -33,14 +35,22 @@ const About = () => {
     const fetchUser = async () => {
       try {
         const response = await authService.getAuth();
-        setUser(response);
+        if (response && (Array.isArray(response) ? response.length > 0 : true)) {
+          const normalized = Array.isArray(response) ? response : [response];
+          setUser(normalized);
+        } else {
+          setUser([{ ...profile }]);
+        }
       } catch (error) {
         console.error("Error fetching user:", error);
+        setUser([{ ...profile }]);
+      } finally {
+        setLoadingUser(false);
       }
     };
     fetchUser();
   }, []);
-
+  const data = user && user.length > 0 ? user : [{ ...profile }];
 // Met à jour la hauteur du bloc dynamiquement quand la bio change ou à la redimension du viewport
 useEffect(() => {
   if (!grid1Ref.current || !contentRef.current) return;
@@ -79,8 +89,12 @@ useEffect(() => {
 
   return (
     <>
-      {user && user.length > 0 ? (
-        user.map((item, index) => (
+      {loadingUser ? (
+        <div className="flex items-center justify-center min-h-screen">
+          <p className="text-gray-400">Chargement...</p>
+        </div>
+      ) : (
+        data.map((item, index) => (
           <section key={index} className="c-space section-spacing container" id="about">
             <h2 className="text-heading animate-fade-in">Profil</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:auto-rows-[18rem] mt-12">
@@ -230,10 +244,6 @@ useEffect(() => {
             </div>
           </section>
         ))
-      ) : (
-        <div className="flex items-center justify-center min-h-screen">
-          <p className="text-gray-400">Chargement...</p>
-        </div>
       )}
       {request && <Request onClose={() => setRequest(false)} />}
     </>

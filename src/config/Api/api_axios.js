@@ -50,7 +50,7 @@ api.interceptors.response.use(
     // 🔐 Si token expiré ou non valide
     if (status === 401) {
       localStorage.removeItem('token');
-      window.location.href = '/login'; // Redirige vers la page de connexion
+      // window.location.href = '/login'; // Redirige vers la page de connexion
     }
 
     return Promise.reject(new Error(message));
