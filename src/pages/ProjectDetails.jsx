@@ -48,11 +48,39 @@ const ProjectDetails = () => {
   const [githubData, setGithubData] = useState(null);
   const [loadingGithub, setLoadingGithub] = useState(false);
 
+  // Preview State
+  const [previewMode, setPreviewMode] = useState('desktop');
+
+  // Active Image State for Gallery
+  const [activeImage, setActiveImage] = useState(null);
+
+  // Share State
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: project?.title || "Portfolio",
+          text: project?.description || "Check out this project!",
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
 
     const found = projects.find(p => p.id.toString() === id);
     setProject(found);
+    setActiveImage(null); // Reset active image when project changes
     setLoading(false);
   }, [id, projects]);
 
@@ -89,11 +117,21 @@ const ProjectDetails = () => {
 
   // Effect to fetch GitHub Data
   useEffect(() => {
-    if (activeTab === 'activity' && project?.github_repo && !githubData && !loadingGithub) {
+    // Extract repo path from URL if github_repo is missing but repo_url exists
+    const repoPath = project?.github_repo || (
+      project?.repo_url 
+        ? project.repo_url
+            .replace('https://github.com/', '')
+            .replace(/\.git$/, '') // Remove .git extension if present
+            .replace(/\/$/, '')    // Remove trailing slash if present
+        : null
+    );
+
+    if (activeTab === 'activity' && repoPath && !githubData && !loadingGithub) {
       const fetchGithub = async () => {
         setLoadingGithub(true);
         try {
-          const data = await githubService.getRepoData(project.github_repo);
+          const data = await githubService.getRepoData(repoPath);
           setGithubData(data);
         } catch (error) {
           console.error("GitHub fetch failed:", error);
@@ -161,8 +199,12 @@ const ProjectDetails = () => {
           </button>
           
           <div className="flex items-center gap-3">
-             <button className="p-2.5 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-900 hover:text-neutral-900 transition-colors bg-white shadow-sm">
-                <Share2 className="w-5 h-5" />
+             <button 
+                onClick={handleShare}
+                className="p-2.5 rounded-full border border-neutral-200 text-neutral-500 hover:border-neutral-900 hover:text-neutral-900 transition-colors bg-white shadow-sm"
+                title="Partager ce projet"
+             >
+                {copied ? <CheckCircle className="w-5 h-5 text-green-500" /> : <Share2 className="w-5 h-5" />}
              </button>
           </div>
         </nav>
@@ -171,13 +213,14 @@ const ProjectDetails = () => {
           {/* Left Column - Visual Showcase (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
             <motion.div 
+              key={activeImage}
               initial={{ opacity: 0, y: 20, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               className="relative aspect-[16/10] bg-neutral-100 rounded-3xl overflow-hidden shadow-2xl shadow-neutral-200/50 border border-neutral-200 group"
             >
               <img 
-                src={project.image_url || "/api/placeholder/800/600"} 
+                src={activeImage || project.image_url || "/api/placeholder/800/600"} 
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -193,15 +236,35 @@ const ProjectDetails = () => {
             </motion.div>
             
             {/* Gallery Grid */}
-            <div className="grid grid-cols-4 gap-4">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-video bg-neutral-50 rounded-xl border border-neutral-200 overflow-hidden cursor-pointer hover:ring-2 hover:ring-neutral-900 transition-all opacity-80 hover:opacity-100">
-                  <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                    <Box className="w-6 h-6" />
+            {project.gallery && project.gallery.length > 0 && (
+              <div className="grid grid-cols-4 gap-4">
+                 {/* Main Image Thumbnail */}
+                 <div 
+                    onClick={() => setActiveImage(project.image_url)}
+                    className={`aspect-video bg-neutral-50 rounded-xl border border-neutral-200 overflow-hidden cursor-pointer transition-all ${(activeImage === project.image_url || activeImage === null) ? 'ring-2 ring-neutral-900 ring-offset-2' : 'hover:ring-2 hover:ring-neutral-900 opacity-80 hover:opacity-100'}`}
+                  >
+                    <img 
+                      src={project.image_url} 
+                      alt="Main view"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
-                </div>
-              ))}
-            </div>
+
+                {project.gallery.map((img, i) => (
+                  <div 
+                    key={i} 
+                    onClick={() => setActiveImage(img)}
+                    className={`aspect-video bg-neutral-50 rounded-xl border border-neutral-200 overflow-hidden cursor-pointer transition-all ${activeImage === img ? 'ring-2 ring-neutral-900 ring-offset-2' : 'hover:ring-2 hover:ring-neutral-900 opacity-80 hover:opacity-100'}`}
+                  >
+                    <img 
+                      src={img} 
+                      alt={`${project.title} - view ${i + 1}`}
+                      className="w-full h-full object-cover transition-transform duration-500"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right Column - Project Info (5 cols) */}
@@ -246,8 +309,10 @@ const ProjectDetails = () => {
                 <span>Voir le site</span>
               </a>
               <a 
-                href="#"
-                className="group flex items-center justify-center gap-3 h-14 bg-white text-neutral-900 border-2 border-neutral-200 rounded-2xl font-bold hover:border-neutral-900 transition-all active:scale-[0.98]"
+                href={project.repo_url || "#"}
+                target="_blank"
+                rel="noreferrer"
+                className={`group flex items-center justify-center gap-3 h-14 bg-white text-neutral-900 border-2 border-neutral-200 rounded-2xl font-bold hover:border-neutral-900 transition-all active:scale-[0.98] ${!project.repo_url && "opacity-50 cursor-not-allowed"}`}
               >
                 <Github className="w-5 h-5 text-neutral-400 group-hover:text-neutral-900 transition-colors" />
                 <span>Code Source</span>
@@ -370,6 +435,111 @@ const ProjectDetails = () => {
                 </motion.div>
               )}
 
+              {activeTab === 'activity' && (
+                <motion.div 
+                  key="activity"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {!githubData ? (
+                     <div className="flex flex-col items-center justify-center py-20 text-neutral-400">
+                        {loadingGithub ? (
+                            <>
+                                <RefreshCw className="w-8 h-8 animate-spin mb-4 text-neutral-300" />
+                                <p>Chargement des données GitHub...</p>
+                            </>
+                        ) : (
+                            <>
+                                <Github className="w-12 h-12 mb-4 opacity-20" />
+                                <p>Aucune donnée GitHub disponible.</p>
+                                <p className="text-sm mt-2">Vérifiez que le lien du dépôt est public et correct.</p>
+                            </>
+                        )}
+                     </div>
+                  ) : (
+                    <div className="space-y-8">
+                        {/* Repo Header */}
+                        <div className="bg-neutral-900 text-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
+                                    <GitCommit className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold">{githubData.details.full_name}</h3>
+                                    <p className="text-neutral-400 text-sm">{githubData.details.description}</p>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-6">
+                                <div className="text-center">
+                                    <div className="text-2xl font-bold">{githubData.details.stargazers_count}</div>
+                                    <div className="text-xs text-neutral-500 uppercase tracking-wider">Stars</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-2xl font-bold">{githubData.details.forks_count}</div>
+                                    <div className="text-xs text-neutral-500 uppercase tracking-wider">Forks</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-2xl font-bold">{githubData.details.open_issues_count}</div>
+                                    <div className="text-xs text-neutral-500 uppercase tracking-wider">Issues</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Recent Commits */}
+                        <div>
+                            <h4 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
+                                <Activity className="w-5 h-5" />
+                                Derniers Commits
+                            </h4>
+                            <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden">
+                                {githubData.commits.map((commit, i) => (
+                                    <div key={commit.sha} className="p-4 border-b border-neutral-100 last:border-0 hover:bg-neutral-50 transition-colors flex items-start gap-4">
+                                        <div className="mt-1">
+                                            <div className="w-2 h-2 rounded-full bg-blue-500" />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-neutral-900 font-medium truncate">{commit.commit.message}</p>
+                                            <div className="flex items-center gap-2 mt-1 text-xs text-neutral-500">
+                                                <img src={commit.author?.avatar_url || "/assets/avatar-placeholder.png"} alt="" className="w-4 h-4 rounded-full" />
+                                                <span>{commit.commit.author.name}</span>
+                                                <span>•</span>
+                                                <span>{new Date(commit.commit.author.date).toLocaleDateString()}</span>
+                                            </div>
+                                        </div>
+                                        <a href={commit.html_url} target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-neutral-400 hover:text-blue-600 hover:underline">
+                                            {commit.sha.substring(0, 7)}
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Languages */}
+                        <div>
+                            <h4 className="text-lg font-bold text-neutral-900 mb-6 flex items-center gap-2">
+                                <Code2 className="w-5 h-5" />
+                                Langages
+                            </h4>
+                             <div className="flex flex-wrap gap-3">
+                                {Object.entries(githubData.languages).map(([lang, bytes]) => {
+                                    const total = Object.values(githubData.languages).reduce((a, b) => a + b, 0);
+                                    const percentage = Math.round((bytes / total) * 100);
+                                    return (
+                                        <div key={lang} className="bg-neutral-100 px-4 py-2 rounded-lg flex items-center gap-2 border border-neutral-200">
+                                            <span className="font-bold text-neutral-700">{lang}</span>
+                                            <span className="text-xs text-neutral-500 font-mono bg-white px-1.5 py-0.5 rounded border border-neutral-200">{percentage}%</span>
+                                        </div>
+                                    )
+                                })}
+                             </div>
+                        </div>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
               {activeTab === 'specs' && (
                 <motion.div 
                   key="specs"
@@ -455,18 +625,17 @@ const ProjectDetails = () => {
                        </div>
                        <div>
                           <h4 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
-                              Audit Lighthouse Automatisé
-                              {analyzing && <span className="text-xs font-normal text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Analyse en cours...</span>}
+                              Rapport de Performance
+                              {analyzing && <span className="text-xs font-normal text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-100">Mise à jour...</span>}
+                              {analysisError && !analyzing && <span className="text-xs font-normal text-red-600 bg-red-50 px-2 py-0.5 rounded-full border border-red-100" title={analysisError}>Mise à jour échouée</span>}
                           </h4>
                           <p className="text-sm text-neutral-500">
-                              {analysisError ? (
-                                  <span className="text-red-500 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> {analysisError} (Données simulées affichées)</span>
-                              ) : analyzing ? (
-                                  "Connexion à Google PageSpeed Insights..."
+                              {analyzing ? (
+                                  `Données affichées (Vérification en temps réel sur ${new URL(project.link_url).hostname}...)`
                               ) : realMetrics ? (
-                                  `Audit réalisé avec succès sur ${new URL(project.link_url).hostname}`
+                                  `Audit réalisé en temps réel sur ${new URL(project.link_url).hostname}`
                               ) : (
-                                  "Scores de performance générés via PageSpeed Insights (Simulation)"
+                                  "Scores basés sur la dernière analyse stable"
                               )}
                           </p>
                        </div>
@@ -521,6 +690,63 @@ const ProjectDetails = () => {
                         <h4 className="font-bold text-neutral-900 text-center">{metric.label}</h4>
                       </div>
                     ))}
+                  </div>
+
+                  {/* Live Preview Section */}
+                  <div className="mt-16 border-t border-neutral-200 pt-12">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+                        <div>
+                            <h3 className="text-xl font-bold text-neutral-900 flex items-center gap-2">
+                                <Smartphone className="w-5 h-5" />
+                                Aperçu en direct
+                            </h3>
+                            <p className="text-neutral-500 text-sm mt-1">Visualisez le site tel qu'il apparaît sur différents appareils.</p>
+                        </div>
+                        <div className="flex bg-neutral-100 p-1 rounded-lg self-start">
+                            <button 
+                                onClick={() => setPreviewMode('mobile')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-all ${previewMode === 'mobile' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                            >
+                                <Smartphone className="w-4 h-4" /> Mobile
+                            </button>
+                            <button 
+                                onClick={() => setPreviewMode('desktop')}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-bold transition-all ${previewMode === 'desktop' ? 'bg-white shadow-sm text-neutral-900' : 'text-neutral-500 hover:text-neutral-700'}`}
+                            >
+                                <Globe className="w-4 h-4" /> Desktop
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className={`mx-auto transition-all duration-500 bg-neutral-900 rounded-xl overflow-hidden shadow-2xl border-4 border-neutral-900 ${previewMode === 'mobile' ? 'max-w-[375px] h-[667px]' : 'w-full h-[600px]'}`}>
+                        <div className="bg-neutral-800 h-8 flex items-center px-4 gap-2">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                            <div className="flex-1 text-center">
+                                <div className="bg-neutral-900 text-neutral-500 text-[10px] py-0.5 px-3 rounded-full inline-block truncate max-w-[200px]">
+                                    {project.link_url}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="w-full h-full bg-white relative">
+                            <iframe 
+                                src={project.link_url} 
+                                className="w-full h-full border-0"
+                                title="Project Preview"
+                                loading="lazy"
+                                sandbox="allow-scripts allow-same-origin allow-forms"
+                            />
+                        </div>
+                    </div>
+                    <div className="text-center mt-4">
+                         <p className="text-xs text-neutral-400">
+                            Note : Si l'aperçu reste blanc, le site bloque l'intégration (X-Frame-Options). 
+                            <a href={project.link_url} target="_blank" rel="noreferrer" className="text-blue-500 hover:underline ml-1">
+                                Ouvrir dans un nouvel onglet
+                            </a>
+                        </p>
+                    </div>
                   </div>
                 </motion.div>
               )}

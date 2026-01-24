@@ -1,17 +1,28 @@
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
 
-const SEO = ({ title, description, keywords, image, url, type = 'website' }) => {
-  const siteTitle = "Frédérick Ahobaut";
-  const defaultDescription = "🚀 Développeur Full Stack expert en React.js, Node.js, MongoDB et TypeScript. Création d'applications web modernes et performantes.";
-  const defaultKeywords = "Frédérick Ahobaut, développeur full stack, React, Node.js, MongoDB, TypeScript, portfolio, développement web";
-  const defaultImage = "https://moncv-dev.web.app/og-image.png";
+const SEO = ({ title, description, keywords, image, url, type = "website" }) => {
   const siteUrl = "https://moncv-dev.web.app";
+  const siteTitle = "Frédérick Ahobaut";
+  const defaultDescription =
+    "Développeur Full Stack spécialisé en React.js, Node.js, MongoDB et TypeScript. Création d'applications web modernes et performantes.";
+  const defaultKeywords =
+    "Frédérick Ahobaut, développeur full stack, React, Node.js, MongoDB, TypeScript, portfolio, développement web";
+  const defaultImage = `${siteUrl}/og-image.png`;
 
-  const finalTitle = title ? `${title} | ${siteTitle}` : `${siteTitle} - Développeur Full Stack`;
+  const toAbsoluteUrl = (value, fallback) => {
+    if (!value) return fallback;
+    if (value.startsWith("http")) return value;
+    const path = value.startsWith("/") ? value : `/${value}`;
+    return `${siteUrl}${path}`;
+  };
+
+  const finalTitle = title
+    ? `${title} | ${siteTitle}`
+    : `${siteTitle} - Développeur Full Stack`;
   const finalDescription = description || defaultDescription;
   const finalKeywords = keywords || defaultKeywords;
-  const finalImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : defaultImage;
-  const finalUrl = url ? (url.startsWith('http') ? url : `${siteUrl}${url}`) : siteUrl;
+  const finalImage = toAbsoluteUrl(image, defaultImage);
+  const finalUrl = toAbsoluteUrl(url, siteUrl);
 
   return (
     <Helmet>

@@ -1,50 +1,110 @@
 export const experiences = [
-  {
-    id: 1,
-    company: "Agence Web Nova",
-    position: "Développeur Frontend React",
-    country: "Paris, France",
-    start_date_formatted: "Avril 2023",
-    end_date_formatted: "Présent",
-    description: "Au sein de l'agence Nova, j'ai eu l'opportunité de transformer l'approche frontend de nos clients grands comptes en adoptant une architecture moderne basée sur React et l'écosystème Next.js. Mon rôle principal était d'assurer la cohérence visuelle et technique entre les maquettes créatives et l'implémentation finale.\n\nNous avons mis en place un Design System complet permettant de réduire le temps de développement de 40% sur les nouveaux projets. J'ai également piloté la migration de plusieurs sites legacy vers des architectures JAMstack performantes, améliorant significativement les scores Core Web Vitals.\n\nAu-delà du code, j'ai mentoré deux développeurs juniors, instaurant des pratiques de code review rigoureuses et des sessions de pair programming hebdomadaires pour élever le niveau technique de l'équipe.",
-    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Storybook", "Figma"],
-    stats: [
-      { label: "Performance", value: "98/100" },
-      { label: "Composants", value: "120+" },
-      { label: "Gain Productivité", value: "40%" }
-    ],
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"
-  },
-  {
-    id: 2,
-    company: "Startup SaaS Flow",
-    position: "Développeur Full Stack",
-    country: "Lyon, France",
-    start_date_formatted: "Janvier 2022",
-    end_date_formatted: "Mars 2023",
-    description: "Flow est une plateforme SaaS B2B dédiée à l'optimisation des flux logistiques. En tant que premier développeur Full Stack, j'ai participé à la conception de l'architecture initiale, passant d'un MVP monolithique à une architecture micro-services scalable sous Node.js et Docker.\n\nJ'ai développé l'intégralité du module d'analytics en temps réel, permettant aux clients de visualiser leurs KPIs logistiques avec une latence inférieure à 200ms. La sécurité étant critique, j'ai implémenté un système d'authentification OAuth2 robuste et des tests d'intégration automatisés.\n\nCette expérience m'a permis de toucher à tout le cycle de vie du produit, du prototypage rapide aux déploiements automatisés via CI/CD, dans un environnement à forte croissance.",
-    technologies: ["Node.js", "Express", "PostgreSQL", "Redis", "Docker", "AWS"],
-    stats: [
-      { label: "Uptime", value: "99.9%" },
-      { label: "Utilisateurs", value: "5k+" },
-      { label: "Requêtes/sec", value: "1.2k" }
-    ],
-    image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80&w=1600"
-  },
-  {
-    id: 3,
-    company: "Freelance",
-    position: "Développeur Web & UI Designer",
-    country: "Remote",
-    start_date_formatted: "Juin 2020",
-    end_date_formatted: "Décembre 2021",
-    description: "En tant qu'indépendant, j'ai accompagné une diversité de clients (TPE, artisans, start-ups) dans leur digitalisation. Mon approche allait au-delà du simple développement : je conseillais mes clients sur leur identité visuelle et leur stratégie de contenu pour maximiser leur impact en ligne.\n\nJ'ai réalisé plus de 20 projets complets, allant de sites vitrines haut de gamme sous WordPress (headless) à des boutiques e-commerce sur mesure. Chaque projet était l'occasion de peaufiner les animations et les interactions pour offrir une expérience utilisateur mémorable.\n\nLa gestion client, le respect des délais et l'auto-discipline ont été des compétences clés développées durant cette période, me permettant de gérer plusieurs projets en parallèle avec succès.",
-    technologies: ["JavaScript", "GSAP", "Shopify", "WordPress", "SEO", "Adobe XD"],
-    stats: [
-      { label: "Projets Livrés", value: "20+" },
-      { label: "Satisfaction", value: "100%" },
-      { label: "Retour sur Inv.", value: "3x" }
-    ],
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1600"
-  }
+ {
+  id: 1,
+  company: "Digital Company",
+  position: "Développeur Full Stack Web",
+  country: "France",
+  start_date_formatted: "2024",
+  end_date_formatted: "Présent",
+  description:
+    "Développement de solutions numériques destinées aux PME et commerces de proximité, de l’analyse du besoin à la mise en production.\n\n" +
+    "Conception et développement d’interfaces web modernes avec React et Tailwind CSS, en mettant l’accent sur l’ergonomie, le responsive design et la performance. Mise en place de composants réutilisables pour améliorer la maintenabilité et la cohérence visuelle.\n\n" +
+    "Développement de backends avec Node.js et Express, intégrant des API REST connectées à des bases de données MySQL hébergées sur Railway. Gestion des formulaires de contact, avis clients, contenus dynamiques et interactions utilisateurs.\n\n" +
+    "Réalisation de projets concrets tels qu’une plateforme e-commerce (Lid Shop), une application de collecte d’avis clients pour une franchise Quick (e-Carte Avis), un portfolio professionnel et plusieurs applications web interactives.\n\n" +
+    "Application de bonnes pratiques de développement (organisation du code, sécurité, validation des données, séparation frontend/backend) et déploiement des applications sur Firebase Hosting.",
+  technologies: [
+    "React",
+    "JavaScript",
+    "Tailwind CSS",
+    "Node.js",
+    "Express",
+    "MySQL",
+    "Railway",
+    "Firebase Hosting",
+    "Git / GitHub"
+  ],
+  stats: [
+    { label: "Projets livrés", value: "6+" },
+    { label: "Applications en ligne", value: "4" },
+    { label: "Stack", value: "Full Stack JavaScript" }
+  ],
+  image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"
+},
+{
+  id: 2,
+  company: "Quick",
+  position: "Employé Polyvalent – Gestion Opérationnelle",
+  country: "France",
+  start_date_formatted: "2024",
+  end_date_formatted: "Présent",
+  description:
+    "Participation active à la gestion quotidienne du restaurant, incluant l’organisation du service, la relation client et la coordination de l’équipe.\n\n" +
+    "Responsable du respect des normes de sécurité, d’hygiène et de conformité, garantissant une qualité de service constante.\n\n" +
+    "Implication dans la gestion administrative et financière, notamment la comptabilité auxiliaire client et le suivi des opérations.\n\n" +
+    "Cette expérience a renforcé mes compétences en organisation, gestion du stress, communication et travail en équipe dans un environnement exigeant et rythmé.",
+  technologies: [
+    "Gestion opérationnelle",
+    "Relation client",
+    "Organisation d’équipe",
+    "Suivi administratif"
+  ],
+  stats: [
+    { label: "Travail en équipe", value: "Quotidien" },
+    { label: "Gestion du service", value: "100%" },
+    { label: "Responsabilités", value: "Opérationnelles et managériales" }
+  ],
+  image: "https://www.franchise-magazine.com/wp-content/uploads/Franchise-Restaurant-Quick-La-Defense-2024.jpg"
+},
+{
+  id: 3,
+  company: "ARTCI",
+  position: "Stagiaire Télécommunications",
+  country: "Côte d’Ivoire",
+  start_date_formatted: "2020",
+  end_date_formatted: "2021",
+  description:
+    "Stage au sein de l’Autorité de Régulation des Télécommunications, axé sur le contrôle et l’optimisation des offres télécoms.\n\n" +
+    "Participation au contrôle décisionnel et tarifaire, avec vérification de la conformité des offres proposées par les opérateurs.\n\n" +
+    "Contribution à la sécurisation et à l’optimisation des réseaux, ainsi qu’à l’analyse des données techniques liées aux infrastructures télécoms.\n\n" +
+    "Cette expérience m’a permis de développer une forte capacité d’analyse, de rigueur et une compréhension approfondie des enjeux liés aux réseaux et à la régulation.",
+  technologies: [
+    "Télécommunications",
+    "Analyse tarifaire",
+    "Contrôle réseau",
+    "Sécurité des infrastructures"
+  ],
+  stats: [
+    { label: "Secteur", value: "Télécoms" },
+    { label: "Analyse & contrôle", value: "Avancé" },
+    { label: "Rigueur", value: "Élevée" }
+  ],
+  image: "https://www.autoritedeprotection.ci/wp-content/uploads/2021/07/Presentation-et-missions-de-lARTCI-Autorite-de-protection.jpg"
+},
+{
+  id: 4,
+  company: "FUTURE",
+  position: "Stagiaire Réseaux Informatiques",
+  country: "Côte d’Ivoire",
+  start_date_formatted: "2019",
+  end_date_formatted: "2020",
+  description:
+    "Stage axé sur la mise en place et la maintenance de réseaux informatiques filaires et Wi-Fi.\n\n" +
+    "Participation à l’installation, la configuration et les tests des équipements réseau (routeurs, switchs, points d’accès).\n\n" +
+    "Intervention sur des problématiques de connectivité et de performance réseau, avec diagnostic et résolution des incidents.\n\n" +
+    "Cette expérience a posé les bases de ma compréhension des infrastructures informatiques et de la logique réseau, aujourd’hui utiles dans mes projets backend.",
+  technologies: [
+    "Réseaux filaires",
+    "Wi-Fi",
+    "Configuration équipements",
+    "Diagnostic réseau"
+  ],
+  stats: [
+    { label: "Réseaux", value: "Filaire & Wi-Fi" },
+    { label: "Maintenance", value: "Opérationnelle" },
+    { label: "Bases techniques", value: "Solides" }
+  ],
+  image: "https://cdc-capital.ci/wp-content/uploads/2025/05/Annuaire-des-start-up-ivoiriennes-1.png"
+}
+
+
 ];

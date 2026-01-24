@@ -21,7 +21,7 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
             </p>
             <div className="pt-2">
                <a 
-                href="#contact" 
+                href="/#contact" 
                 className="inline-flex items-center gap-2 text-sm font-bold text-white border-b border-white/20 pb-1 hover:border-white transition-colors"
                >
                  Démarrer un projet
@@ -34,10 +34,10 @@ const Footer = ({ onOpenTerms, onOpenPrivacy }) => {
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-6">Navigation</h4>
             <ul className="space-y-4 text-sm">
               {[
-                { label: "Accueil", href: "#home" },
-                { label: "À propos", href: "#about" },
-                { label: "Projets", href: "#projects" },
-                { label: "Contact", href: "#contact" },
+                { label: "Accueil", href: "/" },
+                { label: "À propos", href: "/#about" },
+                { label: "Projets", href: "/#projects" },
+                { label: "Contact", href: "/#contact" },
               ].map((link) => (
                 <li key={link.label}>
                   <a 

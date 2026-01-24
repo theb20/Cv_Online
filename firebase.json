@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "ahobaut-frederick",
     "public": "dist",
     "ignore": [
       "firebase.json",

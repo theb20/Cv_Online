@@ -2,54 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://moncv-dev.web.app</loc>
+    <loc>https://ahobaut-frederick.web.app</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/projects</loc>
+    <loc>https://ahobaut-frederick.web.app/projects</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/experiences</loc>
+    <loc>https://ahobaut-frederick.web.app/experiences</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/contact</loc>
+    <loc>https://ahobaut-frederick.web.app/contact</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://moncv-dev.web.app/project/1</loc>
+    <loc>https://ahobaut-frederick.web.app/project/1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/project/2</loc>
+    <loc>https://ahobaut-frederick.web.app/project/2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/project/3</loc>
+    <loc>https://ahobaut-frederick.web.app/project/3</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://moncv-dev.web.app/experience/1</loc>
+    <loc>https://ahobaut-frederick.web.app/experience/1</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/experience/2</loc>
+    <loc>https://ahobaut-frederick.web.app/experience/2</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://moncv-dev.web.app/experience/3</loc>
+    <loc>https://ahobaut-frederick.web.app/experience/3</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

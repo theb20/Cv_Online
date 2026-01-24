@@ -66,28 +66,28 @@ const ExperienceDetails = () => {
         />
         
         {/* Nav - Clean & Minimal */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-[#fcfcfc]/90 backdrop-blur-md h-24 flex items-center justify-between px-6 md:px-12 transition-all border-b border-transparent">
+        <nav className="fixed mt-10 top-0 left-0 right-0 z-50 bg-[#fcfcfc]/90 backdrop-blur-md h-20 md:h-24 flex items-center justify-between px-6 md:px-12 transition-all border-b border-transparent">
             <div className="flex items-center gap-4">
                 <button 
                     onClick={() => navigate(-1)} 
-                    className="w-12 h-12 rounded-full border border-neutral-200 flex items-center justify-center hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all text-neutral-900"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full border border-neutral-200 flex items-center justify-center hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-all text-neutral-900"
                 >
                     <ArrowLeft size={18} />
                 </button>
             </div>
             
-            <div className="flex items-center gap-8 text-xs font-sans font-medium tracking-wide text-neutral-500 uppercase">
-                 <span className="hidden md:inline">{experience.company}</span>
+            <div className="flex items-center gap-4 md:gap-8 text-xs font-sans font-medium tracking-wide text-neutral-500 uppercase">
+                 <span className="inline md:inline">{experience.company}</span>
                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-300 hidden md:block"></span>
-                 <span>{experience.start_date_formatted} — {experience.end_date_formatted}</span>
+                 <span className="hidden md:inline">{experience.start_date_formatted} — {experience.end_date_formatted}</span>
             </div>
         </nav>
 
-        <main className="pt-32 pb-24">
+        <main className="pt-28 md:pt-32 pb-16 md:pb-24">
             
             {/* HERO - Architectural & Asymmetric */}
-            <header className="max-w-[90rem] mx-auto px-6 md:px-12 mb-24 pt-12 md:pt-20">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-end">
+            <header className="max-w-[90rem] mx-auto px-6 md:px-12 mb-16 md:mb-24 pt-8 md:pt-20">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end">
                     
                     {/* Left: Massive Title */}
                     <div className="md:col-span-8">
@@ -95,7 +95,7 @@ const ExperienceDetails = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
-                            className="inline-block mb-8 px-4 py-1.5 rounded-full border border-neutral-900/10 bg-neutral-50 text-neutral-600 text-sm font-sans font-medium uppercase tracking-widest"
+                            className="inline-block mb-6 md:mb-8 px-4 py-1.5 rounded-full border border-neutral-900/10 bg-neutral-50 text-neutral-600 text-xs md:text-sm font-sans font-medium uppercase tracking-widest"
                         >
                             {experience.position}
                         </motion.div>
@@ -104,28 +104,28 @@ const ExperienceDetails = () => {
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                            className="text-7xl md:text-9xl font-display font-bold text-neutral-900 tracking-tighter leading-[0.85] -ml-1"
+                            className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-display font-bold text-neutral-900 tracking-tighter leading-[0.9] md:leading-[0.85] -ml-1"
                         >
                             {experience.company}
                         </motion.h1>
                     </div>
 
                     {/* Right: Meta Grid */}
-                    <div className="md:col-span-4 md:border-l border-neutral-200 md:pl-12 pb-3">
+                    <div className="md:col-span-4 md:border-l border-neutral-200 md:pl-12 pb-3 mt-8 md:mt-0">
                         <motion.div 
                              initial={{ opacity: 0 }}
                              animate={{ opacity: 1 }}
                              transition={{ delay: 0.4 }}
-                             className="space-y-8"
+                             className="space-y-6 md:space-y-8"
                         >
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid grid-cols-2 gap-6 md:gap-8">
                                 <div>
                                     <span className="block text-[10px] font-sans uppercase tracking-widest text-neutral-400 mb-2">Date</span>
-                                    <span className="font-sans text-lg font-medium text-neutral-900">{experience.start_date_formatted}</span>
+                                    <span className="font-sans text-base md:text-lg font-medium text-neutral-900">{experience.start_date_formatted}</span>
                                 </div>
                                 <div>
                                     <span className="block text-[10px] font-sans uppercase tracking-widest text-neutral-400 mb-2">Lieu</span>
-                                    <span className="font-sans text-lg font-medium text-neutral-900">{experience.country}</span>
+                                    <span className="font-sans text-base md:text-lg font-medium text-neutral-900">{experience.country}</span>
                                 </div>
                             </div>
                             <div>
@@ -140,7 +140,7 @@ const ExperienceDetails = () => {
             </header>
 
             {/* Visual - Full Width with Parallax feel */}
-            <div className="w-full h-[60vh] md:h-[80vh] overflow-hidden mb-24 relative">
+            <div className="w-full h-[50vh] md:h-[80vh] overflow-hidden mb-16 md:mb-24 relative">
                 <motion.img 
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
@@ -164,7 +164,7 @@ const ExperienceDetails = () => {
                         
                         <div className="space-y-4 border-t border-neutral-200 pt-4">
                              <h3 className="text-xs font-sans font-bold uppercase tracking-widest text-neutral-400">
-                                 Stack Technique
+                                 Compétences Clés
                              </h3>
                              <div className="flex flex-wrap gap-x-4 gap-y-2">
                                  {experience.technologies && experience.technologies.length > 0 ? (
@@ -190,17 +190,17 @@ const ExperienceDetails = () => {
                     {experience.description.split('\n').map((paragraph, index) => (
                         paragraph.trim() && (
                             <div key={index}>
-                                <p className={index === 0 ? "text-2xl font-display font-medium text-neutral-900 mb-12 leading-normal" : "mb-8"}>
+                                <p className={index === 0 ? "text-xl md:text-2xl font-display font-medium text-neutral-900 mb-8 md:mb-12 leading-normal" : "mb-6 md:mb-8"}>
                                     {paragraph}
                                 </p>
                                 
                                 {/* Insert Stats after the first paragraph if available */}
                                 {index === 0 && experience.stats && experience.stats.length > 0 && (
-                                    <div className="my-16 py-12 border-y border-neutral-100">
-                                        <div className={`grid grid-cols-1 sm:grid-cols-${Math.min(experience.stats.length, 3)} gap-8`}>
+                                    <div className="my-12 md:my-16 py-8 md:py-12 border-y border-neutral-100">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                                             {experience.stats.map((stat, idx) => (
                                                 <div key={idx} className="text-center">
-                                                    <span className="block text-5xl font-display font-bold text-neutral-900 mb-2 tracking-tighter">{stat.value}</span>
+                                                    <span className="block text-4xl md:text-5xl font-display font-bold text-neutral-900 mb-2 tracking-tighter">{stat.value}</span>
                                                     <span className="text-xs font-sans uppercase tracking-widest text-neutral-500">{stat.label}</span>
                                                 </div>
                                             ))}
@@ -211,27 +211,13 @@ const ExperienceDetails = () => {
                         )
                     ))}
 
-                    <p className="text-sm text-neutral-400 font-sans uppercase tracking-widest text-center mt-20 border-t border-neutral-100 pt-12">
+                    <p className="text-sm text-neutral-400 font-sans uppercase tracking-widest text-center mt-16 md:mt-20 border-t border-neutral-100 pt-8 md:pt-12">
                         Fin de la section — {experience.company}
                     </p>
 
                 </article>
 
             </div>
-
-            {/* Footer - Minimal */}
-            <footer className="max-w-5xl mx-auto px-6 mt-32 pt-12 border-t border-neutral-200 flex justify-between items-center">
-                <button 
-                    onClick={() => navigate('/')}
-                    className="text-neutral-400 hover:text-neutral-900 transition-colors font-sans text-sm font-medium"
-                >
-                    ← Retour au portfolio
-                </button>
-                
-                <span className="text-neutral-300 font-sans text-xs uppercase tracking-widest">
-                    {new Date().getFullYear()} — Tous droits réservés
-                </span>
-            </footer>
 
         </main>
     </div>

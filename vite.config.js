@@ -18,7 +18,7 @@ export default defineConfig({
               return 'firebase';
             }
             if (id.includes('three') || id.includes('@react-three')) {
-              return 'three-vendor';
+              return 'vendor'; // Merge three with main vendor to avoid split chunk issues
             }
             if (id.includes('motion')) {
               return 'motion';

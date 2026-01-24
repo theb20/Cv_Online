@@ -6,7 +6,7 @@ export const profile = {
   country: "France",
   email: "ahobautfrederick@gmail.com",
   phone: "+33 6 10 69 47 08",
-  website: "https://mon-portfolio.dev",
+  website: "https://moncv-dev.web.app/",
   linkedin: "https://www.linkedin.com/in/frederick-ahobaut",
   github: "https://github.com/theb20",
   availability: "Ouvert aux opportunités freelance et CDI"

@@ -12,6 +12,7 @@ import {
   Calendar 
 } from 'lucide-react';
 import requestService from '../config/Services/requestService.js';
+import emailjs from '@emailjs/browser';
 
 // ============================================
 // COMPOSANTS RÉUTILISABLES
@@ -220,24 +221,54 @@ const ContactPage = () => {
     setLoading(true);
 
     try {
-      // Simulation d'envoi (API retirée)
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Envoi via EmailJS
+      // Assurez-vous d'avoir configuré vos variables d'environnement dans .env
+      // VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY
       
-      setSubmitted(true);
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-      // Reset du formulaire
-      setFormData({
-        nom: '',
-        email: '',
-        entreprise: '',
-        typeProjet: '',
-        budget: '',
-        delai: '',
-        description: '',
-      });
+      if (serviceId && templateId && publicKey) {
+          try {
+            await emailjs.send(
+              serviceId,
+              templateId,
+              {
+                from_name: formData.nom,
+                from_email: formData.email,
+                company: formData.entreprise || "Non spécifié",
+                project_type: projectTypes.find(t => t.value === formData.typeProjet)?.label || formData.typeProjet,
+                budget: budgets.find(b => b.value === formData.budget)?.label || formData.budget,
+                deadline: delais.find(d => d.value === formData.delai)?.label || formData.delai,
+                message: formData.description,
+              },
+              publicKey
+            );
+            
+            setSubmitted(true);
+            setFormData({
+              nom: '',
+              email: '',
+              entreprise: '',
+              typeProjet: '',
+              budget: '',
+              delai: '',
+              description: '',
+            });
+            setTimeout(() => setSubmitted(false), 5000);
 
-      // Masquer le message de succès après 5 secondes
-      setTimeout(() => setSubmitted(false), 5000);
+          } catch (emailError) {
+            console.error('EmailJS Error:', emailError);
+            alert(`Erreur d'envoi EmailJS : ${JSON.stringify(emailError)}`);
+            throw emailError; // Re-throw to be caught by outer catch
+          }
+      } else {
+          console.warn("EmailJS configuration missing. ServiceID:", !!serviceId, "TemplateID:", !!templateId, "Key:", !!publicKey);
+          alert("Configuration EmailJS manquante. Vérifiez le fichier .env");
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          setSubmitted(true); // Fallback simulation
+      }
     } catch (error) {
       console.error('Erreur lors de la création de la demande :', error);
     } finally {

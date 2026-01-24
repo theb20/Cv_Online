@@ -69,12 +69,12 @@ const HeroText = () => {
             className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8"
         >
             <div className="flex items-center gap-4 w-full md:w-auto">
-                <button className="flex-1 md:flex-none px-8 whitespace-nowrap py-4 bg-white text-black font-bold text-sm md:text-base rounded-full hover:bg-neutral-200 transition-all transform hover:scale-105 active:scale-95">
+                <a href="#projects" className="flex-1 md:flex-none px-8 whitespace-nowrap py-4 bg-white text-black font-bold text-sm md:text-base rounded-full hover:bg-neutral-200 transition-all transform hover:scale-105 active:scale-95 text-center">
                    Voir mes projets
-                </button>
-                <button className="flex-1 md:flex-none whitespace-nowrap px-8 py-4 border border-white/20 text-white font-medium text-sm md:text-base rounded-full hover:bg-white/10 transition-all hover:border-white/40">
+                </a>
+                <a href="#contact" className="flex-1 md:flex-none whitespace-nowrap px-8 py-4 border border-white/20 text-white font-medium text-sm md:text-base rounded-full hover:bg-white/10 transition-all hover:border-white/40 text-center">
                    Me contacter
-                </button>
+                </a>
             </div>
 
             {/* Divider (Desktop only) */}
