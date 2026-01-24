@@ -58,7 +58,10 @@ export default function Request({ onClose }) {
     setLoading(true);
 
     try {
-      const response = await requestService.createRequest(formData);
+      // Simulation d'envoi (API retirée)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const response = { ...formData, id: Date.now() };
       setRequests((prev) => [...prev, response]);
       setSubmitted(true);
 

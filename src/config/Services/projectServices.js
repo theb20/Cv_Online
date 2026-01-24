@@ -1,25 +1,8 @@
-import api from "../Api/api_axios.js";
-
 const projectService = {
-  getProject: async () => {
-    const response = await api.get('/projects');
-    return response.data;
-  },
-  getProjectById: async (id) => {
-    const response = await api.get(`/projects/${id}`);
-    return response.data;
-  },
-  createProject: async (projectData) => {
-    const response = await api.post('/projects', projectData);
-    return response.data;
-  },
-  updateProject: async (id, projectData) => {
-    const response = await api.put(`/projects/${id}`, projectData);
-    return response.data;
-  },
-  deleteProject: async (id) => {
-    const response = await api.delete(`/projects/${id}`);
-    return response.data;
-  },
+  getProject: async () => { throw new Error("API removed"); },
+  getProjectById: async (id) => { throw new Error("API removed"); },
+  createProject: async (projectData) => { throw new Error("API removed"); },
+  updateProject: async (id, projectData) => { throw new Error("API removed"); },
+  deleteProject: async (id) => { throw new Error("API removed"); },
 }
 export default projectService;

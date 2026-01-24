@@ -15,22 +15,24 @@ const Hero = () => {
     query: "(prefers-reduced-motion: reduce)",
   });
 
+  const astronautScale = isMobile ? 0.18 : 0.3;
+  const astronautPosition = isMobile ? [0, -2.5, 0] : [1.8, -0.5, 0];
 
   return (
-    <section id="hero" className="flex items-start justify-center min-h-screen overflow-hidden md:items-start md:justify-start c-space">
+    <section id="hero" className="relative flex flex-col items-center justify-start pt-24 md:pt-0 md:justify-start min-h-dvh w-full z-10 overflow-hidden c-space">
         <HeroText />
         <ParallaxBackground />
-        {!isMobile && !prefersReducedMotion && (
+        {!prefersReducedMotion && (
           <figure
-            className="absolute inset-0"
-            style={{ width: "100vw", height: "100vh" }}
+            className="absolute inset-0 z-0"
+            style={{ width: "100%", height: "100%" }}
           >
             <Canvas camera={{ position: [0, 1, 3] }}>
               <Suspense fallback={<Loader />}>
-                <Float>
+                <Float speed={4} rotationIntensity={1} floatIntensity={2}>
                   <Astronaut
-                    scale={0.3}
-                    position={[1.3, -1, 0]}
+                    scale={astronautScale}
+                    position={astronautPosition}
                   />
                 </Float>
                 <Rig />

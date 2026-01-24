@@ -1,36 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import authService from "../config/Services/authServices.js";
 import { profile } from "../data/profile";
 
 const CopyEmailButton = () => {
   const [copied, setCopied] = useState(false);
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  // 🔹 Chargement de l'utilisateur
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await authService.getAuth();
-        setUser(response);
-      } catch (err) {
-        console.error("Erreur lors de la récupération de l'utilisateur :", err);
-        setUser(profile);
-        setError(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
-
-  // 🔹 Gestion sécurisée de l'email
-  const email =
-    Array.isArray(user) && user.length > 0
-      ? user[0].email
-      : user?.email || "test@example.com";
+  
+  // 🔹 Utilisation directe du profil local
+  const email = profile.email || "test@example.com";
 
   // 🔹 Fallback pour anciens navigateurs
   const fallbackCopyToClipboard = (text) => {
@@ -72,10 +48,6 @@ const CopyEmailButton = () => {
     }
   };
 
-  // 🔹 États de chargement / erreur
-  if (loading) return <p>Chargement...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-
   // 🔹 Rendu principal
   return (
     <motion.button
@@ -83,8 +55,10 @@ const CopyEmailButton = () => {
       whileHover={{ y: -5 }}
       whileTap={{ scale: 1.05 }}
       aria-label="Copier l'email"
-      className={`relative px-1 py-4 text-sm text-center rounded-full font-extralight w-[12rem] cursor-pointer overflow-hidden transition-colors duration-300 ${
-        copied ? "bg-black/50 text-white" : "bg-primary"
+      className={`relative px-6 py-3 text-sm text-center rounded-full font-medium w-full md:w-auto cursor-pointer overflow-hidden transition-all duration-300 shadow-sm ${
+        copied 
+          ? "bg-green-500 text-white" 
+          : "bg-white text-neutral-900 border border-neutral-200 hover:bg-neutral-50"
       }`}
     >
       <AnimatePresence mode="wait">

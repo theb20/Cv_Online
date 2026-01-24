@@ -10,5 +10,23 @@ export default defineConfig({
   },
   build: {
     chunkSizeWarningLimit: 1600, 
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('firebase')) {
+              return 'firebase';
+            }
+            if (id.includes('three') || id.includes('@react-three')) {
+              return 'three-vendor';
+            }
+            if (id.includes('motion')) {
+              return 'motion';
+            }
+            return 'vendor';
+          }
+        }
+      }
+    }
   },
 });

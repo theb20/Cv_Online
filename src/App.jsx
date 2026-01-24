@@ -8,12 +8,13 @@ import About from "./sections/About";
 import Projects from "./sections/Projects";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
-import CVWidget from "./sections/CvWidget";
-import ChatBox from "./components/ChatBox";
+import SEO from "./components/SEO";
 
 const Terms = lazy(() => import("./pages/terms"));
 const Privacy = lazy(() => import("./pages/privacy"));
 const ContactPage = lazy(() => import("./pages/contact"));
+const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
+const ExperienceDetails = lazy(() => import("./pages/ExperienceDetails"));
 const Login = lazy(() => import("./sections/Login"));
 
 const MainLayout = () => {
@@ -43,14 +44,13 @@ const MainLayout = () => {
 // Page d'accueil
 const HomePage = () => (
   <div className="relative w-screen flex flex-col items-center justify-center  overflow-hidden">
+    <SEO />
     <Hero />
     <About />
     <Projects />
     <Experiences />
     <Testimonial />
-    <CVWidget />
     <ContactPage />
-    <ChatBox />
   </div>
 );
 
@@ -91,6 +91,22 @@ const App = () => {
           element={
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
               <ContactPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/project/:id"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <ProjectDetails />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/experience/:id"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <ExperienceDetails />
             </Suspense>
           }
         />

@@ -1,217 +1,204 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { Building2, Clock, MapPin, Sparkles, ArrowUpRight } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "motion/react";
+import { ArrowRight, ArrowLeft, MapPin, Calendar, Building2 } from "lucide-react";
 
-// ✅ Timeline principale
+// Images de haute qualité pour illustrer chaque expérience
+// Dans un cas réel, ces images viendraient du CMS ou du fichier data
+
 export const Timeline = ({ data = [] }) => {
-  const containerRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const navigate = useNavigate();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 🎯 Détection fluide de la carte active avec IntersectionObserver
+  // Auto-advance slide every 8 seconds if user doesn't interact
   useEffect(() => {
-    const cards = containerRef.current?.querySelectorAll(".experience-card");
-    if (!cards || cards.length === 0) return;
+    if (!data || data.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          const index = Array.from(cards).indexOf(visible[0].target);
-          setActiveIndex(index);
-        }
-      },
-      {
-        root: null,
-        threshold: [0.25, 0.5, 0.75],
-      }
+    const timer = setInterval(() => {
+      nextSlide();
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [currentIndex, data]);
+
+  const nextSlide = () => {
+    if (!data || data.length === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % data.length);
+  };
+
+  const prevSlide = () => {
+    if (!data || data.length === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
+  };
+
+  if (!data || data.length === 0) {
+    return (
+      <section className="h-screen w-full flex items-center justify-center bg-neutral-900 text-white">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm font-mono opacity-50">Chargement des expériences...</p>
+        </div>
+      </section>
     );
+  }
 
-    cards.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
-  }, [data]);
+  const currentExp = data[currentIndex];
+  const nextExpIndex = (currentIndex + 1) % data.length;
+  const nextExp = data[nextExpIndex];
+  
+  // Prepare "upcoming" cards (the next 2-3 items in the loop)
+  const upcomingIndices = [
+    (currentIndex + 1) % data.length,
+    (currentIndex + 2) % data.length,
+    (currentIndex + 3) % data.length,
+  ].filter(i => i < data.length); // Safety check
 
   return (
-    <div
-      ref={containerRef}
-      className="relative min-h-screen  lg:px-20 px-6 scroll-smooth "
-    >
-      {/* --- Background animé --- */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)]" />
-      <div className="absolute top-40 left-30 w-72 h-72 bg-blue-500/20 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-20 right-70 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] animate-pulse delay-1000" />
-
-      <div className="relative z-10 max-w-7xl mx-auto py-20">
-        {/* --- Header --- */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-32"
-        >
+    <section className="relative h-screen w-full overflow-hidden bg-neutral-900 text-white">
+      {/* --- BACKGROUND LAYER --- */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-block mb-6"
+            key={currentIndex}
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="absolute inset-0"
           >
-            <span className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600/10 via-purple-600/10 to-pink-600/10 rounded-full border border-blue-500/20 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4 text-blue-400 animate-spin-slow" />
-              <span className="text-sm font-medium bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Mon Parcours Professionnel
-              </span>
-            </span>
+            <div className="absolute inset-0 bg-black/40 z-10" /> {/* Overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+            <img
+              src={data[currentIndex].image}
+              alt="Background"
+              className="w-full h-full object-cover"
+            />
           </motion.div>
-
-          <h1 className="text-5xl md:text-8xl font-black mb-6">
-            <span className="block bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-              Expériences
-            </span>
-            <span className="block bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-              & Réalisations
-            </span>
-          </h1>
-
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-            Une chronologie de mon évolution professionnelle et de mes contributions.
-          </p>
-        </motion.div>
-
-        {/* --- Liste des expériences --- */}
-        {data.length === 0 ? (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] gap-6">
-            <div className="relative w-20 h-20">
-              <div className="absolute inset-0 border-4 border-blue-500/20 rounded-full" />
-              <div className="absolute inset-0 border-4 border-t-blue-500 rounded-full animate-spin" />
-            </div>
-            <p className="text-gray-400 text-lg">Chargement des expériences...</p>
-          </div>
-        ) : (
-          <div className="space-y-32">
-            {data.map((item, index) => (
-              <ExperienceCard
-                key={index}
-                item={item}
-                index={index}
-                isActive={activeIndex === index}
-              />
-            ))}
-          </div>
-        )}
+        </AnimatePresence>
       </div>
-    </div>
-  );
-};
 
-// ✅ Carte d'expérience
-const ExperienceCard = ({ item, index, isActive }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, margin: "-100px", amount: 0.3 });
-  const isEven = index % 2 === 0;
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 100 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
-      transition={{ duration: 0.8 }}
-      className={`experience-card relative ${isEven ? "lg:pr-20" : "lg:pl-20"}`}
-    >
-      <div
-        className={`grid lg:grid-cols-2 gap-8 items-center ${
-          isEven ? "" : "lg:grid-flow-dense"
-        }`}
-      >
-        {/* --- Colonne infos --- */}
-        <div className={`relative ${isEven ? "lg:order-1" : "lg:order-2"}`}>
-          <motion.div
-            animate={isActive ? { scale: 1.05 } : { scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="relative"
-          >
-            {/* Grand numéro */}
-            <div className="absolute -top-16 -left-4 lg:-left-16 text-[180px] lg:text-[240px] font-black opacity-5 select-none">
-              {String(index + 1).padStart(2, "0")}
-            </div>
-
-            {/* Badge date */}
-            <motion.div
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="inline-flex items-center gap-3 px-6 py-3 mb-6 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-xl rounded-2xl border border-blue-500/30 shadow-xl"
-            >
-              <Clock className="w-5 h-5 text-blue-400" />
-              <span className="text-lg font-bold text-white">
-                {item.start_date_formatted} – {item.end_date_formatted || "Présent"}
-              </span>
-            </motion.div>
-
-            {/* Logo société */}
-            <motion.div
-              whileHover={{ rotate: 5, scale: 1.05 }}
-              className="w-20 h-20 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-blue-500/50"
-            >
-              <Building2 className="w-10 h-10 text-white" />
-            </motion.div>
-
-            {/* Nom + Poste */}
-            <h2 className="text-4xl lg:text-5xl font-black text-white mb-4 leading-tight">
-              {item.company}
-            </h2>
-            <h3 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
-              {item.position}
-            </h3>
-
-            {item.country && (
-              <div className="flex items-center gap-2 text-gray-400">
-                <MapPin className="w-4 h-4" />
-                <span>{item.country}</span>
-              </div>
-            )}
-          </motion.div>
+      {/* --- CONTENT LAYER --- */}
+      <div className="relative z-50 h-full flex flex-col justify-between p-6 md:p-12 lg:px-24 lg:py-6">
+        
+        {/* Top Navigation / Header */}
+        <div className="flex justify-between items-center">
+          
+          <div className="text-xs end-0 absolute me-5 font-mono opacity-50">
+            {currentIndex + 1} / {data.length}
+          </div>
         </div>
 
-        {/* --- Colonne contenu --- */}
-        <motion.div
-          whileHover={{ scale: 1.02 }}
-          className={`relative group ${isEven ? "lg:order-2" : "lg:order-1"}`}
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        {/* Main Content (Middle-Left) */}
+        <div className="flex-1 flex items-center">
+          <div className="max-w-2xl">
+            <motion.div
+              key={`text-${currentIndex}`}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="flex items-center gap-3 mb-4 text-slate-300 font-medium">
+                <span className="uppercase tracking-wider text-sm">{currentExp.position}</span>
+              </div>
+              
+              <h1 className="text-5xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter uppercase">
+                {currentExp.company}
+              </h1>
+              
+              <p className="text-lg md:text-xl text-neutral-300 mb-8 max-w-lg leading-relaxed line-clamp-3">
+                {currentExp.description}
+              </p>
 
-          <div className="relative bg-gradient-to-br from-gray-900/90 to-black/90 backdrop-blur-2xl rounded-3xl p-8 lg:p-12 border border-gray-800 group-hover:border-blue-500/50 transition-all duration-500 overflow-hidden">
-            {/* Overlay décoratif */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(59,130,246,0.1),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-
-            <div className="relative z-10">
-              <div className="space-y-4 mb-6">
-                {item.description?.split("\n").map((line, idx) => (
-                  <motion.p
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-                    transition={{ delay: idx * 0.1 + 0.2 }}
-                    className="text-gray-300 text-lg leading-relaxed"
-                  >
-                    {line}
-                  </motion.p>
-                ))}
+              <div className="flex flex-wrap gap-4 text-sm font-mono text-neutral-400">
+                 <div className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
+                    <Calendar className="w-4 h-4" />
+                    {currentExp.start_date_formatted} - {currentExp.end_date_formatted}
+                 </div>
+                 <div className="flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
+                    <MapPin className="w-4 h-4" />
+                    {currentExp.country}
+                 </div>
               </div>
 
+              <button
+                onClick={() => navigate(`/experience/${currentExp.id}`)}
+                className="mt-8 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-neutral-200 transition-all flex items-center gap-3 group shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)]"
+              >
+                <span className="uppercase tracking-wider text-sm">Voir le détail</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Bottom Section: Controls & Thumbnails */}
+        <div className="flex flex-col lg:flex-row items-end justify-between gap-8">
+          
+          {/* Controls */}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={prevSlide}
+              className="p-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-all duration-300 group"
+            >
+              <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+            </button>
+            <button 
+              onClick={nextSlide}
+              className="p-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-all duration-300 group"
+            >
+              <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+            </button>
+            
+            {/* Progress Bar */}
+            <div className="hidden md:flex items-center gap-4 ml-8">
+               <span className="text-sm font-mono opacity-50">0{currentIndex + 1}</span>
+               <div className="w-32 h-[1px] bg-white/20 relative overflow-hidden">
+                 <motion.div 
+                   className="absolute inset-0 bg-blue-500"
+                   initial={{ x: "-100%" }}
+                   animate={{ x: "0%" }}
+                   transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+                   key={currentIndex} // Reset animation on slide change
+                 />
+               </div>
+               <span className="text-sm font-mono opacity-50">0{data.length}</span>
             </div>
           </div>
-        </motion.div>
-      </div>
 
-      {/* Ligne de connexion */}
-      {index > 0 && (
-        <motion.div
-          initial={{ scaleY: 0 }}
-          animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-          transition={{ duration: 0.8 }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-blue-500 to-transparent origin-top"
-        />
-      )}
-    </motion.div>
+          {/* Thumbnails / Next Items */}
+          <div className="flex gap-4 overflow-x-auto pb-2 w-full lg:w-auto mask-gradient-right min-h-[260px]">
+            <AnimatePresence mode="popLayout">
+              {upcomingIndices.map((idx) => {
+                const item = data[idx];
+                return (
+                  <motion.div
+                    layout
+                    key={item.id}
+                    initial={{ opacity: 0, x: 100, scale: 0.9 }}
+                    animate={{ opacity: 1, x: 0, scale: 1 }}
+                    exit={{ opacity: 0, x: -50, scale: 0.9, transition: { duration: 0.3 } }}
+                    transition={{ duration: 0.5, ease: "circOut" }}
+                    onClick={() => setCurrentIndex(idx)}
+                    className="relative shrink-0 w-40 h-56 md:w-48 md:h-64 rounded-2xl overflow-hidden cursor-pointer group border border-white/10 hover:border-blue-500/50 transition-colors"
+                  >
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10" />
+                    <img 
+                      src={item.image} 
+                      alt={item.company}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 z-20 bg-gradient-to-t from-black/90 to-transparent">
+                      <p className="text-xs text-blue-300 mb-1 uppercase tracking-wider">{item.position}</p>
+                      <p className="text-sm font-bold text-white leading-tight">{item.company}</p>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+
+        </div>
+      </div>
+    </section>
   );
 };

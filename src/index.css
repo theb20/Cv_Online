@@ -1,11 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 /* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @theme {
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
   --color-primary: #030412;
   --color-midnight: #06091f;
   --color-navy: #161a31;
@@ -54,7 +58,7 @@
 }
 body {
   background: #030412;
-  font-family: "Funnel Display", sans-serif;
+  font-family: "Inter", sans-serif;
   color: white;         /* permet de scroll*/
 }
 

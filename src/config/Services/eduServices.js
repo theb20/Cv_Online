@@ -1,25 +1,8 @@
-import api from "../Api/api_axios.js";
-
 const eduService = {
-  getEdu: async () => {
-    const response = await api.get('/edu');
-    return response.data;
-  },
-  getEduById: async (id) => {
-    const response = await api.get(`/edu/${id}`);
-    return response.data;
-  },
-  createEdu: async (eduData) => {
-    const response = await api.post('/edu', eduData);
-    return response.data;
-  },
-  updateEdu: async (id, eduData) => {
-    const response = await api.put(`/edu/${id}`, eduData);
-    return response.data;
-  },
-  deleteEdu: async (id) => {
-    const response = await api.delete(`/edu/${id}`);
-    return response.data;
-  },
+  getEdu: async () => { throw new Error("API removed"); },
+  getEduById: async (id) => { throw new Error("API removed"); },
+  createEdu: async (eduData) => { throw new Error("API removed"); },
+  updateEdu: async (id, eduData) => { throw new Error("API removed"); },
+  deleteEdu: async (id) => { throw new Error("API removed"); },
 }
 export default eduService;

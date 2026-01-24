@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
 
 export default function LoginPage() {
   const [isActive, setIsActive] = useState(false);

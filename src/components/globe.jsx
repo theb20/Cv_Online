@@ -9,10 +9,10 @@ import { twMerge } from "tailwind-merge";
 const MOVEMENT_DAMPING = 1400;
 
 const GLOBE_CONFIG = {
-  width: 800,
-  height: 800,
+  width: 100,
+  height: 100,
   onRender: () => {},
-  devicePixelRatio: 2,
+  devicePixelRatio: 1,
   phi: 0,
   theta: 0.3,
   dark: 1,
@@ -80,14 +80,24 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
       width: width * 2,
       height: width * 2,
       onRender: (state) => {
+        // Appliquer d'abord la logique de rotation interne
         if (!pointerInteracting.current) phi += 0.005;
         state.phi = phi + rs.get();
         state.width = width * 2;
         state.height = width * 2;
+
+        // Appliquer ensuite la logique personnalisée (ex: clignotement)
+        if (config.onRender) {
+          config.onRender(state);
+        }
       },
     });
 
-    setTimeout(() => (canvasRef.current.style.opacity = "1"), 0);
+    setTimeout(() => {
+      if(canvasRef.current) {
+        canvasRef.current.style.opacity = "1";
+      }
+    }, 0);
     return () => {
       globe.destroy();
       window.removeEventListener("resize", onResize);
@@ -103,7 +113,7 @@ export function Globe({ className, config = GLOBE_CONFIG }) {
     >
       <canvas
         className={twMerge(
-          "size-[30rem] opacity-0 transition-opacity duration-500 [contain:layout_paint_size]"
+          "h-full w-full opacity-0 transition-opacity duration-500 [contain:layout_paint_size]"
         )}
         ref={canvasRef}
         onPointerDown={(e) => {

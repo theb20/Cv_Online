@@ -1,14 +1,6 @@
-import api from '../Api/api_axios.js';
-
 const requestService = {
-  createRequest: async (data) => {
-    const response = await api.post('/request', data);
-    return response.data;
-  },
-  getAllRequests: async () => {
-    const response = await api.get('/request');
-    return response.data;
-  },
+  createRequest: async (data) => { throw new Error("API removed"); },
+  getAllRequests: async () => { throw new Error("API removed"); },
 };
 
 export default requestService;

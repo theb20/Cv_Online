@@ -220,7 +220,9 @@ const ContactPage = () => {
     setLoading(true);
 
     try {
-      await requestService.createRequest(formData);
+      // Simulation d'envoi (API retirée)
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
       setSubmitted(true);
 
       // Reset du formulaire
@@ -356,7 +358,7 @@ const ContactPage = () => {
   // ============================================
 
   return (
-    <div  className="min-h-screen section-spacing flex flex-col items-center justify-center relative z-7 text-white">
+    <div  className="min-h-screen section-spacing z-20 flex flex-col items-center justify-center relative z-7 text-white">
       {/* Hero Section */}
       <section className="relative w-screen py-20 px-6 overflow-hidden" id="contact">
         <div 

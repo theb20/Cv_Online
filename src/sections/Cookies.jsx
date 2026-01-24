@@ -1,103 +1,139 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
+import { X, Shield } from "lucide-react";
+import { setConsent } from "firebase/analytics";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
-  const [consent, setConsent] = useState(null);
+  const [preferences, setPreferences] = useState({
+    essential: true,
+    analytics: false,
+    marketing: false
+  });
 
   useEffect(() => {
+    // Default consent: denied
+    setConsent({
+      ad_storage: 'denied',
+      analytics_storage: 'denied'
+    });
+
     const storedConsent = localStorage.getItem("cookie_consent");
-    if (storedConsent) {
-      setConsent(storedConsent);
-      if (storedConsent === "accepted") {
-        loadGoogleAnalytics();
-      }
+    if (!storedConsent) {
+      setTimeout(() => setVisible(true), 2000);
     } else {
-      // Affiche la bannière si pas encore d’action
-      setTimeout(() => setVisible(true), 1000);
+      try {
+        const parsed = JSON.parse(storedConsent);
+        if (parsed === "accepted" || (typeof parsed === 'object' && parsed.analytics)) {
+          setConsent({
+            ad_storage: 'granted',
+            analytics_storage: 'granted'
+          });
+        }
+      } catch (e) {
+        console.error("Invalid cookie consent format, resetting.", e);
+        localStorage.removeItem("cookie_consent");
+        setTimeout(() => setVisible(true), 2000);
+      }
     }
   }, []);
 
-  const acceptCookies = () => {
-    localStorage.setItem("cookie_consent", "accepted");
-    setConsent("accepted");
+  const acceptAll = () => {
+    const allAccepted = { essential: true, analytics: true, marketing: true };
+    setPreferences(allAccepted);
+    localStorage.setItem("cookie_consent", JSON.stringify(allAccepted));
     setVisible(false);
-    loadGoogleAnalytics(); // ✅ active Google Analytics
+    
+    // Grant consent
+    setConsent({
+      ad_storage: 'granted',
+      analytics_storage: 'granted'
+    });
   };
 
-  const rejectCookies = () => {
-    localStorage.setItem("cookie_consent", "rejected");
-    setConsent("rejected");
+  const rejectAll = () => {
+    const allRejected = { essential: true, analytics: false, marketing: false };
+    setPreferences(allRejected);
+    localStorage.setItem("cookie_consent", JSON.stringify(allRejected));
     setVisible(false);
-  };
-
-  // --- Fonction pour charger Google Analytics dynamiquement ---
-  const loadGoogleAnalytics = () => {
-    if (window.gaLoaded) return; // évite le double chargement
-    window.gaLoaded = true;
-
-    // Remplace "G-XXXXXXXXXX" par ton ID Google Analytics 4
-    const GA_ID = "G-L420DV0V5K";
-
-    const script1 = document.createElement("script");
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-    document.head.appendChild(script1);
-
-    const script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GA_ID}');
-    `;
-    document.head.appendChild(script2);
+    
+    // Deny consent (explicitly)
+    setConsent({
+      ad_storage: 'denied',
+      analytics_storage: 'denied'
+    });
   };
 
   return (
     <AnimatePresence>
       {visible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="fixed bottom-4 left-0 right-0 z-10000 flex justify-center px-4"
-        >
-          <div className="max-w-3xl w-full bg-slate-900/95 border border-slate-700 text-gray-200 backdrop-blur-md rounded-2xl shadow-2xl p-5 md:p-6 relative">
-            <button
-              onClick={() => setVisible(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-300 transition"
-              aria-label="Fermer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9990]"
+            onClick={() => setVisible(false)}
+          />
 
-            <h3 className="text-lg font-semibold mb-2 text-white flex items-center gap-2">
-              🍪 Gestion des cookies
-            </h3>
-            <p className="text-sm text-gray-400 mb-5 leading-relaxed">
-              Ce site utilise des cookies à des fins d’analyse (Google Analytics)
-              pour améliorer ton expérience. Tu peux accepter ou refuser à tout moment.
-            </p>
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed left-4 right-4 bottom-4 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bottom-auto z-[9999] w-auto md:w-[600px] max-h-[85vh] overflow-y-auto"
+          >
+            <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+              
+              {/* Header */}
+              <div className="p-6 md:p-8 border-b border-white/5 bg-white/[0.02]">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-400">
+                      <Shield size={24} />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold text-white tracking-tight">Centre de Confidentialité</h2>
+                      <p className="text-neutral-400 text-sm mt-1">Gérez vos préférences de données</p>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setVisible(false)}
+                    className="p-2 hover:bg-white/5 rounded-full text-neutral-400 hover:text-white transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+              </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:justify-end">
-              <button
-                onClick={rejectCookies}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-lg border border-slate-600 text-gray-300 hover:bg-slate-800 transition"
-              >
-                Refuser
-              </button>
-              <button
-                onClick={acceptCookies}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium hover:scale-105 transition-all shadow-md hover:shadow-lg"
-              >
-                Accepter
-              </button>
+              {/* Content */}
+              <div className="p-6 md:p-8 space-y-6">
+                <p className="text-neutral-300 leading-relaxed">
+                  Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic. 
+                  Vous pouvez choisir d'accepter uniquement les cookies essentiels ou d'autoriser tous les cookies.
+                </p>
+              </div>
+
+              {/* Footer */}
+              <div className="p-6 md:p-8 border-t border-white/5 bg-white/[0.02] flex flex-col sm:flex-row gap-3 justify-end">
+                <button
+                  onClick={rejectAll}
+                  className="px-6 py-3 rounded-xl border border-white/10 text-neutral-300 font-medium hover:bg-white/5 transition-colors"
+                >
+                  Tout refuser
+                </button>
+                <button
+                  onClick={acceptAll}
+                  className="px-6 py-3 rounded-xl bg-white text-black font-bold hover:bg-neutral-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                >
+                  Tout accepter
+                </button>
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
