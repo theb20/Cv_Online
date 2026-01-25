@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /admin/
-Allow: /
+Disallow:
 
 Sitemap: https://moncv-dev.web.app/sitemap.xml

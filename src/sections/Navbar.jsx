@@ -280,7 +280,8 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/#hero", label: "Accueil" },
-    { href: "/#about", label: "À Propos" },
+    { href: "/projects", label: "Catalogue" },
+    { href: "/about", label: "À Propos" },
     {
       label: "Portfolio",
       type: "mega",

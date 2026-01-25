@@ -1,5 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Lock, Mail, ArrowRight, Shield } from 'lucide-react';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '../config/firebase';
 
 export default function LoginPage() {
   const [isActive, setIsActive] = useState(false);
@@ -42,12 +45,19 @@ export default function LoginPage() {
     }, 2000);
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    try {
+      const user = await loginWithGoogle();
+      console.log('User connected:', user);
+      // alert(`Connecté en tant que ${user.displayName}`);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+      alert('Erreur lors de la connexion Google');
+    } finally {
       setIsLoading(false);
-      alert('Connexion Google simulée !');
-    }, 1500);
+    }
   };
 
   const title = "Connexion";

@@ -162,8 +162,8 @@ export const projects = [
   link_url: "https://e-carte-808d4.web.app/",
   repo_url: "https://github.com/theb20/e-carte-quick", // à ajuster si besoin
   gallery: [
-    "https://github.com/theb20/e-carte-quick/blob/main/e-carte/public/logo/wall.png?raw=true",
-    "https://github.com/theb20/e-carte-quick/blob/main/e-carte/public/wall_desc.png?raw=true"
+     "https://github.com/theb20/e-carte-quick/blob/main/e-carte/public/wall.png?raw=true",
+    "https://github.com/theb20/e-carte-quick/blob/main/e-carte/public/wall_desc.png?raw=true",
   ],
   techno_1: "React",
   techno_2: "Tailwind CSS",

@@ -41,8 +41,8 @@ const About = () => {
   return (
     <>
       {data.map((item, index) => (
-          <section key={index} className="c-space bg-white  z-10 py-12 md:py-20" id="about">
-            <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+          <section key={index} className="c-space bg-white z-10 py-12 md:py-20" id="about">
+            <div className=" mx-auto px-4 md:px-8 max-w-7xl">
               <div className="mb-12 text-center">
                 <p className="text-xs uppercase tracking-[0.35em] text-gray-500">A PROPOS</p>
                 <h2 className="mt-3 text-3xl font-semibold text-gray-900 md:text-4xl">
@@ -90,64 +90,64 @@ const About = () => {
           loading="lazy"
         />
       </div>
-    </div>
+                </div>
 
-    {/* ================= COLUMN 2 ================= */}
-    <div className={`${cardShell} relative h-80 md:h-full overflow-hidden`}>
-      <img
-        src="https://i.pinimg.com/736x/5c/a6/b4/5ca6b4196eb7942894dc11bdeb34706f.jpg"
-        alt="Processus de production"
-        className="h-full w-full object-cover object-center"
-        loading="lazy"
-      />
+                {/* ================= COLUMN 2 ================= */}
+                <div className={`${cardShell} relative h-80 md:h-full overflow-hidden`}>
+                  <img
+                    src="https://i.pinimg.com/736x/5c/a6/b4/5ca6b4196eb7942894dc11bdeb34706f.jpg"
+                    alt="Processus de production"
+                    className="h-full w-full object-cover object-center"
+                    loading="lazy"
+                  />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/20 to-black/50" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/20 to-black/50" />
 
-      <div className="absolute top-5 left-5 text-white">
-        <p className="text-xl font-semibold">Code propre</p>
-        <p className="text-sm text-white/80">
-          Maintenabilité & performance
-        </p>
-      </div>
+                  <div className="absolute top-5 left-5 text-white">
+                    <p className="text-xl font-semibold">Code propre</p>
+                    <p className="text-sm text-white/80">
+                      Maintenabilité & performance
+                    </p>
+                  </div>
 
-      <div className="absolute bottom-5 left-5 right-5 text-xs text-white/85 leading-relaxed">
-        Je ne me contente pas de faire fonctionner les choses.
-        J’écris du code lisible, structuré et conçu pour évoluer
-        durablement avec votre projet.
-      </div>
-    </div>
+                  <div className="absolute bottom-5 left-5 right-5 text-xs text-white/85 leading-relaxed">
+                    Je ne me contente pas de faire fonctionner les choses.
+                    J’écris du code lisible, structuré et conçu pour évoluer
+                    durablement avec votre projet.
+                  </div>
+                </div>
 
-    {/* ================= COLUMN 3 ================= */}
-    <div className="flex flex-col gap-4 h-full">
+                {/* ================= COLUMN 3 ================= */}
+                <div className="flex flex-col gap-4 h-full">
 
-      {/* Auth Image */}
-      <div className={`${cardShell} h-48 md:h-[14rem] min-h-0 overflow-hidden`}>
-        <img
-          src="assets/projects/auth-system.jpg"
-          alt="Ambiance laboratoire"
-          className="h-full w-full object-cover object-center"
-          loading="lazy"
-        />
-      </div>
+                  {/* Auth Image */}
+                  <div className={`${cardShell} h-48 md:h-[14rem] min-h-0 overflow-hidden`}>
+                    <img
+                      src="assets/projects/auth-system.jpg"
+                      alt="Ambiance laboratoire"
+                      className="h-full w-full object-cover object-center"
+                      loading="lazy"
+                    />
+                  </div>
 
-      {/* Stack Card */}
-      <div className={`${cardShell} flex-1 bg-[#e7ecf7] p-6 flex flex-col justify-center min-h-0`}>
-        <p className="text-sm text-gray-600 uppercase tracking-wider font-medium">
-          Stack technique
-        </p>
+                  {/* Stack Card */}
+                  <div className={`${cardShell} flex-1 bg-[#e7ecf7] p-6 flex flex-col justify-center min-h-0`}>
+                    <p className="text-sm text-gray-600 uppercase tracking-wider font-medium">
+                      Stack technique
+                    </p>
 
-        <p className="mt-1 text-3xl font-semibold text-gray-900">
-          Technologies & outils
-        </p>
+                    <p className="mt-1 text-3xl font-semibold text-gray-900">
+                      Technologies & outils
+                    </p>
 
-        <p className="mt-4 text-xs text-gray-600 leading-relaxed">
-          Je développe des applications web modernes avec React pour le frontend
-          et Node.js pour le backend. J’utilise des API REST, des bases de données
-          relationnelles (MySQL) et je structure mes projets avec une architecture
-          claire, maintenable et prête pour la mise en production.
-        </p>
-      </div>
-    </div>
+                    <p className="mt-4 text-xs text-gray-600 leading-relaxed">
+                      Je développe des applications web modernes avec React pour le frontend
+                      et Node.js pour le backend. J’utilise des API REST, des bases de données
+                      relationnelles (MySQL) et je structure mes projets avec une architecture
+                      claire, maintenable et prête pour la mise en production.
+                    </p>
+                  </div>
+                </div>
 
               </div>
             </div>

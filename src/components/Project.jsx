@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 
-const Project = ({ id, title, description, tags, image, image_url, techno_1, techno_2, techno_3, techno_4 }) => {
+const Project = ({ id, title, description, tags, image, image_url, techno_1, techno_2, techno_3, techno_4, className = "" }) => {
   // Gestion de l'image (supporte image et image_url)
   const bgImage = image || image_url || '/assets/projects/default.png';
 
@@ -19,7 +19,7 @@ const Project = ({ id, title, description, tags, image, image_url, techno_1, tec
 
   return (
     <div
-      className="group relative bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-colors duration-300 flex flex-col h-full"
+      className={`group relative bg-neutral-900/80 border border-neutral-800 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-all duration-300 flex flex-col h-full ${className}`}
     >
       {/* Image Container */}
       <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-neutral-800">

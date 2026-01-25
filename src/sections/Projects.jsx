@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import Project from "../components/Project";
 import { motion } from "motion/react";
 import { ArrowLeft, ArrowRight, Briefcase } from "lucide-react";
@@ -105,6 +106,17 @@ const Projects = () => {
             ))}
           </Swiper>
         </div>
+                      
+        <div className="flex justify-center mt-8 md:mt-12">
+          <Link 
+            to="/projects" 
+            className="group relative inline-flex items-center gap-2 bg-white text-black px-8 py-3 rounded-full font-bold tracking-widest text-sm hover:bg-neutral-200 transition-all duration-300 shadow-lg hover:shadow-white/10 hover:-translate-y-1"
+          >
+            VOIR TOUS LES PROJETS
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+
       </div>
     </section>
   );

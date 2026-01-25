@@ -14,6 +14,8 @@ const Terms = lazy(() => import("./pages/terms"));
 const Privacy = lazy(() => import("./pages/privacy"));
 const ContactPage = lazy(() => import("./pages/contact"));
 const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
+const ProjectCatalog = lazy(() => import("./pages/ProjectCatalog"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ExperienceDetails = lazy(() => import("./pages/ExperienceDetails"));
 const Login = lazy(() => import("./sections/Login"));
 
@@ -91,6 +93,22 @@ const App = () => {
           element={
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
               <ContactPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <AboutPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <ProjectCatalog />
             </Suspense>
           }
         />

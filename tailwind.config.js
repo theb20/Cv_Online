@@ -3,6 +3,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
       keyframes: {
         'slide-up': {
           '0%': { transform: 'translateY(20px)', opacity: '0' },
