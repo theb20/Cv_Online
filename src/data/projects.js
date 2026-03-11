@@ -407,8 +407,71 @@ export const projects = [
     "Sécurisation des API et des données, bonne pratique Express/Node.js.",
   performance_text:
     "Chargement dynamique des ressources avec optimisation des composants React."
+},
+{
+  id: 9,
+  title: "Finovas – Plateforme Digitale & Solutions Innovantes",
+  description:
+    "Finovas est une plateforme digitale conçue pour développer, déployer et gérer des solutions numériques à forte valeur ajoutée.\n" +
+    "Le projet vise à offrir des services digitaux modernes, performants et sécurisés, à travers une architecture scalable et une expérience utilisateur optimisée.",
+
+  image_url: "https://finovas.web.app/wallpaper/hero.webp", // image principale (hero)
+  link_url: "https://finovas.web.app/", // ou lien de staging / prod
+  repo_url: "https://github.com/theb20/FINOVAS", // privé / interne Finovas
+
+  gallery: [
+    "https://finovas.web.app/wallpaper/4.webp",
+    "https://finovas.web.app/og-image.webp",
+    "https://finovas.web.app/wallpaper/objecfit.webp"
+  ],
+
+  techno_1: "React",
+  techno_2: "Tailwind CSS",
+  techno_3: "Node.js",
+  techno_4: "MySQL",
+
+  version: "v1.0.0",
+  category: "Plateforme Digitale / SaaS",
+  rating: 4,
+  reviews: 3,
+
+  type: "Projet Entreprise",
+  status: "En Production",
+
+  features: [
+    "Plateforme digitale modulaire et scalable",
+    "Interface moderne, responsive et orientée UX",
+    "Gestion des utilisateurs et rôles (admin, client, partenaire)",
+    "Systèmes de services digitaux et monétisation",
+    "Optimisation mobile & desktop"
+  ],
+
+  architecture: {
+    frontend: "React, Tailwind CSS",
+    backend: "-",
+    database: "-",
+    deployment: "Cloud scalable (Firebase / CI-CD)"
+  },
+
+  metrics: {
+    performance: 90,
+    accessibility: 88,
+    bestPractices: 92,
+    seo: 85,
+    lastUpdate: "2026-01"
+  },
+
+  context:
+    "Finovas a été conçu pour répondre aux besoins actuels des entreprises et utilisateurs finaux en matière de solutions digitales performantes. La plateforme met l’accent sur la fiabilité, l’évolutivité et l’optimisation des parcours utilisateurs.",
+
+  team_text:
+    "Développé et maintenu par Finovas avec une approche produit orientée qualité, innovation et amélioration continue.",
+
+  security_text:
+    "Mise en place de bonnes pratiques de sécurité : protection des API, validation des données, gestion des accès, authentification sécurisée et conformité aux standards web.",
+
+  performance_text:
+    "Optimisation avancée des performances front-end et back-end, réduction des temps de chargement, animations maîtrisées et expérience fluide sur tous les appareils."
 }
-
-
 
 ];
