@@ -1,5 +1,31 @@
 export const experiences = [
- {
+{
+  id: 0,
+  company: "Programme Alternance",
+  position: "Alternant – Management Business Commercial",
+  country: "France",
+  start_date_formatted: "2025",
+  end_date_formatted: "Présent",
+  description:
+    "Formation en alternance spécialisée en management, business et développement commercial, combinant apprentissage académique et expérience professionnelle.\n\n" +
+    "Développement de compétences en stratégie commerciale, gestion de la relation client et analyse des performances commerciales.\n\n" +
+    "Participation à l’organisation et à la coordination d’activités commerciales, avec une approche orientée résultats et satisfaction client.\n\n" +
+    "Cette alternance me permet de renforcer mes compétences en management, communication et prise de décision tout en développant une vision stratégique de l’entreprise.",
+  technologies: [
+    "Management",
+    "Stratégie commerciale",
+    "Relation client",
+    "Analyse commerciale",
+    "Gestion d’équipe"
+  ],
+  stats: [
+    { label: "Type", value: "Alternance" },
+    { label: "Domaine", value: "Business & Management" },
+    { label: "Compétences", value: "Commercial & Stratégique" }
+  ],
+  image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=1600"
+},
+{
   id: 1,
   company: "Digital Company",
   position: "Développeur Full Stack Web",
@@ -29,6 +55,7 @@ export const experiences = [
     { label: "Stack", value: "Full Stack JavaScript" }
   ],
   image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600"
+
 },
 {
   id: 2,
