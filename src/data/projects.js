@@ -1,6 +1,71 @@
 export const projects = [
+{
+  id: 1,
+  title: "Portfolio - Ibrahima Baby",
+  description:
+    "Portfolio - Ibrahima Baby est une application web développée pour Ibrahima Baby, une structure spécialisée dans le développement web.\n" +
+    "Le projet vise à proposer une vitrine digitale moderne, performante et sécurisée, reposant sur une architecture fullstack scalable et une expérience utilisateur optimisée.",
+
+  image_url: "https://raw.githubusercontent.com/theb20/Portfolio-IB-/refs/heads/Frontend/pid/public/logo-ib.png", // image principale (hero)
+  link_url: "https://ibrahima-baby.web.app/", // ou lien de staging / prod
+  repo_url: "https://github.com/theb20/Portfolio-IB-.git", // privé / interne Finovas
+
+  gallery: [
+    "https://ibrahima-baby.web.app/og-image.png",
+  ],
+
+  techno_1: "React",
+  techno_2: "TypeScript",
+  techno_3: "Node.js",
+  techno_4: "MySQL",
+
+  version: "v1.0.0",
+  category: "Plateforme Digitale / SaaS",
+  rating: 4,
+  reviews: 3,
+
+  type: "Projet Entreprise",
+  status: "En Production",
+
+  features: [
+    "Architecture fullstack (frontend + backoffice + API)",
+    "Interface moderne, responsive et orientée UX",
+    "Backoffice en TypeScript pour la gestion des contenus",
+    "Gestion des utilisateurs et rôles (admin, client, partenaire)",
+    "API sécurisée et gestion dynamique des données",
+    "Base de données relationnelle MySQL",
+    "Optimisation mobile & desktop"
+  ],
+
+  architecture: {
+    frontend: "React, Tailwind CSS",
+    backend: "Node.js (API REST)",
+    database: "MySQL",
+    deployment: "Cloud scalable (Firebase / CI-CD)"
+  },
+
+  metrics: {
+    performance: 92,
+    accessibility: 88,
+    bestPractices: 93,
+    seo: 87,
+    lastUpdate: "2026-04"
+  },
+
+  context:
+    "Ce projet a été conçu pour répondre aux besoins actuels en matière de présence digitale professionnelle. Il met l'accent sur la performance, la scalabilité et une gestion efficace des contenus via un backoffice dédié.",
+
+  team_text:
+    "Projet développé de bout en bout (frontend, backend, base de données) avec une approche orientée qualité, maintenabilité et évolution continue.",
+
+  security_text:
+    "Mise en place de bonnes pratiques de sécurité : protection des API, validation des données côté serveur, gestion des accès et authentification sécurisée.",
+
+  performance_text:
+    "Optimisation des performances front-end et back-end, réduction des temps de chargement, rendu fluide et expérience utilisateur homogène sur tous les appareils."
+},
   {
-    id: 1,
+    id: 2,
     title: "Lid Shop – Plateforme E-commerce",
     description:
       "Plateforme de vente en ligne multi-catégories (mode, tech, maison) avec catalogue produits, panier et paiement.\n" +
@@ -53,7 +118,7 @@ export const projects = [
       "Optimisation du rendu React et chargement rapide grâce à Firebase Hosting."
   },
   {
-  id: 2,
+  id: 3,
   title: "QuickPop - Application Web Interactive",
   description:
     "Application web moderne offrant une expérience interactive et dynamique.\n" +
@@ -105,7 +170,7 @@ export const projects = [
     "Optimisation des assets et réactivité de l’interface."
 },
 {
-  id: 3,
+  id: 4,
   title: "MonCV – Portfolio Développeur Web",
   description:
     "CV interactif et portfolio en ligne présentant les compétences, projets et expériences professionnelles.\n" +
@@ -153,7 +218,7 @@ export const projects = [
   performance_text: "Optimisation du chargement avec Tailwind et optimisation des composants React."
 },
 {
-  id: 4,
+  id: 5,
   title: "Carte Avis Client – Franchise Quick",
   description:
     "Application web dédiée à la collecte d’avis clients au sein d’une franchise Quick.\n" +
@@ -204,7 +269,7 @@ export const projects = [
     "Application légère et rapide, pensée pour une utilisation immédiate en situation réelle."
 },
 {
-  id: 5,
+  id: 6,
   title: "Digital Company – Agence Web & Digitale",
   description:
     "Site vitrine professionnel pour Digital Company, une agence spécialisée dans la création de sites web, applications, design UI/UX et solutions digitales sur mesure.\n" +
@@ -257,7 +322,7 @@ export const projects = [
     "Optimisation du rendu React et appels API asynchrones pour une navigation fluide."
 },
 {
-  id: 6,
+  id: 7,
   title: "FUNQUIZ – Application de Quiz Interactifs",
   description:
     "FunQuiz est une plateforme de quiz interactifs conçue pour divertir tout en apprenant.\n" +
@@ -307,7 +372,7 @@ export const projects = [
     "Application légère avec chargement rapide (front uniquement)."
 }, 
 {
-  id: 7,
+  id: 8,
   title: "Movies – Plateforme de Films",
   description:
     "Application web permettant aux utilisateurs de découvrir et d'explorer des films à travers une interface moderne et réactive.\n" +
@@ -358,7 +423,7 @@ export const projects = [
     "Chargement des ressources optimisé pour une expérience fluide."
 },
 {
-  id: 8,
+  id: 9,
   title: "FilterFinder – Comparateur Auto & E-commerce",
   description:
     "FilterFinder est une application web permettant aux utilisateurs de rechercher, filtrer, comparer et commander des produits automobiles (pièces, accessoires, services), avec une interface intuitive et responsive.\n" +
@@ -408,8 +473,8 @@ export const projects = [
   performance_text:
     "Chargement dynamique des ressources avec optimisation des composants React."
 },
-{
-  id: 9,
+{ 
+  id: 10,
   title: "Finovas – Plateforme Digitale & Solutions Innovantes",
   description:
     "Finovas est une plateforme digitale conçue pour développer, déployer et gérer des solutions numériques à forte valeur ajoutée.\n" +
@@ -472,6 +537,71 @@ export const projects = [
 
   performance_text:
     "Optimisation avancée des performances front-end et back-end, réduction des temps de chargement, animations maîtrisées et expérience fluide sur tous les appareils."
-}
+},
+{
+  id: 11,
+  title: "MYINVOICE - SaaS de Facturation",
+  description:
+    "MYINVOICE est une application web de facturation développée pour simplifier la gestion financière des entreprises et indépendants.\n" +
+    "Le projet propose une solution digitale intuitive permettant de créer, gérer et suivre des factures en temps réel, avec une architecture moderne, scalable et sécurisée.",
 
+  image_url: "https://myinvoice-app.web.app/logo.png",
+  link_url: "https://myinvoice-app.web.app/", 
+  repo_url: "https://github.com/theb20/MYINVOICE/tree/FRONTEND",
+
+  gallery: [
+    "https://myinvoice-app.web.app/favicon.svg",
+    "https://myinvoice-app.web.app/logo-stack.svg"
+  ],
+
+  techno_1: "React",
+  techno_2: "TypeScript",
+  techno_3: "Node.js",
+  techno_4: "Firebase",
+
+  version: "v1.0.0",
+  category: "SaaS / Fintech",
+  rating: 4,
+  reviews: 2,
+
+  type: "Projet Entreprise",
+  status: "En développement",
+
+  features: [
+    "Création et gestion de factures en ligne",
+    "Dashboard interactif avec suivi des paiements",
+    "Gestion des clients et historique des transactions",
+    "Interface responsive et optimisée UX/UI",
+    "Génération de factures téléchargeables (PDF)",
+    "Système d’authentification sécurisé",
+    "Stockage et synchronisation en temps réel"
+  ],
+
+  architecture: {
+    frontend: "React, Tailwind CSS",
+    backend: "Node.js / railway",
+    database: "Firestore (sql)",
+    deployment: "Firebase Hosting + CI/CD"
+  },
+
+  metrics: {
+    performance: 90,
+    accessibility: 85,
+    bestPractices: 92,
+    seo: 84,
+    lastUpdate: "2026-04"
+  },
+
+  context:
+    "Ce projet a été conçu pour répondre aux besoins des freelances et PME souhaitant digitaliser leur gestion de facturation. Il offre une alternative simple et efficace aux outils complexes du marché.",
+
+  team_text:
+    "Projet développé en fullstack avec une approche centrée sur la simplicité d’usage, la performance et l’évolutivité. Architecture pensée pour accueillir de nouvelles fonctionnalités (comptabilité, analytics, etc.).",
+
+  security_text:
+    "Implémentation de bonnes pratiques de sécurité : authentification sécurisée, gestion des accès utilisateurs, validation des données et protection des endpoints.",
+
+  performance_text:
+    "Optimisation des performances avec un chargement rapide, utilisation efficace des ressources et rendu fluide sur mobile et desktop."
+}
 ];

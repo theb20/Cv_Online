@@ -80,7 +80,7 @@ export const experiences = [
     { label: "Gestion du service", value: "100%" },
     { label: "Responsabilités", value: "Opérationnelles et managériales" }
   ],
-  image: "https://www.franchise-magazine.com/wp-content/uploads/Franchise-Restaurant-Quick-La-Defense-2024.jpg"
+  image: "https://media.licdn.com/dms/image/v2/D4D22AQHs7LgsFmDWug/feedshare-shrink_800/B4DZPfoLDpGkAg-/0/1734623671347?e=2147483647&v=beta&t=nv9653k290hZ3w6Nxa_GaHtvvmW0qsBPfHl83BOjG-E"
 },
 {
   id: 3,

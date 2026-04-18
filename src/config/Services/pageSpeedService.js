@@ -33,9 +33,11 @@ const pageSpeedService = {
       const params = new URLSearchParams();
       params.append('url', url);
       params.append('strategy', 'MOBILE');
-      ['PERFORMANCE', 'ACCESSIBILITY', 'BEST_PRACTICES', 'SEO'].forEach(cat => 
+      ['PERFORMANCE', 'ACCESSIBILITY', 'BEST_PRACTICES', 'SEO'].forEach(cat =>
         params.append('category', cat)
       );
+      const apiKey = import.meta.env.VITE_PAGESPEED_API_KEY;
+      if (apiKey) params.append('key', apiKey);
 
       const response = await axios.get(`${API_URL}?${params.toString()}`);
 
