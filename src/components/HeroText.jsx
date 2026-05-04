@@ -82,9 +82,9 @@ const HeroText = () => {
 
             {/* Social Links */}
             <div className="flex items-center gap-4">
-                <SocialLink href="https://github.com" icon={<FaGithub size={22}/>} label="GitHub" />
-                <SocialLink href="https://linkedin.com" icon={<FaLinkedin size={22}/>} label="LinkedIn" />
-                <SocialLink href="mailto:contact@example.com" icon={<FaEnvelope size={22}/>} label="Email" />
+                <SocialLink href="https://github.com/theb20" icon={<FaGithub size={22}/>} label="GitHub" />
+                <SocialLink href="https://www.linkedin.com/in/fr%C3%A9d%C3%A9rick-ahobaut-b85301322/" icon={<FaLinkedin size={22}/>} label="LinkedIn" />
+                <SocialLink href="mailto:hobautfrederick@gmail.com" icon={<FaEnvelope size={22}/>} label="Email" />
             </div>
         </motion.div>
 
