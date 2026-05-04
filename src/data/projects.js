@@ -88,7 +88,7 @@ export const projects = [
     rating: 0,
     reviews: 0,
     type: "Projet Personnel (en cours)",
-    status: "En Ligne",
+    status: "En Production",
     features: [
       "Catalogue produits dynamique avec catégories",
       "Gestion du panier en temps réel",
@@ -140,7 +140,7 @@ export const projects = [
   rating: 4.5,
   reviews: 8,
   type: "Projet Entreprise (privé)",
-  status: "En Ligne",
+  status: "En production",
   features: [
     "Interface interactive moderne",
     "Navigation fluide sans rechargement",
@@ -191,7 +191,7 @@ export const projects = [
   rating: 4.9,
   reviews: 21,
   type: "Projet Personnel",
-  status: "En Ligne",
+  status: "En production",
   features: [
     "Présentation des compétences techniques et soft skills",
     "Sections interactives pour projets, expériences et contact",
@@ -239,7 +239,7 @@ export const projects = [
   rating: 4.8,
   reviews: 22,
   type: "Projet Professionnel",
-  status: "En Ligne",
+  status: "En production",
   features: [
     "Collecte rapide des avis clients via formulaire simplifié",
     "Interface optimisée pour mobile (scan QR code)",
@@ -342,7 +342,7 @@ export const projects = [
   rating: 0,
   reviews: 0,
   type: "Projet Personnel",
-  status: "En Développement",
+  status: "En Développement (refonte)",
   features: [
     "Quiz interactifs avec plusieurs catégories",
     "Navigation simple et intuitive",
@@ -545,13 +545,13 @@ export const projects = [
     "MYINVOICE est une application web de facturation développée pour simplifier la gestion financière des entreprises et indépendants.\n" +
     "Le projet propose une solution digitale intuitive permettant de créer, gérer et suivre des factures en temps réel, avec une architecture moderne, scalable et sécurisée.",
 
-  image_url: "https://myinvoice-app.web.app/logo.png",
-  link_url: "https://myinvoice-app.web.app/", 
+  image_url: "https://myinvoice-203b8.web.app/logo.png",
+  link_url: "https://myinvoice-203b8.web.app/", 
   repo_url: "https://github.com/theb20/MYINVOICE/tree/FRONTEND",
 
   gallery: [
-    "https://myinvoice-app.web.app/favicon.svg",
-    "https://myinvoice-app.web.app/logo-stack.svg"
+    "https://myinvoice-203b8.web.app/favicon.svg",
+    "https://myinvoice-203b8.web.app/logo-stack.svg"
   ],
 
   techno_1: "React",
@@ -603,5 +603,71 @@ export const projects = [
 
   performance_text:
     "Optimisation des performances avec un chargement rapide, utilisation efficace des ressources et rendu fluide sur mobile et desktop."
+},
+{
+  id: 12,
+  title: "E-sign",
+  description:
+    "E-sign est une application web de signature électronique permettant de signer, envoyer et gérer des documents en ligne de manière simple et sécurisée.\n" +
+    "Le projet propose une solution digitale intuitive pour automatiser les processus de signature, avec une architecture moderne, rapide et scalable.",
+
+  image_url: "https://app-esign.web.app/logo-esign.png",
+  link_url: "https://app-esign.web.app/",
+  repo_url: "https://github.com/theb20/E-SIGN",
+
+  gallery: [
+    "https://app-esign.web.app/logo-esign.png",
+    "https://app-esign.web.app/1.png"
+  ],
+
+  techno_1: "React",
+  techno_2: "Node.js",
+  techno_3: "Firebase",
+  techno_4: "Tailwind CSS",
+
+  version: "v1.0.0",
+  category: "SaaS / Signature électronique",
+  rating: 4,
+  reviews: 3,
+
+  type: "Projet Personnel",
+  status: "En production",
+
+  features: [
+    "Signature électronique de documents en ligne",
+    "Upload et gestion de fichiers (PDF)",
+    "Interface simple pour signer rapidement",
+    "Envoi de documents à signer par email",
+    "Suivi du statut des signatures",
+    "Authentification sécurisée des utilisateurs",
+    "Stockage des documents dans le cloud"
+  ],
+
+  architecture: {
+    frontend: "React, Tailwind CSS",
+    backend: "Node.js / railway",
+    database: "MySQL",
+    deployment: "Firebase Hosting"
+  },
+
+  metrics: {
+    performance: 88,
+    accessibility: 82,
+    bestPractices: 90,
+    seo: 80,
+    lastUpdate: "2026-04"
+  },
+
+  context:
+    "Ce projet a été conçu pour simplifier la signature de documents à distance pour les freelances, startups et PME. Il permet de remplacer les processus papier par une solution rapide, digitale et accessible.",
+
+  team_text:
+    "Projet développé en fullstack avec une approche orientée expérience utilisateur. L’objectif est de proposer un outil léger, rapide à prendre en main et évolutif pour intégrer de nouvelles fonctionnalités (workflow, archivage, intégrations externes).",
+
+  security_text:
+    "Mise en place de bonnes pratiques de sécurité : authentification Firebase, gestion des accès, protection des données utilisateurs et stockage sécurisé des documents.",
+
+  performance_text:
+    "Application optimisée pour un chargement rapide et une utilisation fluide, avec une attention particulière portée à la performance mobile et à la gestion efficace des ressources."
 }
 ];
