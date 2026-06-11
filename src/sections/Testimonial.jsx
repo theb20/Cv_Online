@@ -59,24 +59,22 @@ export default function Testimonial() {
                  <p className="text-sm font-sans text-neutral-400 max-w-xs leading-relaxed">
                     Retours d'expériences de collaborateurs et clients sur la qualité technique et créative des livrables.
                 </p>
- {/* Header - Architectural Style 
                 <div className="flex gap-3 mt-4">
-                  <button 
+                  <button
                     onClick={() => setIsModalOpen(true)}
                     className="bg-white text-black px-6 py-2 font-medium hover:scale-105 active:scale-95 transition-transform duration-200 ease-out rounded-full shadow-lg hover:shadow-xl"
                   >
                     Laisser un avis
                   </button>
-                  <button 
+                  <button
                     onClick={handleCopyLink}
                     className="bg-neutral-800 border border-neutral-700 text-white px-4 py-2 font-medium hover:bg-neutral-700 active:scale-95 transition-all duration-200 ease-out rounded-full shadow-lg flex items-center gap-2 group"
                     title="Copier le lien d'invitation"
                   >
                     {copied ? <Check size={18} className="text-green-500"/> : <Share2 size={18} className="group-hover:text-blue-400 transition-colors"/>}
-                    <span className="text-sm hidden sm:inline">Lien d'invitation</span>
+                    <span className="text-sm hidden sm:inline">{copied ? "Lien copié !" : "Lien d'invitation"}</span>
                   </button>
                 </div>
-*/}
             </div>
         </div>
 

@@ -1,67 +1,56 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Shield } from "lucide-react";
+import { Globe, ChevronRight, ChevronDown } from "lucide-react";
 import { setConsent } from "firebase/analytics";
 
 export default function CookieConsent() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible]       = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
   const [preferences, setPreferences] = useState({
-    essential: true,
-    analytics: false,
-    marketing: false
+    essential:  true,
+    analytics:  false,
+    marketing:  false,
   });
 
   useEffect(() => {
-    // Default consent: denied
-    setConsent({
-      ad_storage: 'denied',
-      analytics_storage: 'denied'
-    });
-
-    const storedConsent = localStorage.getItem("cookie_consent");
-    if (!storedConsent) {
-      setTimeout(() => setVisible(true), 2000);
+    setConsent({ ad_storage: "denied", analytics_storage: "denied" });
+    const stored = localStorage.getItem("cookie_consent");
+    if (!stored) {
+      setTimeout(() => setVisible(true), 1800);
     } else {
       try {
-        const parsed = JSON.parse(storedConsent);
-        if (parsed === "accepted" || (typeof parsed === 'object' && parsed.analytics)) {
-          setConsent({
-            ad_storage: 'granted',
-            analytics_storage: 'granted'
-          });
+        const p = JSON.parse(stored);
+        if (p === "accepted" || (typeof p === "object" && p.analytics)) {
+          setConsent({ ad_storage: "granted", analytics_storage: "granted" });
         }
-      } catch (e) {
-        console.error("Invalid cookie consent format, resetting.", e);
+      } catch {
         localStorage.removeItem("cookie_consent");
-        setTimeout(() => setVisible(true), 2000);
+        setTimeout(() => setVisible(true), 1800);
       }
     }
   }, []);
 
   const acceptAll = () => {
-    const allAccepted = { essential: true, analytics: true, marketing: true };
-    setPreferences(allAccepted);
-    localStorage.setItem("cookie_consent", JSON.stringify(allAccepted));
+    const all = { essential: true, analytics: true, marketing: true };
+    localStorage.setItem("cookie_consent", JSON.stringify(all));
+    setConsent({ ad_storage: "granted", analytics_storage: "granted" });
     setVisible(false);
-    
-    // Grant consent
-    setConsent({
-      ad_storage: 'granted',
-      analytics_storage: 'granted'
-    });
   };
 
   const rejectAll = () => {
-    const allRejected = { essential: true, analytics: false, marketing: false };
-    setPreferences(allRejected);
-    localStorage.setItem("cookie_consent", JSON.stringify(allRejected));
+    const none = { essential: true, analytics: false, marketing: false };
+    localStorage.setItem("cookie_consent", JSON.stringify(none));
+    setConsent({ ad_storage: "denied", analytics_storage: "denied" });
     setVisible(false);
-    
-    // Deny consent (explicitly)
+  };
+
+  const savePrefs = () => {
+    localStorage.setItem("cookie_consent", JSON.stringify(preferences));
     setConsent({
-      ad_storage: 'denied',
-      analytics_storage: 'denied'
+      ad_storage:       preferences.marketing ? "granted" : "denied",
+      analytics_storage: preferences.analytics ? "granted" : "denied",
     });
+    setVisible(false);
   };
 
   return (
@@ -70,67 +59,134 @@ export default function CookieConsent() {
         <>
           {/* Backdrop */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9990]"
-            onClick={() => setVisible(false)}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9990]"
+            style={{ background: "rgba(0,0,0,0.55)", backdropFilter: "blur(3px)" }}
           />
 
           {/* Modal */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed left-4 right-4 bottom-4 md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:bottom-auto z-[9999] w-auto md:w-[600px] max-h-[85vh] overflow-y-auto"
+            initial={{ opacity: 0, scale: 0.97, y: 16 }}
+            animate={{ opacity: 1, scale: 1,    y: 0  }}
+            exit={{   opacity: 0, scale: 0.97, y: 16  }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 flex items-center justify-center z-[9999] px-4"
           >
-            <div className="bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
-              
-              {/* Header */}
-              <div className="p-6 md:p-8 border-b border-white/5 bg-white/[0.02]">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2.5 bg-blue-500/10 rounded-lg text-blue-400">
-                      <Shield size={24} />
-                    </div>
-                    <div>
-                      <h2 className="text-xl font-bold text-white tracking-tight">Centre de Confidentialité</h2>
-                      <p className="text-neutral-400 text-sm mt-1">Gérez vos préférences de données</p>
-                    </div>
+            <div className="w-full max-w-[560px] bg-white shadow-2xl overflow-hidden">
+
+              {/* ── Top bar ── */}
+              <div className="flex items-center justify-between px-7 pt-6 pb-2">
+                {/* Logo */}
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "#1a237e" }}>
+                    <img src="/assets/favicon/favicon.svg" alt="logo" />
                   </div>
-                  <button 
-                    onClick={() => setVisible(false)}
-                    className="p-2 hover:bg-white/5 rounded-full text-neutral-400 hover:text-white transition-colors"
-                  >
-                    <X size={20} />
-                  </button>
+                  <span className="font-bold text-gray-900 text-sm">Frédérick Ahobaut</span>
+                </div>
+
+                {/* Language selector */}
+                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 text-sm text-gray-500 hover:bg-gray-50 transition-colors">
+                  <Globe size={14} />
+                  <span>Français</span>
+                  <ChevronDown size={13} className="text-gray-400" />
+                </button>
+              </div>
+
+              {/* ── Content ── */}
+              <div className="px-7 py-5">
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Paramètres de confidentialité
+                </h2>
+
+                <p className="text-sm text-gray-600 leading-relaxed text-justify">
+                  J'utilise des cookies pour faire fonctionner mon portfolio. Cela me permet de
+                  garantir que toutes les fonctions seront continuellement améliorées et que les publicités
+                  basées sur vos intérêts seront affichées.
+                </p>
+                <p className="text-sm text-gray-600 leading-relaxed text-justify mt-3">
+                  En confirmant le bouton « Accepter », vous consentez à leur utilisation. Vous pouvez utiliser le
+                  bouton « Paramètres supplémentaires » pour sélectionner les cookies que vous souhaitez
+                  autoriser. Vous pouvez également{" "}
+                  <button onClick={rejectAll} className="underline text-gray-700 hover:text-gray-900 font-medium">refuser</button>
+                  {" "}l'utilisation des cookies. De plus amples informations sont disponibles dans notre{" "}
+                  <a href="/privacy" className="underline text-gray-700 hover:text-gray-900">Politique de confidentialité</a>.
+                </p>
+
+                {/* Détails */}
+                <AnimatePresence>
+                  {showDetails && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }}
+                      className="overflow-hidden mt-5">
+                      <div className="space-y-3 border-t border-gray-100 pt-5">
+                        {[
+                          { key: "essential", label: "Cookies essentiels", desc: "Nécessaires au fonctionnement du site. Ne peuvent pas être désactivés.", locked: true },
+                          { key: "analytics", label: "Cookies analytiques", desc: "Nous aident à comprendre comment les visiteurs interagissent avec le site.", locked: false },
+                          { key: "marketing", label: "Cookies marketing",   desc: "Utilisés pour vous proposer des publicités pertinentes.", locked: false },
+                        ].map(({ key, label, desc, locked }) => (
+                          <div key={key} className="flex items-start justify-between gap-4 py-2">
+                            <div>
+                              <p className="text-sm font-semibold text-gray-800">{label}</p>
+                              <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
+                            </div>
+                            <button
+                              disabled={locked}
+                              onClick={() => !locked && setPreferences(p => ({ ...p, [key]: !p[key] }))}
+                              className={`relative w-11 h-6 rounded-full shrink-0 mt-0.5 transition-colors ${
+                                preferences[key] ? "bg-orange-600" : "bg-gray-200"
+                              } ${locked ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}>
+                              <span className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${preferences[key] ? "translate-x-5" : "translate-x-0.5"}`} />
+                            </button>
+                          </div>
+                        ))}
+                        <button onClick={savePrefs}
+                          className="mt-2 w-full py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+                          Enregistrer mes préférences
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Legal links */}
+                <div className="flex flex-wrap gap-x-5 gap-y-1 mt-5">
+                  {[
+                    { label: "Politique de confidentialité", href: "/privacy" },
+                    { label: "Mentions légales",             href: "/terms"   },
+                    { label: "CGU",                          href: "/terms"   },
+                  ].map(({ label, href }) => (
+                    <a key={label} href={href} className="text-sm font-medium" style={{ color: "#7e2e1aff" }}>
+                      {label}
+                    </a>
+                  ))}
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-6 md:p-8 space-y-6">
-                <p className="text-neutral-300 leading-relaxed">
-                  Nous utilisons des cookies pour améliorer votre expérience et analyser le trafic. 
-                  Vous pouvez choisir d'accepter uniquement les cookies essentiels ou d'autoriser tous les cookies.
-                </p>
-              </div>
-
-              {/* Footer */}
-              <div className="p-6 md:p-8 border-t border-white/5 bg-white/[0.02] flex flex-col sm:flex-row gap-3 justify-end">
+              {/* ── Buttons ── */}
+              <div className="px-7 pb-5 flex gap-3">
                 <button
-                  onClick={rejectAll}
-                  className="px-6 py-3 rounded-xl border border-white/10 text-neutral-300 font-medium hover:bg-white/5 transition-colors"
-                >
-                  Tout refuser
+                  onClick={() => setShowDetails(!showDetails)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white transition-all"
+                  style={{ background: "#9e9e9e" }}>
+                  Paramètres supplémentaires
+                  <ChevronRight size={15} />
                 </button>
                 <button
                   onClick={acceptAll}
-                  className="px-6 py-3 rounded-xl bg-white text-black font-bold hover:bg-neutral-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                >
-                  Tout accepter
+                  className="flex-1 py-3.5 text-sm font-bold text-white transition-opacity hover:opacity-90"
+                  style={{ background: "#ff3700ff" }}>
+                  Accepter
                 </button>
               </div>
+
+              {/* ── Footer ── */}
+              <div className="px-7 pb-5 text-center">
+                <p className="text-xs text-gray-300">
+                  Propulsé par <span className="font-semibold text-gray-400">Frédérick Ahobaut Consent Management</span>
+                </p>
+              </div>
+
             </div>
           </motion.div>
         </>

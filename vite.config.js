@@ -9,10 +9,22 @@ export default defineConfig({
     port: 3001,
     headers: {
       "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+      "X-Content-Type-Options": "nosniff",
+      "X-Frame-Options": "SAMEORIGIN",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Permissions-Policy": "camera=(), microphone=(self), geolocation=(), payment=(), usb=()",
     },
   },
+  optimizeDeps: {
+    exclude: [],
+  },
+  resolve: {
+    alias: [
+      { find: /^node:.*$/, replacement: '/Users/frederickahobaut/App/cvfred/Cv_Online/src/polyfills/node-empty.js' },
+    ],
+  },
   build: {
-    chunkSizeWarningLimit: 1600, 
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       output: {
         manualChunks(id) {

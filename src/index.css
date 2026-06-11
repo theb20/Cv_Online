@@ -60,6 +60,7 @@
     }
   }
 }
+
 body {
   background: #030412;
   font-family: "Inter", sans-serif;
@@ -208,4 +209,17 @@ body::-webkit-scrollbar {
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #888;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 8s linear infinite;
 }

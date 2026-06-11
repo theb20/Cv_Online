@@ -1,160 +1,292 @@
-import { useState, useEffect } from "react";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { profile } from "../data/profile";
-import { Globe } from "../components/globe.jsx"
+import {
+  Mail, Github, Linkedin, MapPin,
+  Cpu, Wifi, Code2, Brain,
+  ArrowUpRight,
+} from "lucide-react";
 
-const About = () => {
-  const [user, setUser] = useState([{ ...profile }]);
+const F_DISPLAY = `"Space Grotesk", ui-sans-serif, system-ui, sans-serif`;
+const F_BODY    = `"Inter", ui-sans-serif, system-ui, sans-serif`;
+const E = [0.22, 1, 0.36, 1];
 
-  const data = user;
-  const cardShell =
-    "overflow-hidden rounded-2xl border border-[#e7e1d7] bg-white/80 shadow-[0_18px_35px_rgba(30,30,30,0.08)]";
+const ACCENT = "#E85D04";
 
-  const globeConfig = {
-    width: 800,
-    height: 800,
-    onRender: () => {},
-    devicePixelRatio: 2,
-    phi: 0,
-    theta: 0.3,
-    dark: 0,
-    diffuse: 0.1,
-    mapSamples: 16000,
-    mapBrightness: 1.2,
-    baseColor: [0.3, 0.3, 0.3],
-    markerColor: [0.1, 0.1, 0.1],
-    glowColor: [1, 1, 1],
-    markers: [
-      { location: [48.8566, 2.3522], size: 0.5 }, // Paris
-      { location: [14.5995, 120.9842], size: 0.03 },
-      { location: [19.076, 72.8777], size: 0.1 },
-      { location: [23.8103, 90.4125], size: 0.05 },
-      { location: [30.0444, 31.2357], size: 0.07 },
-      { location: [39.9042, 116.4074], size: 0.08 },
-      { location: [-23.5505, -46.6333], size: 0.1 },
-      { location: [19.4326, -99.1332], size: 0.1 },
-      { location: [40.7128, -74.006], size: 0.1 },
-      { location: [34.6937, 135.5022], size: 0.05 },
-      { location: [41.0082, 28.9784], size: 0.06 },
-    ],
-  };
+const JOURNEY = [
+  { step: "01", icon: Cpu,    title: "Électronique",       desc: "Systèmes & matériel",           year: "2019" },
+  { step: "02", icon: Wifi,   title: "Réseaux & Télécoms", desc: "Infrastructures & protocoles",  year: "2020" },
+  { step: "03", icon: Code2,  title: "Web Full Stack",     desc: "React, Node.js, bases de données", year: "2022" },
+  { step: "04", icon: Brain,  title: "Intelligence Artificielle", desc: "Orientation actuelle",   year: "2024", current: true },
+];
+
+const SKILLS = [
+  { cat: "Frontend",   items: ["React 19", "Next.js", "TypeScript", "JavaScript ES6+", "Tailwind CSS v4", "Framer Motion", "HTML5 / CSS3"] },
+  { cat: "Backend",    items: ["Node.js", "Express.js", "API REST", "JWT / Auth", "Architecture MVC", "Zod", "Rate limiting"] },
+  { cat: "Base de données", items: ["MySQL", "PostgreSQL", "Prisma ORM", "Firebase Firestore", "Modélisation SQL"] },
+  { cat: "DevOps",     items: ["Docker", "GitHub Actions", "Firebase Hosting", "Railway", "Git", "Vite", "Figma", "Linux"] },
+];
+
+const STATS = [
+  { value: "4+",    label: "ans d'expérience" },
+  { value: "30+",   label: "projets livrés" },
+  { value: "2",     label: "pays, 1 timezone" },
+];
+
+export default function About() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, amount: 0.15 });
+  const p = profile;
 
   return (
-    <>
-      {data.map((item, index) => (
-          <section key={index} className="c-space bg-white z-10 py-12 md:py-20" id="about">
-            <div className=" mx-auto px-4 md:px-8 max-w-7xl">
-              <div className="mb-12 text-center">
-                <p className="text-xs uppercase tracking-[0.35em] text-gray-500">A PROPOS</p>
-                <h2 className="mt-3 text-3xl font-semibold text-gray-900 md:text-4xl">
-                  {item.role}
-                </h2>
-                <p className="mt-2 text-sm text-gray-600 md:text-base">
-                  Basé à {item.location} — je conçois des experiences solides et rapides.
-                </p>
+    <section id="about" className="lg:px-50 px-0" style={{ background: "#FAFAF8", fontFamily: F_BODY, overflow: "hidden" }}>
+
+      {/* ── Bloc titre éditorial ── */}
+      <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 32px 0" }}>
+        <motion.p
+          initial={{ opacity: 0, y: 8 }} animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, ease: E }}
+          style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, margin: "0 0 20px" }}
+        >
+          À propos
+        </motion.p>
+
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, paddingBottom: 32, borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+          
+
+          <motion.div
+            initial={{ opacity: 0, x: 16 }} animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.18, ease: E }}
+            style={{ textAlign: "right" }}
+            className="flex items-center justify-between w-full"
+          >
+            <p className="text-start" style={{ fontSize: "clamp(13px, 1.4vw, 16px)", color: "#555", maxWidth: 320, lineHeight: 1.6, margin: "0 0 12px", fontFamily: F_BODY }}>
+              {p.role}
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-start" }}>
+              <span style={{ fontSize: 12, color: "#aaa", marginLeft: 8 }}>
+                <MapPin size={11} style={{ display: "inline", marginRight: 3 }} />{p.location}
+              </span>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── Bloc bio + photo + stats ── */}
+      <div style={{  margin: "0 auto", padding: "0 32px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 48, padding: "48px 0", borderBottom: "1px solid rgba(0,0,0,0.07)", alignItems: "start" }}
+          className="about-bio-grid">
+          {/* Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }} transition={{ duration: 0.55, ease: E }}
+            style={{ position: "relative" }}
+          >
+            <img
+              src={p.heroImage} alt={p.fullname}
+              style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "top", borderRadius: 16, display: "block" }}
+            />
+            <div style={{
+              position: "absolute", bottom: 12, left: 12, right: 12,
+              background: "rgba(10,10,10,0.85)", backdropFilter: "blur(8px)",
+              borderRadius: 10, padding: "10px 14px",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+            }}>
+              <div>
+                <p style={{ fontSize: 12, fontWeight: 700, color: "#fff", margin: 0 }}>{p.fullname}</p>
+                <p style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", margin: 0 }}>Développeur Full Stack</p>
               </div>
-
-              {/* Main Grid Container */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-auto md:h-[40rem] w-full">
-
-                {/* ================= COLUMN 1 ================= */}
-                <div className="flex flex-col gap-6 h-full">
-
-      {/* Globe Card */}
-      <div className={`${cardShell} flex-1 bg-[#efe9df] p-6 flex flex-col min-h-0`}>
-        <div className="flex-shrink-0">
-          <p className="text-xs text-gray-600">
-            Flexibilité géographique & Disponibilité
-          </p>
-          <p className="mt-2 text-3xl font-semibold text-gray-900">
-            Paris / Remote
-          </p>
-          <p className="text-sm text-gray-600">
-            Ouvert aux opportunités
-          </p>
-        </div>
-
-        <div className="flex-1 relative min-h-0 mt-4">
-          <Globe
-            config={globeConfig}
-            className="absolute inset-0 w-full h-full object-contain"
-          />
-        </div>
-      </div>
-
-      {/* Accessories Image */}
-      <div className={`${cardShell} h-48 md:h-[14rem] min-h-0 overflow-hidden`}>
-        <img
-          src="assets/projects/accessories.jpg"
-          alt="Design détaillé"
-          className="h-full w-full object-cover object-center"
-          loading="lazy"
-        />
-      </div>
-                </div>
-
-                {/* ================= COLUMN 2 ================= */}
-                <div className={`${cardShell} relative h-80 md:h-full overflow-hidden`}>
-                  <img
-                    src="https://i.pinimg.com/736x/5c/a6/b4/5ca6b4196eb7942894dc11bdeb34706f.jpg"
-                    alt="Processus de production"
-                    className="h-full w-full object-cover object-center"
-                    loading="lazy"
-                  />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/75 via-slate-900/20 to-black/50" />
-
-                  <div className="absolute top-5 left-5 text-white">
-                    <p className="text-xl font-semibold">Code propre</p>
-                    <p className="text-sm text-white/80">
-                      Maintenabilité & performance
-                    </p>
-                  </div>
-
-                  <div className="absolute bottom-5 left-5 right-5 text-xs text-white/85 leading-relaxed">
-                    Je ne me contente pas de faire fonctionner les choses.
-                    J’écris du code lisible, structuré et conçu pour évoluer
-                    durablement avec votre projet.
-                  </div>
-                </div>
-
-                {/* ================= COLUMN 3 ================= */}
-                <div className="flex flex-col gap-4 h-full">
-
-                  {/* Auth Image */}
-                  <div className={`${cardShell} h-48 md:h-[14rem] min-h-0 overflow-hidden`}>
-                    <img
-                      src="assets/projects/auth-system.jpg"
-                      alt="Ambiance laboratoire"
-                      className="h-full w-full object-cover object-center"
-                      loading="lazy"
-                    />
-                  </div>
-
-                  {/* Stack Card */}
-                  <div className={`${cardShell} flex-1 bg-[#e7ecf7] p-6 flex flex-col justify-center min-h-0`}>
-                    <p className="text-sm text-gray-600 uppercase tracking-wider font-medium">
-                      Stack technique
-                    </p>
-
-                    <p className="mt-1 text-3xl font-semibold text-gray-900">
-                      Technologies & outils
-                    </p>
-
-                    <p className="mt-4 text-xs text-gray-600 leading-relaxed">
-                      Je développe des applications web modernes avec React pour le frontend
-                      et Node.js pour le backend. J’utilise des API REST, des bases de données
-                      relationnelles (MySQL) et je structure mes projets avec une architecture
-                      claire, maintenable et prête pour la mise en production.
-                    </p>
-                  </div>
-                </div>
-
+              <div style={{ display: "flex", gap: 6 }}>
+                <a href={p.github} target="_blank" rel="noopener noreferrer"
+                  style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Github size={13} color="#fff" />
+                </a>
+                <a href={p.linkedin} target="_blank" rel="noopener noreferrer"
+                  style={{ width: 28, height: 28, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Linkedin size={13} color="#fff" />
+                </a>
               </div>
             </div>
-          </section>
-        ))}
-    </>
-  );
-};
+          </motion.div>
 
-export default About;
+          {/* Bio */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.55, delay: 0.1, ease: E }}
+          >
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#aaa", margin: "0 0 20px" }}>
+              Présentation
+            </p>
+            <p style={{ fontSize: "clamp(15px, 1.5vw, 18px)", color: "#1a1a1a", lineHeight: 1.75, margin: "0 0 28px", fontFamily: F_DISPLAY, fontWeight: 500, letterSpacing: "-0.01em" }}>
+              {p.bio}
+            </p>
+            <p style={{ fontSize: 13.5, color: "#666", lineHeight: 1.7, margin: "0 0 32px" }}>
+              {p.philosophy.description}
+            </p>
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a href={`mailto:${p.email}`} style={{
+                display: "flex", alignItems: "center", gap: 7,
+                padding: "10px 18px", borderRadius: 10,
+                background: "#0A0A0A", color: "#fff",
+                fontSize: 13, fontWeight: 600, textDecoration: "none",
+                fontFamily: F_BODY, transition: "background 0.18s",
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = ACCENT; }}
+                onMouseLeave={e => { e.currentTarget.style.background = "#0A0A0A"; }}
+              >
+                <Mail size={14} /> Contacter
+              </a>
+              <a href={p.github} target="_blank" rel="noopener noreferrer" style={{
+                display: "flex", alignItems: "center", gap: 7,
+                padding: "10px 18px", borderRadius: 10,
+                background: "transparent", color: "#333",
+                border: "1px solid rgba(0,0,0,0.12)",
+                fontSize: 13, fontWeight: 600, textDecoration: "none",
+                fontFamily: F_BODY,
+              }}>
+                <Github size={14} /> GitHub <ArrowUpRight size={12} color="#aaa" />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2, ease: E }}
+            style={{ display: "flex", flexDirection: "column", gap: 0 }}
+          >
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#aaa", margin: "0 0 20px" }}>
+              En chiffres
+            </p>
+            {STATS.map((s, i) => (
+              <div key={i} style={{ padding: "20px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+                <p style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 800, color: "#0A0A0A", margin: 0, fontFamily: F_DISPLAY, letterSpacing: "-0.04em" }}>
+                  {s.value}
+                </p>
+                <p style={{ fontSize: 12, color: "#999", margin: "4px 0 0" }}>{s.label}</p>
+              </div>
+            ))}
+            <div style={{ padding: "20px 0" }}>
+              <p style={{ fontSize: 13, color: "#555", fontStyle: "italic", lineHeight: 1.5, margin: 0 }}>
+                "{p.availability}"
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* ── Parcours horizontal ── */}
+      <div style={{ margin: "0 auto", padding: "48px 32px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#aaa", margin: "0 0 32px" }}>
+          Parcours
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, position: "relative" }}
+          className="journey-grid">
+          {/* Ligne de connexion */}
+          <div style={{ position: "absolute", top: 20, left: "12.5%", right: "12.5%", height: 1, background: "rgba(0,0,0,0.1)", zIndex: 0 }} />
+
+          {JOURNEY.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <motion.div
+                key={step.step}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: i * 0.1, ease: E }}
+                style={{ padding: "0 16px", position: "relative", zIndex: 1 }}
+              >
+                {/* Dot */}
+                <div style={{
+                  width: 40, height: 40, borderRadius: "50%", marginBottom: 20,
+                  background: step.current ? ACCENT : "#0A0A0A",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  boxShadow: step.current ? `0 0 0 6px ${ACCENT}22` : "none",
+                }}>
+                  <Icon size={18} color="#fff" />
+                </div>
+                <p style={{ fontSize: 10, color: "#bbb", fontFamily: "monospace", margin: "0 0 4px" }}>
+                  {step.step} — {step.year}
+                </p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: "#0A0A0A", margin: "0 0 4px", fontFamily: F_DISPLAY, letterSpacing: "-0.02em" }}>
+                  {step.title}
+                </p>
+                <p style={{ fontSize: 12, color: "#888", margin: 0, lineHeight: 1.4 }}>
+                  {step.desc}
+                </p>
+                {step.current && (
+                  <span style={{
+                    display: "inline-block", marginTop: 8,
+                    fontSize: 9, fontWeight: 800, letterSpacing: "0.1em",
+                    textTransform: "uppercase", color: ACCENT,
+                    background: `${ACCENT}15`, padding: "2px 8px", borderRadius: 999,
+                  }}>
+                    En cours
+                  </span>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ── Compétences ── */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 32px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#aaa", margin: "0 0 32px" }}>
+          Compétences techniques
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          {SKILLS.map((group, gi) => (
+            <motion.div key={gi}
+              initial={{ opacity: 0, x: -12 }} whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }} transition={{ duration: 0.4, delay: gi * 0.06, ease: E }}
+              style={{ display: "flex", alignItems: "flex-start", gap: 24, flexWrap: "wrap" }}
+            >
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#bbb", width: 100, flexShrink: 0, paddingTop: 4, letterSpacing: "0.04em" }}>
+                {group.cat}
+              </span>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, flex: 1 }}>
+                {group.items.map((skill, si) => (
+                  <span key={si} style={{
+                    padding: "4px 12px", borderRadius: 999,
+                    fontSize: 12, fontWeight: 500, color: "#333",
+                    background: "#fff", border: "1px solid rgba(0,0,0,0.1)",
+                  }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Citation philosophie ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }} transition={{ duration: 0.6, ease: E }}
+        style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 32px 80px", textAlign: "center" }}
+      >
+        <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "#bbb", margin: "0 0 24px" }}>
+          Philosophie
+        </p>
+        <blockquote style={{ fontSize: "clamp(18px, 2.5vw, 28px)", fontWeight: 600, color: "#0A0A0A", lineHeight: 1.5, maxWidth: 700, margin: "0 auto 16px", fontFamily: F_DISPLAY, letterSpacing: "-0.02em" }}>
+          <span style={{ color: ACCENT, fontSize: "1.5em", lineHeight: 0, verticalAlign: "middle", marginRight: 6 }}>"</span>
+          {p.philosophy.quote}
+          <span style={{ color: ACCENT, fontSize: "1.5em", lineHeight: 0, verticalAlign: "middle", marginLeft: 6 }}>"</span>
+        </blockquote>
+        <p style={{ fontSize: 13, color: "#aaa", margin: 0 }}>— {p.philosophy.author}</p>
+      </motion.div>
+
+      <style>{`
+        @media (max-width: 860px) {
+          .about-bio-grid { grid-template-columns: 1fr !important; }
+          .journey-grid   { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 520px) {
+          .journey-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}

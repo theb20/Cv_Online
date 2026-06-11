@@ -1,0 +1,728 @@
+{
+  "name": "Scanner Sécurité (ia)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "79d72071-f1b2-46c5-a5ea-64f6be0742e0",
+      "name": "Clic pour Scanner",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "url_scannee",
+              "name": "url_scannee",
+              "value": "={{ $(\"Analyser Headers Sécurité\").item.json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "date_scan",
+              "name": "date_scan",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "score",
+              "name": "score",
+              "value": "={{ $(\"Analyser Headers Sécurité\").item.json.score }}",
+              "type": "number"
+            },
+            {
+              "id": "grade",
+              "name": "grade",
+              "value": "={{ $(\"Analyser Headers Sécurité\").item.json.grade }}",
+              "type": "string"
+            },
+            {
+              "id": "total_failles",
+              "name": "total_failles",
+              "value": "={{ $(\"Analyser Headers Sécurité\").item.json.findings.length }}",
+              "type": "number"
+            },
+            {
+              "id": "rapport_ia",
+              "name": "rapport_ia",
+              "value": "={{ JSON.stringify($json.output, null, 2) }}",
+              "type": "string"
+            },
+            {
+              "id": "findings_bruts",
+              "name": "findings_bruts",
+              "value": "={{ JSON.stringify($(\"Analyser Headers Sécurité\").item.json.findings, null, 2) }}",
+              "type": "string"
+            },
+            {
+              "id": "scanner",
+              "name": "scanner",
+              "value": "Scan HTTP Headers + Mozilla Observatory + Analyse IA (Groq Llama 3.3 70B)",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d24dd33-c9f7-411f-bbe9-67fc324b9fb7",
+      "name": "Formater Rapport",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 4096,
+          "temperature": 0.2
+        }
+      },
+      "id": "783c9405-1d04-41a4-b3ba-414826ced288",
+      "name": "Groq Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        560
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "avvuF1WBiKWGI993",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ahobautfrederick@gmail.com",
+        "subject": "=🔒 Rapport de Sécurité - {{ $json.url_scannee }} - Score {{ $json.grade }} ({{ $json.score }}/100) - {{ $json.total_failles }} failles détectées",
+        "message": "=<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\n<body style=\"margin:0; padding:0; background:#eef1f5; font-family:'Segoe UI',Arial,Helvetica,sans-serif; color:#1e293b;\">\n  <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#eef1f5; padding:24px 0;\">\n    <tr>\n      <td align=\"center\">\n        <table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:600px; max-width:600px; background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 2px 10px rgba(15,23,42,0.08);\">\n\n          <!-- Header -->\n          <tr>\n            <td style=\"background:#0f172a; padding:28px 32px;\">\n              <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n                <tr>\n                  <td style=\"border-left:4px solid #38bdf8; padding-left:16px;\">\n                    <div style=\"font-size:13px; letter-spacing:2px; text-transform:uppercase; color:#7dd3fc;\">Audit de sécurité</div>\n                    <div style=\"font-size:24px; font-weight:700; color:#ffffff; margin-top:4px;\">Rapport de scan</div>\n                    <div style=\"font-size:13px; color:#94a3b8; margin-top:6px;\">Localisation précise des failles &amp; recommandations</div>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- Note + score -->\n          <tr>\n            <td style=\"padding:32px 32px 8px 32px;\" align=\"center\">\n              <table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\">\n                <tr>\n                  <td align=\"center\"\n                      width=\"110\" height=\"110\"\n                      style=\"width:110px; height:110px; border-radius:55px; background:{{ ['A','B'].includes($json.grade) ? '#16a34a' : $json.grade === 'C' ? '#f59e0b' : '#dc2626' }}; color:#ffffff; font-size:52px; font-weight:800; line-height:110px; text-align:center;\">\n                    {{ $json.grade }}\n                  </td>\n                </tr>\n              </table>\n              <div style=\"font-size:14px; color:#64748b; margin-top:14px;\">Score de sécurité</div>\n              <div style=\"font-size:30px; font-weight:700; color:#0f172a;\">{{ $json.score }}<span style=\"font-size:16px; color:#94a3b8;\">/100</span></div>\n            </td>\n          </tr>\n\n          <!-- Sévérités -->\n          <tr>\n            <td style=\"padding:20px 24px 4px 24px;\">\n              <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n                <tr>\n                  <td width=\"33%\" align=\"center\" style=\"padding:14px 0; background:#fef2f2; border-radius:10px;\">\n                    <div style=\"font-size:30px; font-weight:800; color:#dc2626;\">{{ $(\"Analyser Headers Sécurité\").item.json.counts.high }}</div>\n                    <div style=\"font-size:12px; color:#991b1b; text-transform:uppercase; letter-spacing:1px;\">Critiques</div>\n                  </td>\n                  <td width=\"12\">&nbsp;</td>\n                  <td width=\"33%\" align=\"center\" style=\"padding:14px 0; background:#fff7ed; border-radius:10px;\">\n                    <div style=\"font-size:30px; font-weight:800; color:#ea580c;\">{{ $(\"Analyser Headers Sécurité\").item.json.counts.medium }}</div>\n                    <div style=\"font-size:12px; color:#9a3412; text-transform:uppercase; letter-spacing:1px;\">Moyennes</div>\n                  </td>\n                  <td width=\"12\">&nbsp;</td>\n                  <td width=\"33%\" align=\"center\" style=\"padding:14px 0; background:#fefce8; border-radius:10px;\">\n                    <div style=\"font-size:30px; font-weight:800; color:#ca8a04;\">{{ $(\"Analyser Headers Sécurité\").item.json.counts.low }}</div>\n                    <div style=\"font-size:12px; color:#854d0e; text-transform:uppercase; letter-spacing:1px;\">Faibles</div>\n                  </td>\n                </tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- Métadonnées -->\n          <tr>\n            <td style=\"padding:24px 32px 8px 32px;\">\n              <table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"font-size:14px; color:#334155;\">\n                <tr><td style=\"padding:6px 0; color:#64748b; width:140px;\">URL analysée</td><td style=\"padding:6px 0; font-weight:600; word-break:break-all;\">{{ $json.url_scannee }}</td></tr>\n                <tr><td style=\"padding:6px 0; color:#64748b;\">Date du scan</td><td style=\"padding:6px 0; font-weight:600;\">{{ $json.date_scan }}</td></tr>\n                <tr><td style=\"padding:6px 0; color:#64748b;\">Scanner</td><td style=\"padding:6px 0; font-weight:600;\">{{ $json.scanner }}</td></tr>\n                <tr><td style=\"padding:6px 0; color:#64748b;\">Total de failles</td><td style=\"padding:6px 0; font-weight:600;\">{{ $json.total_failles }}</td></tr>\n              </table>\n            </td>\n          </tr>\n\n          <!-- Analyse IA -->\n          <tr>\n            <td style=\"padding:16px 32px 0 32px;\">\n              <div style=\"font-size:16px; font-weight:700; color:#0f172a; border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:12px;\">Analyse IA</div>\n              <div style=\"background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:16px; font-family:Consolas,Monaco,monospace; font-size:13px; color:#334155; white-space:pre-wrap; word-break:break-word;\">{{ $json.rapport_ia }}</div>\n            </td>\n          </tr>\n\n          <!-- Findings -->\n          <tr>\n            <td style=\"padding:20px 32px 8px 32px;\">\n              <div style=\"font-size:16px; font-weight:700; color:#0f172a; border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:12px;\">Findings détaillés</div>\n              <div style=\"background:#0f172a; border-radius:8px; padding:16px; font-family:Consolas,Monaco,monospace; font-size:12px; color:#cbd5e1; white-space:pre-wrap; word-break:break-word;\">{{ $json.findings_bruts }}</div>\n            </td>\n          </tr>\n\n          <!-- Footer -->\n          <tr>\n            <td style=\"padding:24px 32px 28px 32px;\">\n              <div style=\"border-top:1px solid #e2e8f0; padding-top:16px; font-size:12px; color:#94a3b8; text-align:center; line-height:1.6;\">\n                Ce rapport identifie où se trouvent les problèmes de sécurité et comment les corriger.<br>\n                Généré automatiquement par n8n\n              </div>\n            </td>\n          </tr>\n\n        </table>\n      </td>\n    </tr>\n  </table>\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false,
+          "ccList": "lid.service.client@gmail.com"
+        }
+      },
+      "id": "dcb94bb4-b913-483e-94f3-90e92b7fbe98",
+      "name": "Envoyer Rapport par Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2160,
+        256
+      ],
+      "webhookId": "89db2e0d-ea75-4308-8289-30a897301683",
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ITv5K4BJTlbrjAqp",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "maxRedirects": 5
+            }
+          },
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "399755eb-027f-47cf-86e8-04de7098ca1d",
+      "name": "Scanner Headers HTTP",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        912,
+        336
+      ],
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const resp = $input.first().json;\n\nconst headers = {};\nfor (const [k, v] of Object.entries(resp.headers || {})) {\n  headers[k.toLowerCase()] = Array.isArray(v) ? v.join(', ') : String(v);\n}\nconst finalUrl = resp.url || headers['location'] || '';\nconst isHttps = String(finalUrl).startsWith('https://');\n\nconst findings = [];\nconst add = (severity, id, title, location, fix) => findings.push({ severity, id, title, location, fix });\n\nif (!isHttps)\n  add('high', 'no-https', 'HTTPS non forcé', 'Configuration serveur / Redirections', 'Rediriger tout le HTTP vers HTTPS + activer HSTS.');\nif (!headers['strict-transport-security'])\n  add('high', 'no-hsts', 'HSTS absent', 'En-têtes HTTP de réponse', 'Strict-Transport-Security: max-age=63072000; includeSubDomains; preload');\nif (!headers['content-security-policy'])\n  add('high', 'no-csp', 'Content-Security-Policy absente', 'En-têtes HTTP de réponse', \"Définir une CSP restrictive (default-src 'self') contre le XSS.\");\nif ((headers['x-content-type-options'] || '').toLowerCase() !== 'nosniff')\n  add('medium', 'no-nosniff', 'X-Content-Type-Options manquant', 'En-têtes HTTP de réponse', 'X-Content-Type-Options: nosniff');\n\nconst frameAncestors = (headers['content-security-policy'] || '').includes('frame-ancestors');\nif (!headers['x-frame-options'] && !frameAncestors)\n  add('medium', 'clickjacking', 'Anti-clickjacking absent', 'En-têtes HTTP de réponse', \"X-Frame-Options: DENY ou CSP frame-ancestors 'none'.\");\nif (!headers['referrer-policy'])\n  add('low', 'no-referrer', 'Referrer-Policy absent', 'En-têtes HTTP de réponse', 'Referrer-Policy: strict-origin-when-cross-origin');\nif (!headers['permissions-policy'])\n  add('low', 'no-permissions', 'Permissions-Policy absent', 'En-têtes HTTP de réponse', 'Restreindre caméra/micro/géoloc via Permissions-Policy.');\n\nfor (const h of ['server', 'x-powered-by', 'x-aspnet-version']) {\n  if (headers[h]) add('low', 'info-disclosure', `Techno exposée via ${h}: ${headers[h]}`, 'En-têtes HTTP de réponse', `Masquer l'en-tête ${h}.`);\n}\n\nconst raw = resp.headers?.['set-cookie'];\nconst cookies = Array.isArray(raw) ? raw : (raw ? [raw] : []);\nfor (const c of cookies) {\n  const name = c.split('=')[0];\n  const lc = c.toLowerCase();\n  if (!lc.includes('secure'))   add('medium', 'cookie-secure', `Cookie ${name} sans Secure`, 'Configuration cookies (Set-Cookie)', 'Ajouter Secure.');\n  if (!lc.includes('httponly')) add('medium', 'cookie-httponly', `Cookie ${name} sans HttpOnly`, 'Configuration cookies (Set-Cookie)', 'Ajouter HttpOnly.');\n  if (!lc.includes('samesite')) add('low', 'cookie-samesite', `Cookie ${name} sans SameSite`, 'Configuration cookies (Set-Cookie)', 'Ajouter SameSite=Lax.');\n}\n\nconst weights = { high: 25, medium: 10, low: 4 };\nconst score = Math.max(0, findings.reduce((s, f) => s - (weights[f.severity] || 0), 100));\nconst grade = score >= 90 ? 'A' : score >= 75 ? 'B' : score >= 60 ? 'C' : score >= 40 ? 'D' : 'F';\n\nreturn [{\n  json: {\n    url: finalUrl,\n    https: isHttps,\n    statusCode: resp.statusCode || 0,\n    score,\n    grade,\n    counts: {\n      high: findings.filter(f => f.severity === 'high').length,\n      medium: findings.filter(f => f.severity === 'medium').length,\n      low: findings.filter(f => f.severity === 'low').length,\n    },\n    findings,\n    scannedAt: new Date().toISOString(),\n  }\n}];"
+      },
+      "id": "1b2e7e8b-2e09-4850-8b69-3ebd0b6d33fa",
+      "name": "Analyser Headers Sécurité",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Voici les résultats du scan de sécurité pour {{ $(\"Analyser Headers Sécurité\").item.json.url }}:\n\n**Score de sécurité:** {{ $(\"Analyser Headers Sécurité\").item.json.score }}/100 (Grade {{ $(\"Analyser Headers Sécurité\").item.json.grade }})\n**Failles détectées:** {{ $(\"Analyser Headers Sécurité\").item.json.counts.high }} critiques, {{ $(\"Analyser Headers Sécurité\").item.json.counts.medium }} moyennes, {{ $(\"Analyser Headers Sécurité\").item.json.counts.low }} faibles\n\n**Détails des failles:**\n{{ JSON.stringify($(\"Analyser Headers Sécurité\").item.json.findings, null, 2) }}\n\nEn tant qu'expert en cybersécurité e-commerce, analyse ces résultats et fournis:\n\n1. **Résumé exécutif** - Vue d'ensemble de la posture de sécurité\n2. **Analyse détaillée par faille** - Pour chaque problème détecté:\n   - Où exactement se trouve le problème (fichier de config, code serveur, etc.)\n   - Impact potentiel sur l'e-commerce (vol de données clients, fraude paiement, etc.)\n   - Étapes précises de correction\n3. **Priorisation** - Ordre de correction recommandé\n4. **Risques e-commerce spécifiques** - Conformité PCI-DSS, RGPD, protection données clients\n\nBase-toi UNIQUEMENT sur le JSON de findings fourni, n'invente aucune vulnérabilité.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Tu es un expert en cybersécurité spécialisé dans l'audit d'applications e-commerce. Tu fournis des analyses détaillées avec des localisations précises des problèmes et des solutions concrètes. Base-toi UNIQUEMENT sur les données fournies, n'invente aucune vulnérabilité."
+        }
+      },
+      "id": "e8f0e6f7-f071-42a2-8bd0-2997fce27cc9",
+      "name": "Analyser avec IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1584,
+        336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const sites = [\n  { url: 'https://www.youtube.com/' }\n];\n\nreturn sites.map(site => ({ json: site }));"
+      },
+      "id": "78ab9ae2-2113-4c12-92c7-f97ec13283be",
+      "name": "Liste des sites",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        432
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "867df888-30d6-4570-87c1-ac48b80dd1bf",
+      "name": "Done",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://observatory-api.mdn.mozilla.net/api/v2/scan?host={{ $json.url.replace(\"https://\", \"\").replace(\"http://\", \"\").split(\"/\")[0] }}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 15000
+        }
+      },
+      "id": "c7df8113-a863-4eda-bb8e-0f5134d7eeb7",
+      "name": "Mozilla Observatory",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1360,
+        336
+      ],
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{ \"summary\": \"Brief security posture summary\", \"criticalFindings\": [{ \"id\": \"no-https\", \"title\": \"HTTPS not enforced\", \"location\": \"Server configuration\", \"impact\": \"Data interception risk\", \"fix\": \"Enable HTTPS redirect + HSTS\" }], \"actionPlan\": [{ \"priority\": 1, \"action\": \"Enable HTTPS and HSTS\", \"estimatedEffort\": \"1 hour\" }] }"
+      },
+      "id": "d6507b33-1173-4104-8a25-9433fb4cdedd",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1728,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "history",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "score",
+              "displayName": "score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "grade",
+              "displayName": "grade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "8ccc08c8-a3a0-4485-8988-2c598eaacac8",
+      "name": "Historique scans",
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2384,
+        592
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "cc5d1aa0-8b67-4ede-81ff-d3aa5724744a",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        688,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 1,
+              "triggerAtMinute": 1
+            }
+          ]
+        }
+      },
+      "id": "60d82589-e176-4112-aedb-ac376ed38e49",
+      "name": "Scan quotidien",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1c16JMG_ppfPO9MRnnh612QWR8_fvLRo9-onioXczHuA",
+          "mode": "list",
+          "cachedResultName": "history",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c16JMG_ppfPO9MRnnh612QWR8_fvLRo9-onioXczHuA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Feuille 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c16JMG_ppfPO9MRnnh612QWR8_fvLRo9-onioXczHuA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $execution.id }}",
+            "url ": "={{ $('Analyser Headers Sécurité').item.json.url }}",
+            "score": "={{ $('Analyser Headers Sécurité').item.json.score }}",
+            "date": "={{ $now.toISO() }}",
+            "grade": "={{ $('Analyser Headers Sécurité').item.json.grade }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "url ",
+              "displayName": "url ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "score",
+              "displayName": "score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "grade",
+              "displayName": "grade",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2384,
+        336
+      ],
+      "id": "5d6e1688-aca3-44cd-898d-1fd3952bf511",
+      "name": "Append row in sheet",
+      "alwaysOutputData": true,
+      "notesInFlow": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KWI5PzZ1M6N7uSlo",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "scan",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "42312333-f5e6-46a1-b66c-085c37290d79",
+      "name": "Webhook API",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        688
+      ],
+      "webhookId": "35a241f3-7711-4d70-8cd6-b61fa15b95a1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "w9WwrSQj6t6kkhKc",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body;\nconst url = body.url;\nconst retryDelay = body.retryDelay || 1;\n\nif (!url) {\n  throw new Error(\"Missing url in request body\");\n}\n\nreturn [{ json: { url, retryDelay } }];"
+      },
+      "id": "2810b9df-c72e-4dcf-8062-45ed36d3e013",
+      "name": "Liste des sites (API)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        688
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"success\": true, \"url\": $(\"Analyser Headers Sécurité\").item.json.url, \"score\": $(\"Analyser Headers Sécurité\").item.json.score, \"grade\": $(\"Analyser Headers Sécurité\").item.json.grade, \"findings\": $(\"Analyser Headers Sécurité\").item.json.findings, \"scannedAt\": $(\"Analyser Headers Sécurité\").item.json.scannedAt } }}",
+        "options": {}
+      },
+      "id": "8c9228dc-f3d0-4013-a95d-26bb8e5365a5",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        912,
+        544
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Clic pour Scanner": {
+      "main": [
+        [
+          {
+            "node": "Liste des sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyser avec IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formater Rapport": {
+      "main": [
+        [
+          {
+            "node": "Envoyer Rapport par Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scanner Headers HTTP": {
+      "main": [
+        [
+          {
+            "node": "Analyser Headers Sécurité",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyser Headers Sécurité": {
+      "main": [
+        [
+          {
+            "node": "Mozilla Observatory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyser avec IA": {
+      "main": [
+        [
+          {
+            "node": "Formater Rapport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste des sites": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mozilla Observatory": {
+      "main": [
+        [
+          {
+            "node": "Analyser avec IA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Analyser avec IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Analyser avec IA",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer Rapport par Email": {
+      "main": [
+        [
+          {
+            "node": "Historique scans",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Historique scans": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Scanner Headers HTTP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan quotidien": {
+      "main": [
+        [
+          {
+            "node": "Liste des sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook API": {
+      "main": [
+        [
+          {
+            "node": "Liste des sites (API)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Liste des sites (API)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "ec8a8010-078e-4fcc-ba09-f3d0ef9bc7fd",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5514bda9094eef74275a7a30593c9aa152951b23a6dffba8e70fd24f04025751"
+  },
+  "id": "EVa5Xl3bESZT0C45",
+  "tags": []
+}

@@ -6,9 +6,13 @@ import Cookies from "./sections/Cookies";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
 import Projects from "./sections/Projects";
+import Pricing from "./sections/Pricing";
+import Services from "./sections/Services";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
 import SEO from "./components/SEO";
+import AIChatbot from "./components/ChatBox";
+import SurveyPopup from "./components/SurveyPopup";
 
 const Terms = lazy(() => import("./pages/terms"));
 const Privacy = lazy(() => import("./pages/privacy"));
@@ -36,6 +40,8 @@ const MainLayout = () => {
       />
 
       <Cookies />
+      <SurveyPopup />
+      <AIChatbot />
 
       {showTerms && <Terms onClose={() => setShowTerms(false)} />}
       {showPrivacy && <Privacy onClose={() => setShowPrivacy(false)} />}
@@ -48,7 +54,9 @@ const HomePage = () => (
   <div className="relative w-screen flex flex-col items-center justify-center  overflow-hidden">
     <SEO />
     <Hero />
-    <About />
+    <About /> 
+    {/* <Services />*/}
+    <Pricing />
     <Projects />
     <Experiences />
     <Testimonial />

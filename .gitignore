@@ -3,3 +3,8 @@
 .firebase/
 dist/
 .env
+.claude
+.agents
+.api
+sondage.csv
+skill-lock.json

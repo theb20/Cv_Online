@@ -1,12 +1,12 @@
 export const profile = {
   fullname: "Frederick Ahobaut",
-  role: "Développeur Web Full Stack",
-  bio: "Développeur web full stack spécialisé dans la conception et le développement d’applications web modernes. J’interviens sur l’ensemble du cycle de développement, du cadrage technique à la mise en production, avec une approche orientée performance, maintenabilité et qualité logicielle.",
+  role: "Expert en Solutions Numériques pour Entreprises & Commerces",
+  bio: "J'aide les commerçants, TPE et entrepreneurs à digitaliser leur activité pour attirer plus de clients et simplifier leur gestion quotidienne. De la création de boutiques en ligne à l'automatisation de processus métier, je conçois des solutions rentables, performantes et simples à utiliser.",
   location: "Paris, France",
   country: "France",
-  email: "ahobautfrederick@gmail.com",
+  email: "frederick@ahobaut.fr",
   phone: "+33 6 10 69 47 08",
-  website: "https://moncv-dev.web.app/",
+  website: "https://ahobaut.fr/",
   linkedin: "https://www.linkedin.com/in/frederick-ahobaut",
   github: "https://github.com/theb20",
   availability: "Disponible pour des missions freelance, des projets à long terme et des opportunités en CDI",
@@ -22,16 +22,15 @@ export const profile = {
       title: "The Developer"
     },
     hero: {
-      badge: "Portrait professionnel",
-      headline: "Développement web et solutions numériques",
-      featureTag: "Présentation",
-      subHeadline: "Conception • Architecture • Performance",
-      quote:
-        "Mon rôle consiste à concevoir des solutions techniques fiables, compréhensibles et adaptées aux besoins réels des utilisateurs et des entreprises.",
-      credit: "Profil pro."
+      badge: "Expertise Digitale",
+      headline: "Boostez votre commerce grâce au digital",
+      featureTag: "Solutions",
+      subHeadline: "Vente en ligne • Visibilité locale • Gain de temps",
+      quote: "La technologie doit être au service de votre commerce, pas l'inverse. Mon rôle est de créer les outils qui feront grandir votre activité.",
+      credit: "Frederick A."
     },
     editorial: {
-      initial: "A",
+      initial: "FA",
       title: "Approche technique et méthodologie",
       sidebar: {
         statsTitle: "Indicateurs",
@@ -91,11 +90,11 @@ export const profile = {
 ],
 
   philosophy: {
-    title: "Simplicité et efficacité",
-    quote: "Codez comme si la personne qui finit par maintenir votre code est un psychopathe violent qui sait où vous vivez.",
-    author: "Jeff Atwood",
+    title: "Efficacité et Rentabilité",
+    quote: "La technologie n'est qu'un outil ; la vraie réussite réside dans la valeur qu'elle apporte à votre activité.",
+    author: "Frederick Ahobaut",
     description:
-      "Je m’appuie sur des principes de simplicité, de clarté et d’efficacité. Une application performante repose sur des choix techniques solides, une architecture maîtrisée et une expérience utilisateur fluide. Mon objectif est de livrer des solutions durables, faciles à maintenir et à faire évoluer."
+      "Je m’appuie sur des principes de simplicité et de résultats concrets. Une solution performante pour une TPE doit être rentable, facile à prendre en main et évolutive. Mon objectif est de vous livrer des outils durables qui vous permettent de vous concentrer sur votre cœur de métier."
   },
 
 skills: {
@@ -201,19 +200,16 @@ skills: {
 
   services: [
     {
-      title: "Développement Frontend",
-      desc:
-        "Développement d’interfaces web modernes, accessibles et performantes, en adéquation avec les besoins fonctionnels et les contraintes techniques."
+      title: "Sites Vitrines & E-commerce",
+      desc: "Attirez de nouveaux clients avec un site moderne, optimisé pour Google (SEO) et parfaitement fluide sur mobile. Vendez vos produits en ligne en toute sécurité."
     },
     {
-      title: "Développement Backend",
-      desc:
-        "Conception et mise en œuvre d’API REST sécurisées, gestion des bases de données relationnelles et intégration des mécanismes d’authentification."
+      title: "Outils de Gestion sur Mesure",
+      desc: "Gagnez du temps au quotidien : automatisation de factures, gestion de stocks simplifiée, ou systèmes de réservation en ligne adaptés à votre métier."
     },
     {
-      title: "Architecture & accompagnement technique",
-      desc:
-        "Conseil, aide à la structuration des projets, choix d’architectures adaptées et mise en place de bonnes pratiques de développement."
+      title: "Conseil & Accompagnement Digital",
+      desc: "Je vous aide à choisir les meilleurs outils pour votre activité. Un accompagnement de A à Z pour réussir votre transition numérique sans complexité."
     }
   ]
 };

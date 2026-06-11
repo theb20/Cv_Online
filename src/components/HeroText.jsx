@@ -1,16 +1,17 @@
 import CreativeText from "./CreativeText";
 import { motion } from "motion/react";
-import { FaLaptopCode, FaRocket, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { MdDesignServices } from "react-icons/md";
-import { SiReact } from "react-icons/si";
+import { FaLaptopCode, FaRocket, FaRobot, FaGlobe, FaChartLine, FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const HeroText = () => {
   const items = [
-    { text: "Développeur Full Stack", icon: FaLaptopCode, color: "text-blue-500" },
-    { text: "Designer UI/UX", icon: MdDesignServices, color: "text-purple-500" },
-    { text: "Développeur React & Next.js", icon: SiReact, color: "text-cyan-400" },
-    { text: "Développeur Freelance", icon: FaRocket, color: "text-orange-500" },
-  ];
+     { text: "Développeur Full Stack", icon: FaLaptopCode, color: "text-blue-500" },
+  { text: "Management & Gestion d'entreprise", icon: FaChartLine, color: "text-amber-500" },
+  { text: "Designer UI/UX", icon: MdDesignServices, color: "text-purple-500" },
+  { text: "Automatisation & Intégrations IA", icon: FaRobot, color: "text-emerald-500" },
+  { text: "Solutions web sur mesure", icon: FaGlobe, color: "text-teal-500" },
+  { text: "Développeur Freelance", icon: FaRocket, color: "text-rose-500" },
+];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -84,7 +85,7 @@ const HeroText = () => {
             <div className="flex items-center gap-4">
                 <SocialLink href="https://github.com/theb20" icon={<FaGithub size={22}/>} label="GitHub" />
                 <SocialLink href="https://www.linkedin.com/in/fr%C3%A9d%C3%A9rick-ahobaut-b85301322/" icon={<FaLinkedin size={22}/>} label="LinkedIn" />
-                <SocialLink href="mailto:hobautfrederick@gmail.com" icon={<FaEnvelope size={22}/>} label="Email" />
+                <SocialLink href="mailto:ahobautfrederick@gmail.com" icon={<FaEnvelope size={22}/>} label="Email" />
             </div>
         </motion.div>
 
