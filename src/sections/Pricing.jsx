@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import FloatingLines from "../components/FloatingLines";
 import DevisModal from "../components/DevisModal.jsx";
@@ -222,11 +222,25 @@ function PricingCard({ plan, index, currency, onOpenDevis }) {
 }
 
 export default function PricingSection() {
+  
   const [currency,   setCurrency]   = useState("EUR");
   const [activePlan, setActivePlan] = useState(null);
   const headerRef = useRef(null);
   const inView = useInView(headerRef, { once: true, amount: 0.35 });
 
+
+  useEffect(() => {
+    if(window.location.hash === "#pricing") {
+      const timer =setTimeout(() => {
+        const element = document.getElementById("pricing");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+  
   return (
     <section
       id="pricing"
