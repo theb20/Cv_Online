@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SEO = ({ title, description, keywords, image, url, type = "website" }) => {
-  const siteUrl = "https://moncv-dev.web.app";
+  const siteUrl = "https://www.ahobaut.fr";
   const siteTitle = "Frédérick Ahobaut";
   const defaultDescription =
     "Développeur Full Stack spécialisé en React.js, Node.js, MongoDB et TypeScript. Création d'applications web modernes et performantes.";

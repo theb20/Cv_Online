@@ -41,37 +41,6 @@ export default function About() {
   return (
     <section id="about" className="lg:px-50 px-0" style={{ background: "#FAFAF8", fontFamily: F_BODY, overflow: "hidden" }}>
 
-      {/* ── Bloc titre éditorial ── */}
-      <div ref={ref} style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 32px 0" }}>
-        <motion.p
-          initial={{ opacity: 0, y: 8 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, ease: E }}
-          style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, margin: "0 0 20px" }}
-        >
-          À propos
-        </motion.p>
-
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 16, paddingBottom: 32, borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
-          
-
-          <motion.div
-            initial={{ opacity: 0, x: 16 }} animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.18, ease: E }}
-            style={{ textAlign: "right" }}
-            className="flex items-center justify-between w-full"
-          >
-            <p className="text-start" style={{ fontSize: "clamp(13px, 1.4vw, 16px)", color: "#555", maxWidth: 320, lineHeight: 1.6, margin: "0 0 12px", fontFamily: F_BODY }}>
-              {p.role}
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-start" }}>
-              <span style={{ fontSize: 12, color: "#aaa", marginLeft: 8 }}>
-                <MapPin size={11} style={{ display: "inline", marginRight: 3 }} />{p.location}
-              </span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
       {/* ── Bloc bio + photo + stats ── */}
       <div style={{  margin: "0 auto", padding: "0 32px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr 1fr", gap: 48, padding: "48px 0", borderBottom: "1px solid rgba(0,0,0,0.07)", alignItems: "start" }}

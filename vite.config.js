@@ -1,10 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-// https://vite.dev/config/
+import path from "path"; // ← ADD THIS
+
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server:{
+  server: {
     host: "0.0.0.0",
     port: 3001,
     headers: {
@@ -20,7 +21,9 @@ export default defineConfig({
   },
   resolve: {
     alias: [
-      { find: /^node:.*$/, replacement: '/Users/frederickahobaut/App/cvfred/Cv_Online/src/polyfills/node-empty.js' },
+      // ← consistent array-of-objects format
+      { find: /^node:.*$/, replacement: "/Users/frederickahobaut/App/cvfred/Cv_Online/src/polyfills/node-empty.js" },
+      { find: "@", replacement: path.resolve(__dirname, "./src") }, // ← fixed
     ],
   },
   build: {
@@ -28,20 +31,14 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            if (id.includes('firebase')) {
-              return 'firebase';
-            }
-            if (id.includes('three') || id.includes('@react-three')) {
-              return 'vendor'; // Merge three with main vendor to avoid split chunk issues
-            }
-            if (id.includes('motion')) {
-              return 'motion';
-            }
-            return 'vendor';
+          if (id.includes("node_modules")) {
+            if (id.includes("firebase")) return "firebase";
+            if (id.includes("three") || id.includes("@react-three")) return "vendor";
+            if (id.includes("motion")) return "motion";
+            return "vendor";
           }
-        }
-      }
-    }
+        },
+      },
+    },
   },
 });

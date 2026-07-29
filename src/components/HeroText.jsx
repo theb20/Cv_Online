@@ -40,12 +40,12 @@ const HeroText = () => {
       
 
         {/* Name - Massive & Clean */}
-        <motion.h1 
+        <motion.h1
             variants={itemVariants}
-            className="text-[4.5rem] text-center lg:text-left sm:text-[6rem] md:text-[8rem] lg:text-[9rem] font-black text-white tracking-tighter mb-6 leading-[0.9]"
+            className="text-[3.1rem] text-center lg:text-left min-[400px]:text-[3.6rem] sm:text-[6rem] md:text-[8rem] lg:text-[9rem] font-black text-white tracking-tighter mb-6 leading-[0.9]"
         >
             FRÉDÉRICK <br className="lg:block hidden"/>
-            <span className="text-[3.5rem] sm:text-[6rem] md:text-[8rem] lg:text-[9rem] text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-white to-neutral-400">
+            <span className="text-[2.4rem] min-[400px]:text-[2.8rem] sm:text-[6rem] md:text-[8rem] lg:text-[9rem] text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-white to-neutral-400">
                 AHOBAUT
             </span>
         </motion.h1>

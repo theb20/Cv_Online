@@ -83,7 +83,7 @@ function NavItem({ item, onLinkClick, mobile = false }) {
 
   // ── DESKTOP ──────────────────────────────────────────────────
   return (
-    <li className="static group h-full" onMouseEnter={open} onMouseLeave={close}>
+    <li className="static rounded-5 overflow-hidden group h-full" onMouseEnter={open} onMouseLeave={close}>
       {/* Trigger */}
       <div className="relative flex items-center gap-1 cursor-pointer py-6 h-full z-50">
         {hasMegaMenu || hasSubLinks ? (
@@ -105,16 +105,16 @@ function NavItem({ item, onLinkClick, mobile = false }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed left-0 w-screen z-40"
+              className="fixed left-1/2 -translate-x-1/2 w-screen z-40 mt-4 w-[calc(100%-2.5rem)] max-w-[1000px] rounded-5 "
               style={{ top: "var(--navbar-height, 50px)" }}
             >
-              <div className="bg-white border-b border-gray-200 shadow-[0_24px_80px_rgba(0,0,0,0.14)]">
+              <div className="bg-white border-b border-gray-200 shadow-[0_24px_80px_rgba(0,0,0,0.14)] rounded-2xl">
 
                 {/* ── Main body ── */}
                 <div className="flex" style={{ minHeight: 500 }}>
 
                   {/* LEFT SIDEBAR */}
-                  <div className="bg-gray-50 border-r border-gray-100 flex flex-col flex-shrink-0" style={{ width: 220 }}>
+                  <div className="bg-gray-50 border-r border-gray-100 flex flex-col flex-shrink-0 rounded-l-full" style={{ width: 220 }}>
                     <div className="flex flex-col gap-1 px-5 pt-7 pb-4 flex-1">
                       <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 px-2">Navigation</p>
 
@@ -149,15 +149,10 @@ function NavItem({ item, onLinkClick, mobile = false }) {
                       <p className="text-[9px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2.5 px-2">Statut</p>
                       <div className="flex flex-col gap-2 px-2">
                         {[
-                          "Freelance — Disponible",
-                          "En recherche active",
-                          "Ouvert aux projets"
+                          "Product engineer",
+                          "Freelance - Disponible",
                         ].map((s, i) => (
                           <div key={i} className="flex items-center gap-2">
-                            <span className="relative flex h-1.5 w-1.5 flex-shrink-0">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-                            </span>
                             <span className="text-[10px] text-gray-600 font-medium">{s}</span>
                           </div>
                         ))}
@@ -321,10 +316,10 @@ function NavItem({ item, onLinkClick, mobile = false }) {
                             {/* Contact cards */}
                             <div className="col-span-2 grid grid-cols-2 gap-3 content-start">
                               {[
-                                { label: "Email", value: "ahobautfrederick@gmail.com", href: "mailto:ahobautfrederick@gmail.com", icon: Mail, desc: "Réponse sous 24h" },
-                                { label: "LinkedIn", value: "/in/frederick-ahobaut", href: "https://www.linkedin.com/in/frederick-ahobaut", icon: Briefcase, desc: "Réseau professionnel" },
+                                { label: "Email", value: "frederick@ahobaut.fr", href: "mailto:frederick@ahobaut.fr", icon: Mail, desc: "Réponse sous 24h" },
+                                { label: "LinkedIn", value: "in/frédérick-ahobaut-b85301322", href: "https://www.linkedin.com/in/frédérick-ahobaut-b85301322", icon: Briefcase, desc: "Réseau professionnel" },
                                 { label: "GitHub", value: "github.com/theb20", href: "https://github.com/theb20", icon: GitBranch, desc: "14+ repos publics" },
-                                { label: "Portfolio", value: "moncv-dev.web.app", href: "https://moncv-dev.web.app", icon: Globe, desc: "CV interactif en ligne" },
+                                { label: "Portfolio", value: "ahobaut.fr", href: "https://ahobaut.fr", icon: Globe, desc: "CV interactif en ligne" },
                               ].map((c, i) => {
                                 const Icon = c.icon;
                                 return (
@@ -355,12 +350,12 @@ function NavItem({ item, onLinkClick, mobile = false }) {
                 </div>
 
                 {/* ── Footer strip ── */}
-                <div className="border-t border-gray-100 bg-gray-50/80 px-8 py-3 flex items-center justify-between">
+                <div className="border-t border-gray-100 bg-gray-50/80 px-8 py-3 flex items-center justify-between rounded-2xl">
                   <div className="flex items-center gap-5">
                     {[
                       { href: "https://github.com/theb20",                        label: "GitHub" },
-                      { href: "https://www.linkedin.com/in/frederick-ahobaut",   label: "LinkedIn" },
-                      { href: "mailto:ahobautfrederick@gmail.com",               label: "Email" },
+                      { href: "https://www.linkedin.com/in/frédérick-ahobaut-b85301322",   label: "LinkedIn" },
+                      { href: "mailto:frederick@ahobaut.fr",               label: "Email" },
                     ].map((l, i) => (
                       <a key={i} href={l.href}
                         target={l.href.startsWith('mailto') ? '_self' : '_blank'}
@@ -433,6 +428,7 @@ function MobileAccordion({ item, onLinkClick }) {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenSubMenu, setIsOpenSubMenu] = useState(false);
   const { projects, experiences } = useData();
   const location = useLocation();
 
@@ -494,68 +490,90 @@ const Navbar = () => {
   return (
     <>
       {!isProjectsDetailPage && (
-        <header className="fixed top-0 left-0 right-0 z-100 transition-all duration-300" style={{ "--navbar-height": "50px" }}>
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-md border-b border-white/5" />
+          <>
+            <header 
+            className="fixed shadow-md top-5 lg:left-10 sm:left-5 left-5 
+            w-[calc(100%-0.5rem)] max-w-[250px] z-100 transition-all duration-300 rounded-full " 
+            
+            style={{ "--navbar-height": "50px" }}>
+              
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-md rounded-full" />
 
-          <div className="container mx-auto c-space h-[50px] relative z-50">
-            <div className="flex items-center justify-between h-full">
-              <a href="/" className="text-xl font-black tracking-tighter text-white flex items-center gap-2 z-50 uppercase" onClick={() => setIsOpen(false)}>
-                Frédérick<span className="text-neutral-500">.A</span>
-              </a>
+              <div className=" mx-auto px-4 h-[50px] relative z-50">
+                <div className="flex items-center justify-between
+                 h-full">
+                  <a href="/" className="text-xl font-black tracking-tighter text-white flex items-center gap-2 z-50  google-flex font-bold" onClick={() => setIsOpen(false)}>
 
-              <button onClick={() => setIsOpen(!isOpen)} className="flex cursor-pointer text-white focus:outline-none sm:hidden p-2 z-50" aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}>
-                {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-              </button>
-
-              <nav className="hidden sm:flex h-full" aria-label="Navigation principale">
-                <ul className="flex items-center gap-10 h-full">
-                  {navLinks.map((item, index) => <NavItem key={index} item={item} />)}
-                </ul>
-              </nav>
-
-              <div className="hidden sm:block">
-                <a href="#contact" className="px-6 py-1.5 bg-white text-black text-sm font-bold rounded-full hover:bg-neutral-200 transition-colors">
-                  Me Contacter
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Menu — dropdown compact */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                className="absolute top-[50px] left-0 right-0 z-40 sm:hidden overflow-hidden"
-                style={{ background: "#0e0e10", borderBottom: "1px solid rgba(255,255,255,0.07)" }}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <nav className="px-4 py-2">
-                  {navLinks.map((item, index) => (
-                    <div key={index} className="border-b border-white/5 last:border-none">
-                      {item.type === "mega" ? (
-                        <MobileAccordion item={item} onLinkClick={() => setIsOpen(false)} />
-                      ) : (
-                        <a href={item.href} onClick={() => setIsOpen(false)}
-                          className="flex items-center gap-3 py-3 text-sm font-medium text-white/50 hover:text-white transition-colors">
-                          {item.label}
-                        </a>
-                      )}
-                    </div>
-                  ))}
-                </nav>
-                <div className="px-4 py-3 border-t border-white/5">
-                  <a href="#contact" onClick={() => setIsOpen(false)}
-                    className="block w-full py-2.5 text-center bg-white text-black text-sm font-bold rounded-lg hover:bg-neutral-100 transition-colors">
-                    Me contacter
+                  <img src="/assets/favicon/favicon.svg" alt="logo Frédérick Ahobaut" className="w-8 h-8" />
+                    Frédérick<span className="text-neutral-500 google-yuyu text-2xl">.A</span>
                   </a>
+
+                  <button onClick={() => setIsOpen(!isOpen)} className="flex cursor-pointer text-white focus:outline-none sm:hidden p-2 z-50" aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}>
+                    {isOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+                  </button>
+
+                  <button 
+                  onClick={() => setIsOpenSubMenu(!isOpenSubMenu)}
+                  className="hidden lg:block bg-white text-black px-1.5 py-1.5 rounded-full hover:bg-neutral-200 transition-colors"><ChevronRight/></button>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </header>
+              </div>
+
+
+              {/* Mobile Menu — dropdown compact */}
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    className="absolute rounded-3xl  top-[0px] pt-10 left-0 right-0 z-40 sm:hidden overflow-hidden"
+                    style={{ background: "#0e0e10", borderBottom: "1px solid rgba(206, 11, 11, 0.07)" }}
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    <nav className="px-4 py-2">
+                      {navLinks.map((item, index) => (
+                        <div key={index} className="border-b border-white/5 last:border-none">
+                          {item.type === "mega" ? (
+                            <MobileAccordion item={item} onLinkClick={() => setIsOpen(false)} />
+                          ) : (
+                            <a href={item.href} onClick={() => setIsOpen(false)}
+                              className="flex items-center gap-3 py-3 text-sm font-medium text-white/50 hover:text-white transition-colors">
+                              {item.label}
+                            </a>
+                          )}
+                        </div>
+                      ))}
+                    </nav>
+                    <div className="px-4 py-3 border-t border-white/5">
+                      <a href="#contact" onClick={() => setIsOpen(false)}
+                        className="block w-full py-2.5 text-center bg-white text-black text-sm font-bold rounded-lg hover:bg-neutral-100 transition-colors">
+                        Me contacter
+                      </a>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              
+          </header>
+          
+          {isOpenSubMenu && (
+                <div className="fixed top-[82px] left-19 lg:left-10 z-100 hidden lg:block">
+                  <nav
+                    className="relative rounded-full shadow-[0_16px_50px_rgba(0,0,0,0.35)] px-6"
+                    aria-label="Navigation principale"
+                  >
+                    {/* backdrop-filter must live on a background layer, not an ancestor of the
+                        mega-menu — it creates a new containing block for position:fixed children,
+                        which breaks the mega-menu's viewport-relative centering. */}
+                    <div className="absolute inset-0 bg-black/90 backdrop-blur-md rounded-full" />
+                    <ul className="relative flex items-center gap-8 h-[50px]">
+                      {navLinks.map((item, index) => <NavItem key={index} item={item} />)}
+                    </ul>
+                  </nav>
+                </div>
+              )}
+            </>
       )}
     </>
   );

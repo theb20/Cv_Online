@@ -5,7 +5,7 @@ const Experiences = () => {
   const { experiences } = useData();
 
   return (
-    <div id="work" className="mt-20 w-full  ">
+    <div id="work" className=" w-full  ">
       <Timeline data={experiences} />
     </div>
   );

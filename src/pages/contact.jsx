@@ -221,10 +221,6 @@ const ContactPage = () => {
     setLoading(true);
 
     try {
-      // Envoi via EmailJS
-      // Assurez-vous d'avoir configuré vos variables d'environnement dans .env
-      // VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY
-      
       const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
@@ -308,56 +304,66 @@ const ContactPage = () => {
     { value: 'flexible', label: 'Flexible' },
   ];
 
-    const faqs = [
+const faqs = [
   {
     question: "Quel est votre délai de réponse ?",
     answer:
-      "Je réponds généralement sous 24 heures les jours ouvrables. Pour les demandes urgentes, vous pouvez préciser l’objet afin que je vous priorise."
+      "Je réponds généralement sous 24 heures les jours ouvrables. Que vous soyez basé en France, en Côte d'Ivoire ou ailleurs, vous pouvez préciser l’objet de votre demande pour que je puisse la traiter en priorité."
   },
   {
     question: "Quels types de projets acceptez-vous ?",
     answer:
-      "Je travaille sur des projets web complets : sites vitrines, portfolios, applications sur mesure, e-commerce, ou refontes existantes. J’interviens également sur des missions de conseil et d’optimisation front-end."
+      "Je réalise des projets web complets : sites vitrines, portfolios professionnels, applications web sur mesure, plateformes e-commerce ou refontes techniques. J’interviens également sur des missions de conseil architectural et d’optimisation technique (Front-end/Back-end)."
   },
   {
     question: "Proposez-vous des devis gratuits ?",
     answer:
-      "Oui, les devis sont totalement gratuits. Après un premier échange pour comprendre vos besoins, je vous transmets une estimation claire et sans engagement."
+      "Oui, l'étude de votre projet et l'établissement du devis estimatif sont totalement gratuits et sans engagement. Nous échangeons d'abord sur votre cahier des charges, puis je vous transmets une proposition claire détaillant les étapes et les livrables."
   },
   {
     question: "Quels langages et technologies utilisez-vous ?",
     answer:
-      "J’utilise principalement React, Next.js, Tailwind CSS et Node.js. Selon le projet, je peux aussi travailler avec d’autres outils comme TypeScript, Express, MongoDB ou Firebase."
+      "Je me spécialise dans l'écosystème JavaScript/TypeScript moderne : React, Next.js, Tailwind CSS et Node.js. Selon l'envergure et les besoins de votre projet, j'intègre des outils robustes comme Express, MongoDB, Firebase ou des API tierces."
   },
   {
     question: "Travaillez-vous à distance ou en présentiel ?",
     answer:
-      "Je travaille principalement à distance, mais je peux me déplacer pour des réunions ou interventions ponctuelles selon la localisation du client."
+      "Je travaille exclusivement à distance, ce qui me permet de collaborer de manière fluide et transparente avec des clients situés aussi bien en France qu'en Côte d'Ivoire. Nous organisons des points réguliers par visioconférence (Google Meet, Zoom, WhatsApp)."
   },
   {
     question: "Comment se déroule la collaboration ?",
     answer:
-      "Après une première discussion, je vous propose un plan de travail détaillé. Nous validons les maquettes, puis j’assure le développement et la mise en ligne, avec un suivi régulier à chaque étape."
+      "Le processus est structuré : après validation du devis, nous validons l'architecture et les maquettes. Je lance ensuite la phase de développement avec des retours réguliers de votre part. Enfin, je m'occupe du déploiement (sur des plateformes comme Render) et de la mise en ligne finale."
   },
   {
     question: "Quels sont vos délais moyens de livraison ?",
     answer:
-      "Cela dépend du projet : un site vitrine simple prend environ 2 à 3 semaines, tandis qu’une application sur mesure peut nécessiter plusieurs mois. Je vous fournis toujours une estimation précise avant de commencer."
+      "Les délais s'adaptent à l'envergure technique : un site vitrine standard prend généralement 2 à 3 semaines, tandis qu'une application sur mesure complexe peut s'étendre sur plusieurs mois. Un calendrier prévisionnel vous est partagé dès le départ."
   },
   {
-    question: "Offrez-vous un suivi après la livraison ?",
+    question: "Offrez-vous un suivi ou une garantie après la livraison ?",
     answer:
-      "Oui, chaque projet inclut une période de support gratuite après la mise en ligne. Je peux aussi proposer une maintenance mensuelle selon vos besoins."
+      "Absolument. Chaque projet intègre une période d'assistance technique gratuite de 30 jours après la mise en ligne pour corriger bénévolement le moindre bug lié au code livré. Une maintenance technique ponctuelle ou mensuelle peut également être convenue."
   },
   {
-    question: "Quels sont vos tarifs ?",
+    question: "Quels sont vos tarifs et comment s'organise la facturation ?",
     answer:
-      "Les tarifs dépendent de la complexité du projet. Pour un site vitrine, les prix commencent autour de 800€, tandis que les projets plus avancés sont évalués sur mesure."
+      "Mes tarifs dépendent de la complexité technique de votre projet (les projets vitrines simples débutent autour de 800 €). Agissant actuellement en qualité de particulier indépendant, je ne facture pas de TVA (TVA non applicable). Je vous remets une note de prestation claire à la fin du projet, parfaitement valable pour la comptabilité de votre entreprise."
+  },
+  {
+    question: "Comment gère-t-on les paiements depuis l'étranger (ex: Côte d'Ivoire) ?",
+    answer:
+      "Les transactions s'effectuent en Euros (€) via des canaux de paiement sécurisés (virements internationaux ou passerelles de paiement en ligne). Pour les clients basés en Côte d'Ivoire, les éventuels frais bancaires ou de transfert international restent à votre charge."
+  },
+  {
+    question: "Puis-je annuler un projet en cours et me faire rembourser ?",
+    answer:
+      "S'agissant de prestations de services numériques sur mesure exécutées à titre de particulier indépendant, le droit de rétractation standard ne s'applique pas. Dès que le devis est validé et que le développement technique commence, la commande est ferme et définitive."
   },
   {
     question: "Puis-je voir vos précédents projets ?",
     answer:
-      "Bien sûr ! Vous pouvez consulter mes réalisations dans la section “Projets” de ce portfolio. Chaque projet y est détaillé avec les technologies utilisées et un lien vers le site en ligne."
+      "Bien sûr ! Mes principales réalisations sont détaillées dans la section “Projets” de ce portfolio. Vous y trouverez les défis techniques surmontés, les technologies utilisées ainsi que les liens vers les sites en production."
   }
 ];
 
@@ -429,8 +435,8 @@ const ContactPage = () => {
                   <ContactInfoCard
                     icon={Mail}
                     label="Email"
-                    value="ahobautfrederic@gmail.com"
-                    href="mailto:ahobautfrederic@gmail.com"
+                    value="frederick@ahobaut.fr"
+                    href="mailto:frederick@ahobaut.fr"
                   />
                   
                   <ContactInfoCard

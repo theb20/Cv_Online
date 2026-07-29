@@ -10,19 +10,25 @@ import Loader from "../components/Loader";
 
 
 const Hero = () => {
-  const isMobile = useMediaQuery({ maxWidth: 853 });
+  const isSmall = useMediaQuery({ maxWidth: 639 });
+  const isTablet = useMediaQuery({ minWidth: 640, maxWidth: 1023 });
   const prefersReducedMotion = useMediaQuery({
     query: "(prefers-reduced-motion: reduce)",
   });
 
-  const astronautScale = isMobile ? 0.18 : 0.3;
-  const astronautPosition = isMobile ? [0, -2.5, 0] : [1.8, -0.5, 0];
+  const astronautScale = isSmall ? 0.18 : 0.3;
+  const astronautPosition = isSmall ? [0, -2.5, 0] : [2.6, -0.5, 0];
+  // The hero name/buttons stay centered (and grow considerably via sm:/md: text
+  // sizes) up until the lg breakpoint (1024px). In that 640-1023px tablet range,
+  // neither the mobile nor desktop astronaut placement clears the CTA buttons and
+  // body text, so the decorative figure is hidden there rather than colliding with it.
+  const showAstronaut = !prefersReducedMotion && !isTablet;
 
   return (
     <section id="hero" className="relative flex flex-col items-center justify-start pt-24 md:pt-0 md:justify-start min-h-dvh w-full z-10 overflow-hidden c-space">
         <HeroText />
         <ParallaxBackground />
-        {!prefersReducedMotion && (
+        {showAstronaut && (
           <figure
             className="absolute inset-0 z-0"
             style={{ width: "100%", height: "100%" }}

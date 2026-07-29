@@ -383,7 +383,7 @@ export default function ProjectDetails() {
                 {project.category?.split(" /")[0]}
               </span>
               <span className="flex items-center gap-1.5 text-xs font-semibold text-white/90 bg-white/15 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/20">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: isProd ? "#4ade80" : "#fbbf24" }} />
+                
                 {project.status}
               </span>
               {project.client_type && (

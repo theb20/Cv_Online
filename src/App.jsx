@@ -5,8 +5,10 @@ import Footer from "./sections/Footer";
 import Cookies from "./sections/Cookies";
 import Hero from "./sections/Hero";
 import About from "./sections/About";
+import AboutEx from "./sections/AboutEx";
 import Projects from "./sections/Projects";
 import Pricing from "./sections/Pricing";
+import ProjectHome from "./sections/ProjectEx";
 import Services from "./sections/Services";
 import Experiences from "./sections/Experiences";
 import Testimonial from "./sections/Testimonial";
@@ -16,12 +18,15 @@ import SurveyPopup from "./components/SurveyPopup";
 
 const Terms = lazy(() => import("./pages/terms"));
 const Privacy = lazy(() => import("./pages/privacy"));
+const Gallery = lazy(() => import("./pages/Gallery"));
 const ContactPage = lazy(() => import("./pages/contact"));
 const ProjectDetails = lazy(() => import("./pages/ProjectDetails"));
 const ProjectCatalog = lazy(() => import("./pages/ProjectCatalog"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const ExperienceDetails = lazy(() => import("./pages/ExperienceDetails"));
 const Login = lazy(() => import("./sections/Login"));
+const Management = lazy(() => import("./pages/LandingFinPro"));
+const LivreDetails = lazy(() => import("./pages/LivreDetails"));
 
 const MainLayout = () => {
   const [showTerms, setShowTerms] = useState(false);
@@ -54,10 +59,13 @@ const HomePage = () => (
   <div className="relative w-screen flex flex-col items-center justify-center  overflow-hidden">
     <SEO />
     <Hero />
-    <About /> 
+    {/*<MarqueeDemo />*/}
+    <AboutEx /> 
+   
     {/* <Services />*/}
-    <Pricing />
-    <Projects />
+    <ProjectHome /> 
+    <About /> 
+    {/* <Pricing />*/}
     <Experiences />
     <Testimonial />
     <ContactPage />
@@ -67,6 +75,7 @@ const HomePage = () => (
 const App = () => {
   return (
     <Routes>
+
       <Route
         path="/login"
         element={
@@ -75,11 +84,14 @@ const App = () => {
           </Suspense>
         }
       />
+
       <Route element={<MainLayout />}>
+
         <Route
           path="/"
           element={<HomePage />}
         />
+
         <Route
           path="/terms"
           element={
@@ -88,6 +100,7 @@ const App = () => {
             </Suspense>
           }
         />
+
         <Route
           path="/privacy"
           element={
@@ -96,6 +109,7 @@ const App = () => {
             </Suspense>
           }
         />
+
         <Route
           path="/contact"
           element={
@@ -104,6 +118,7 @@ const App = () => {
             </Suspense>
           }
         />
+
         <Route
           path="/about"
           element={
@@ -112,6 +127,7 @@ const App = () => {
             </Suspense>
           }
         />
+
         <Route
           path="/projects"
           element={
@@ -120,6 +136,7 @@ const App = () => {
             </Suspense>
           }
         />
+
         <Route
           path="/project/:id"
           element={
@@ -128,11 +145,38 @@ const App = () => {
             </Suspense>
           }
         />
+
+        <Route
+          path="/graphisme"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <Gallery />
+            </Suspense>
+          }
+        />
         <Route
           path="/experience/:id"
           element={
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
               <ExperienceDetails />
+            </Suspense>
+          }
+        />
+
+        <Route
+          path="/management"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <Management />
+            </Suspense>
+          }
+      />
+
+        <Route
+          path="/livres/:slug"
+          element={
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-neutral-400">Chargement...</div>}>
+              <LivreDetails />
             </Suspense>
           }
         />

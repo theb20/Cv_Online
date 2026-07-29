@@ -246,7 +246,7 @@ export const projects = [
     "CV interactif et portfolio en ligne présentant les compétences, projets et expériences professionnelles.\n" +
     "Application moderne pensée pour valoriser un profil de développeur full stack.",
   image_url: "https://ahobaut.fr/og-image-1.png",
-  link_url: "https://moncv-dev.web.app/",
+  link_url: "https://www.ahobaut.fr/",
   repo_url: "https://github.com/theb20/Cv_Online.git",
   gallery: [
     "https://github.com/theb20/Cv_Online/blob/main/public/img.png?raw=true",
@@ -1026,20 +1026,20 @@ export const projects = [
 },
 {
   id: 14,
-  title: "DropShip",
+  title: "Skignas",
   description:
-    "DropShip est une plateforme e-commerce dropshipping full-stack, permettant aux acheteurs de parcourir un catalogue, gérer un panier, passer commande et suivre leurs livraisons. " +
-    "L'application intègre un programme de fidélité, un système de parrainage, des ventes flash avec compte à rebours, des alertes de stock, une liste de cadeaux partageable, " +
-    "un comparateur de produits, un historique de navigation et un espace vendeur (marketplace). " +
-    "Un backoffice dédié permet à l'administrateur de gérer produits, commandes, promotions, utilisateurs et statistiques.",
+    "Skignas est la vitrine e-commerce de la plateforme Koli, permettant aux acheteurs de parcourir un catalogue, gérer un panier, passer commande et suivre leurs livraisons. " +
+    "Elle s'appuie sur le même socle applicatif que DropShip (catalogue, panier, fidélité, ventes flash, suivi de livraison) et fait partie d'une suite de sous-applications reliées : " +
+    "l'espace administrateur (Admin Skignas), le parcours d'inscription marchand (Business Skignas) et l'espace du marchand approuvé (Espace Marchand Skignas).",
 
-  image_url: "https://dropshipp.fr/wall/og-image.jpg",
-  link_url: "https://dropshipp.fr",
+  image_url: "https://skignas.com/wall/og-image.jpg",
+  link_url: "https://skignas.com",
   repo_url: "https://github.com/theb20/Koli",
 
   gallery: [
-    "https://dropshipp.fr/wall/why-dropshipp.png",
-    "https://dropshipp.fr/imgs_dropship/dropship.png"
+    "https://skignas.com/imgs_dropship/sk_black.png",
+    "https://skignas.com/wall/surveillance.webp",
+    "https://skignas.com/wall/panier.webp"
   ],
 
   techno_1: "React - TypeScript",
@@ -1048,97 +1048,308 @@ export const projects = [
   techno_4: "Tailwind CSS",
 
   version: "v1.0.0",
-  category: "E-commerce / Dropshipping",
-  rating: 5,
-  reviews: 1,
+  category: "E-commerce",
+  rating: 0,
+  reviews: 0,
 
   type: "Projet Personnel",
-  status: "En production",
+  status: "En Production",
 
   features: [
     "Catalogue produits avec filtres, tri, recherche et pagination",
     "Panier persistant avec vérification du stock en temps réel",
     "Tunnel de commande multi-étapes (livraison, paiement, confirmation)",
-    "Programme de fidélité : points DropShip gagnés à chaque achat",
-    "Système de parrainage avec code unique et bonus de points",
-    "Ventes flash avec compte à rebours et prix barré",
-    "Alertes de retour en stock (email + push)",
-    "Comparateur de produits (jusqu'à 4 produits côte à côte)",
-    "Liste de cadeaux partageable avec lien public",
-    "Suivi de livraison en temps réel avec timeline des étapes",
-    "Espace vendeur : dashboard, statistiques, gestion des produits",
-    "Backoffice admin complet (produits, commandes, utilisateurs, promos)",
-    "Authentification JWT, magic link, sessions multi-appareils",
-    "Wishlist, avis produits vérifiés, codes promo, TVA configurable",
-    "Historique de navigation personnalisé et produits récemment consultés",
-    "Blog intégré, formulaire de contact, newsletter",
-    "Interface 100% responsive mobile et desktop"
+    "Programme de fidélité et ventes flash",
+    "Suivi de livraison en temps réel"
   ],
 
   architecture: {
-    frontend: "React 19, Vite, TypeScript, Tailwind CSS v4, Framer Motion, React Query, React Router",
-    backend: "Node.js, Express, TypeScript, Zod, JWT, Bcrypt, Nodemailer, Resend",
-    database: "SQLite (Prisma ORM) — PostgreSQL ready",
-    deployment: "Frontend : Vite SPA — Backend : Node.js — Admin : React SPA séparée"
+    frontend: "React, Vite, TypeScript, Tailwind CSS",
+    backend: "Node.js, Express, TypeScript, Prisma",
+    database: "PostgreSQL (Prisma ORM), hébergée sur Railway",
+    deployment: "Frontend : Vite SPA — Backend : Node.js"
   },
 
   metrics: {
-    performance: 92,
-    accessibility: 85,
-    bestPractices: 95,
-    seo: 78,
-    lastUpdate: "2026-05"
+    performance: 0,
+    accessibility: 0,
+    bestPractices: 0,
+    seo: 0,
+    lastUpdate: "2026-07"
   },
 
   context:
-    "DropShip est né du besoin de disposer d'une plateforme dropshipping complète, maîtrisée de bout en bout, sans dépendance à Shopify ou WooCommerce. " +
-    "L'objectif était de construire un produit production-ready avec toutes les fonctionnalités attendues d'un e-commerce moderne : " +
-    "fidélisation, marketplace, suivi logistique, backoffice et analytics, le tout avec une expérience utilisateur fluide et mobile-first.",
+    "Skignas est le déploiement grand public de la plateforme e-commerce Koli, pensé pour offrir une expérience d'achat complète (catalogue, panier, fidélité, livraison) sans dépendre de Shopify ou WooCommerce.",
 
   team_text:
-    "Projet développé en solo avec une architecture découplée (API REST + SPA frontend + admin séparé). " +
-    "Chaque feature a été pensée du schéma Prisma jusqu'aux composants React, avec une attention particulière à la cohérence des types TypeScript bout-en-bout " +
-    "et à la réactivité de l'interface via React Query.",
+    "Projet développé en solo avec une architecture découplée (API REST + SPA frontend), partagée avec les autres sous-applications Koli (Admin, Business, Espace Marchand).",
 
   security_text:
-    "Authentification sécurisée via JWT (access token + refresh token en cookie httpOnly) avec révocation de sessions. " +
-    "Mots de passe hashés avec bcrypt (coût 12). Rate limiting sur les routes sensibles (login, register, magic link). " +
-    "Validation stricte des entrées avec Zod côté backend. Protection CORS, Helmet et XSS configurés.",
+    "Authentification sécurisée via JWT, mots de passe hashés avec bcrypt, validation stricte des entrées côté serveur.",
 
   performance_text:
-    "Données mises en cache côté client avec React Query (staleTime adapté par ressource). " +
-    "Images lazy-loadées, animations CSS via Framer Motion sans impact sur le thread principal. " +
-    "Le stock est vérifié en temps réel dans le panier via useQueries parallèles. " +
-    "Le backend utilise des requêtes Prisma optimisées avec includes ciblés pour éviter le N+1.",
+    "Catalogue et panier optimisés avec vérification du stock en temps réel côté client.",
 
-  problem: "Construire une plateforme e-commerce dropshipping production-ready sans dépendre de Shopify, avec un contrôle total sur la fidélisation, la logistique et le backoffice.",
-  solution: "Architecture fullstack TypeScript découplée (SPA frontend + API REST Express + admin séparé) avec Prisma ORM, React Query pour le cache et JWT httpOnly pour la sécurité.",
-  impact: "Plateforme opérationnelle sur dropshipp.fr avec 15+ fonctionnalités e-commerce, un score bestPractices de 95/100 et une cohérence TypeScript end-to-end.",
-  timeline: "5 mois",
+  problem: "Offrir une vitrine e-commerce grand public autonome, connectée au même socle applicatif que les espaces vendeur et administrateur de la plateforme Koli.",
+  solution: "Déploiement dédié du frontend e-commerce Koli sur le domaine skignas.com, partageant l'API et la base de données avec les sous-applications Admin, Business et Espace Marchand.",
+  impact: "Vitrine e-commerce en production sur skignas.com, connectée à l'écosystème Koli.",
+  timeline: "En cours",
   team_size: "Solo",
   client_type: "B2C",
   highlights: [
-    { value: "15+", label: "Fonctionnalités" },
-    { value: "100%", label: "TypeScript" },
-    { value: "JWT", label: "Auth sécurisée" }
+    { value: "4", label: "Sous-applications liées" },
+    { value: "100%", label: "TypeScript" }
+  ],
+  challenges: []
+},
+{
+  id: 16,
+  title: "Admin Skignas",
+  description:
+    "Backoffice d'administration de la plateforme Koli/Skignas, réservé à l'équipe interne. Gère le catalogue, les commandes, les promotions, les utilisateurs et les candidatures marchand (KYC), avec authentification à deux facteurs obligatoire.",
+
+  image_url: "/assets/walls/aut7.png",
+  link_url: "",
+  repo_url: "https://github.com/theb20/Koli",
+
+  gallery: [],
+
+  techno_1: "React - TypeScript",
+  techno_2: "Node.js",
+  techno_3: "Prisma",
+  techno_4: "Tailwind CSS",
+
+  version: "v1.0.0",
+  category: "Plateforme Digitale / SaaS",
+  rating: 0,
+  reviews: 0,
+
+  type: "Projet Personnel",
+  status: "Accès restreint",
+
+  features: [
+    "Gestion des produits et du catalogue, avec import/export en masse (CSV/Excel)",
+    "Modèle Excel généré dynamiquement avec listes déroulantes et caractéristiques techniques (specs)",
+    "Gestion des commandes et des statuts de livraison",
+    "Revue des candidatures marchand : approbation/rejet des dossiers KYC",
+    "Gestion des promotions, codes promo et ventes flash",
+    "Gestion des utilisateurs, des rôles et des comptes marchand",
+    "CRUD des templates d'email transactionnels (en-tête, salutation personnalisables)",
+    "Authentification à deux facteurs (TOTP) et score de sécurité en temps réel",
+    "Statistiques de la plateforme"
+  ],
+
+  architecture: {
+    frontend: "React SPA séparée, TypeScript, Tailwind CSS",
+    backend: "Node.js, Express, TypeScript, Prisma — relaie les décisions KYC vers le microservice Go merchantgo via une clé de service dédiée",
+    database: "PostgreSQL (Prisma ORM), hébergée sur Railway",
+    deployment: "Accès restreint (équipe interne)"
+  },
+
+  metrics: {
+    performance: 0,
+    accessibility: 0,
+    bestPractices: 0,
+    seo: 0,
+    lastUpdate: "2026-07"
+  },
+
+  context:
+    "Admin Skignas centralise la gestion opérationnelle de la plateforme e-commerce Koli/Skignas : catalogue, commandes, promotions, utilisateurs et instruction des candidatures marchand.",
+
+  team_text:
+    "Développé en solo comme SPA admin séparée du frontend public, partageant l'API REST avec Skignas, Business Skignas et l'Espace Marchand Skignas.",
+
+  security_text:
+    "Accès restreint à l'équipe interne, authentification JWT avec gestion des rôles, 2FA TOTP obligatoire pour les comptes admin. La clé de service utilisée pour piloter merchantgo (approbation/rejet des candidatures) reste strictement côté serveur, jamais exposée au navigateur.",
+
+  performance_text:
+    "SPA React dédiée, découplée du frontend public pour ne pas alourdir le bundle grand public.",
+
+  problem: "Centraliser la gestion des produits, commandes, promotions, utilisateurs et candidatures marchand de la plateforme Skignas dans une interface dédiée à l'équipe interne.",
+  solution: "SPA React admin séparée du frontend public, connectée à la même API REST et base de données que Skignas, avec un module d'audit de sécurité automatisé (Semgrep, Trivy, Gitleaks) exécuté régulièrement sur l'ensemble de la plateforme.",
+  impact: "Gestion opérationnelle quotidienne de la plateforme Skignas centralisée dans un backoffice dédié, avec un score de sécurité de 88/100 après audit complet et correction des vulnérabilités critiques.",
+  timeline: "En cours",
+  team_size: "Solo",
+  client_type: "Usage interne",
+  highlights: [
+    { value: "88/100", label: "Score sécurité" },
+    { value: "2FA", label: "Comptes admin" }
   ],
   challenges: [
     {
-      title: "Gestion du stock temps réel",
-      body: "Le défi était de synchroniser l'état du stock entre le panier et la base sans N+1 queries. Résolu via useQueries parallèles React Query avec staleTime adapté, vérifiant le stock de chaque article du panier en une seule passe batch côté API."
-    },
-    {
-      title: "Architecture TypeScript découplée end-to-end",
-      body: "Maintenir la cohérence des types entre le schéma Prisma, les endpoints Express et les composants React sans duplication de code. Résolu par un package shared-types exportant les interfaces Prisma vers le frontend et le backend via un monorepo léger."
-    },
-    {
-      title: "Sécurisation des sessions multi-appareils",
-      body: "Gérer les refresh tokens sur plusieurs appareils simultanément avec révocation ciblée sans invalider toutes les sessions. Résolu avec une table SessionToken en base (Prisma) liée à l'utilisateur, permettant la révocation sélective appareil par appareil."
+      title: "Piloter un microservice Go sans jamais l'exposer au client",
+      body: "Les décisions d'approbation/rejet des candidatures marchand doivent atteindre merchantgo (Go) sans que la clé de service ne transite par le navigateur. Résolu par un module serveur dédié qui relaie les requêtes admin vers merchantgo en attachant la clé côté Node uniquement, avec l'identité de l'admin transmise pour l'audit trail."
     }
   ]
 },
 {
-  id: 15,
+  id: 17,
+  title: "Business Skignas",
+  description:
+    "Parcours d'inscription marchand de la plateforme Koli/Skignas : un wizard en 11 étapes (compte, vérification email, profil, boutique, statut légal, adresse, paiement, facturation, KYC identité, livraison, paramètres) qui transforme un visiteur en candidature marchand instruite par l'équipe admin sous 24 à 48h.",
+
+  image_url: "https://business.skignas.com/og2.jpg",
+  link_url: "https://business.skignas.com",
+  repo_url: "https://github.com/theb20/Koli",
+
+  gallery: [
+    "https://business.skignas.com/og-image.png"
+  ],
+
+  techno_1: "React - TypeScript",
+  techno_2: "Node.js + Go",
+  techno_3: "Prisma",
+  techno_4: "Tailwind CSS",
+
+  version: "v1.0.0",
+  category: "Plateforme Digitale / SaaS",
+  rating: 0,
+  reviews: 0,
+
+  type: "Projet Personnel",
+  status: "En Production",
+
+  features: [
+    "Création de compte avec mot de passe obligatoire et vérification d'email par code à 6 chiffres",
+    "Informations personnelles et informations boutique (logo, bannière, description, catégorie)",
+    "Statut légal adaptatif (particulier, auto-entrepreneur, société) avec champs conditionnels",
+    "Choix du moyen de paiement (mobile money ou virement bancaire) et du modèle économique (commission ou abonnement)",
+    "Vérification d'identité KYC : pièce d'identité, selfie et justificatif de domicile",
+    "Paramètres de livraison et de boutique avant envoi du dossier",
+    "Suivi du statut de la candidature (brouillon, soumise, approuvée, rejetée)"
+  ],
+
+  architecture: {
+    frontend: "React SPA, TypeScript, Tailwind CSS",
+    backend: "Node.js/Express (compte, upload de fichiers) + microservice Go dédié \"merchantgo\" (candidature, KYC, facturation), authentification JWT partagée entre les deux",
+    database: "PostgreSQL (Prisma côté Node) + base dédiée côté merchantgo",
+    deployment: "Frontend : Firebase Hosting sur business.skignas.com — merchantgo : Railway"
+  },
+
+  metrics: {
+    performance: 0,
+    accessibility: 0,
+    bestPractices: 0,
+    seo: 0,
+    lastUpdate: "2026-07"
+  },
+
+  context:
+    "Business Skignas est le point d'entrée des vendeurs souhaitant rejoindre la marketplace Skignas : un parcours d'inscription complet, jusqu'à la vérification d'identité, avant toute activation d'un compte marchand.",
+
+  team_text:
+    "Développé en solo, connecté à la même API que Skignas et Admin Skignas côté Node, et à un microservice Go indépendant (merchantgo) pour tout ce qui concerne la candidature marchand elle-même.",
+
+  security_text:
+    "Documents d'identité (pièce d'identité, selfie, justificatif de domicile) scannés par antivirus et vérifiés par signature binaire avant upload, jamais ré-encodés. Authentification par JWT signé avec un secret partagé entre le backend Node et merchantgo — un token émis par l'un est valide sur l'autre. Rate limiting dédié pour empêcher le spam de code de vérification, sans bloquer un vrai parcours d'inscription qui enchaîne plusieurs uploads.",
+
+  performance_text:
+    "Upload des fichiers KYC et des visuels boutique en flux, avec re-hébergement et compression automatique côté serveur.",
+
+  problem: "Fournir un parcours d'inscription marchand complet — y compris la vérification d'identité — avant qu'un vendeur n'accède à son espace de gestion.",
+  solution: "Wizard React en 11 étapes déployé sur business.skignas.com, qui crée le compte utilisateur côté Node puis construit progressivement la candidature marchand côté merchantgo (Go), avec un token JWT valide sur les deux services.",
+  impact: "Parcours d'inscription marchand en production sur business.skignas.com, testé de bout en bout (Playwright) jusqu'à la soumission réelle de la candidature.",
+  timeline: "En cours",
+  team_size: "Solo",
+  client_type: "B2B",
+  highlights: [
+    { value: "11", label: "Étapes du wizard" },
+    { value: "Go", label: "Microservice KYC" }
+  ],
+  challenges: [
+    {
+      title: "Un JWT valide sur deux backends de stack différente",
+      body: "Le compte se crée côté Node/Express, mais la candidature marchand (KYC, facturation) est gérée par un microservice Go entièrement séparé. Résolu en partageant le même secret de signature JWT entre les deux services : un token émis par le backend Node est directement vérifiable par merchantgo, sans appel réseau supplémentaire ni session partagée."
+    },
+    {
+      title: "Rate limiting trop strict pour un parcours multi-upload",
+      body: "Une même limite de 10 requêtes/15min protégeait à la fois l'envoi de code de vérification (spammable sans compte) et l'upload de fichiers (déjà protégé par l'authentification) — un dossier complet avec reprises pouvait épuiser le quota en pleine inscription. Résolu en séparant les deux limiteurs : strict sur les routes non authentifiées, généreux sur l'upload authentifié."
+    }
+  ]
+},
+{
+  id: 18,
+  title: "Espace Marchand Skignas",
+  description:
+    "Dashboard quotidien du marchand approuvé sur la marketplace Skignas : commandes, catalogue produits (import en masse CSV/Excel avec caractéristiques techniques), KPI et graphiques de vente, sécurité du compte (2FA, score en temps réel) et choix du modèle économique.",
+
+  image_url: "/assets/walls/aut8.png",
+  link_url: "https://marchant-e58f1.web.app",
+  repo_url: "https://github.com/theb20/Koli",
+
+  gallery: [],
+
+  techno_1: "React - TypeScript",
+  techno_2: "Node.js + Go",
+  techno_3: "Prisma",
+  techno_4: "Tailwind CSS",
+
+  version: "v1.0.0",
+  category: "Plateforme Digitale / SaaS",
+  rating: 0,
+  reviews: 0,
+
+  type: "Projet Personnel",
+  status: "En Production",
+
+  features: [
+    "Cockpit marchand : KPI enrichis et graphiques de ventes",
+    "Gestion des commandes reçues et de leur statut",
+    "Gestion du catalogue produits, avec import en masse (CSV/Excel) incluant les caractéristiques techniques",
+    "Authentification à deux facteurs (TOTP) avec codes de récupération",
+    "Score de sécurité du compte calculé en temps réel",
+    "Mot de passe optionnel (connexion par lien magique possible)",
+    "Choix du modèle économique : commission ou abonnement, avec verrou de 30 jours entre deux changements",
+    "Suivi du solde et de la commission via le microservice merchantgo"
+  ],
+
+  architecture: {
+    frontend: "React SPA, TypeScript, Tailwind CSS, Zustand",
+    backend: "Node.js/Express (produits, commandes, sécurité du compte) + microservice Go \"merchantgo\" (facturation, commission, solde), JWT partagé entre les deux",
+    database: "PostgreSQL (Prisma côté Node) + base dédiée côté merchantgo",
+    deployment: "Frontend : Firebase Hosting — merchantgo : Railway"
+  },
+
+  metrics: {
+    performance: 0,
+    accessibility: 0,
+    bestPractices: 0,
+    seo: 0,
+    lastUpdate: "2026-07"
+  },
+
+  context:
+    "Espace Marchand Skignas est l'outil de gestion quotidienne des vendeurs approuvés sur la marketplace Skignas, une fois leur candidature (Business Skignas) validée par l'équipe admin.",
+
+  team_text:
+    "Développé en solo, connecté à la même API Node que Skignas et Admin Skignas, et au microservice Go merchantgo pour tout ce qui touche à la facturation et au solde marchand.",
+
+  security_text:
+    "2FA TOTP avec codes de récupération à usage unique, score de sécurité du compte recalculé à chaque connexion, mot de passe optionnel géré via un champ hasPassword dédié qui adapte l'interface selon que le marchand s'est inscrit par mot de passe ou par lien magique/Google.",
+
+  performance_text:
+    "KPI et agrégats de vente calculés côté API pour limiter les traitements côté client ; import en masse de produits limité et validé par lot (jusqu'à 200 lignes) avec aperçu avant écriture en base.",
+
+  problem: "Donner aux marchands approuvés un espace autonome pour piloter leurs ventes, leur catalogue et la sécurité de leur compte, sans dépendre de l'équipe admin au quotidien.",
+  solution: "SPA React dédiée aux marchands, déployée séparément et connectée à l'API Node partagée ainsi qu'au microservice Go merchantgo pour la facturation.",
+  impact: "Dashboard marchand en production, avec import produit en masse (specs incluses) et sécurité de compte au même niveau que le site grand public (2FA, score temps réel).",
+  timeline: "En cours",
+  team_size: "Solo",
+  client_type: "B2B",
+  highlights: [
+    { value: "200", label: "Lignes / import" },
+    { value: "2FA", label: "Sécurité marchand" }
+  ],
+  challenges: [
+    {
+      title: "Étendre l'import produit en masse sans dupliquer la logique",
+      body: "Ajouter le support des caractéristiques techniques (specs) à l'import CSV/Excel, alors que l'admin et le marchand ont chacun leur propre implémentation dupliquée du flux preview → commit. Résolu par un format compact \"label:valeur\" séparé par | (même convention que la colonne images), avec rejet explicite de la ligne si le format n'est pas respecté plutôt qu'une perte silencieuse de données."
+    }
+  ]
+},
+{
+  id: 19,
   title: "Automatisation sécurité",
 
   description: "Workflow d'audit de sécurité automatisé pour sites web et e-commerce. Analyse les en-têtes HTTP, HTTPS, cookies et configurations de sécurité, détecte les vulnérabilités, génère une analyse IA contextualisée, envoie un rapport détaillé par email et conserve l'historique des audits dans Google Sheets. Usage example: curl -X POST https://frederickahobaut.app.n8n.cloud/webhook-test/scan -H \"x-api-key: TON_SECRET\" -H \"Content-Type: application/json\" -d '{\"url\":\"https://ton-site.com\"}'",

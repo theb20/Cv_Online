@@ -7,7 +7,7 @@ export const profile = {
   email: "frederick@ahobaut.fr",
   phone: "+33 6 10 69 47 08",
   website: "https://ahobaut.fr/",
-  linkedin: "https://www.linkedin.com/in/frederick-ahobaut",
+  linkedin: "https://www.linkedin.com/in/frédérick-ahobaut-b85301322",
   github: "https://github.com/theb20",
   availability: "Disponible pour des missions freelance, des projets à long terme et des opportunités en CDI",
 

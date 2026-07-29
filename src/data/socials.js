@@ -2,7 +2,7 @@ export const socials = [
   {
     id: "linkedin",
     label: "LinkedIn",
-    url: "https://www.linkedin.com/in/frederick-ahobaut",
+    url: "https://www.linkedin.com/in/frédérick-ahobaut-b85301322",
     icon: "/assets/socials/linkedIn.svg"
   },
   {

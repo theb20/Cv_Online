@@ -153,7 +153,7 @@ Quand je présente un projet en production, j'inclus toujours son URL. Je décri
  
 10. MonCV (ce portfolio) — CV interactif en ligne.
     Stack : React, Firebase.
-    En ligne : moncv-dev.web.app
+    En ligne : ahobaut.fr
  
 11. Carte Avis Quick — Collecte d'avis clients pour une franchise Quick.
     Stack : React, Firebase.

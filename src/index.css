@@ -2,6 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Yuyu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cinzel:wght@400..900&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Yuyu&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cinzel:wght@400..900&family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Yuyu&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 /* index.css */
@@ -39,15 +43,18 @@
         rotate(calc((var(--angle) * -1deg) - 360deg));
     }
   }
-  --animate-marquee: marquee 50s linear infinite;
+  --animate-marquee: marquee 8s linear infinite;
   --animate-marquee-vertical: marquee-vertical 50s linear infinite;
+  --animate-zoom-in: zoom-in 0.5s ease-out forwards;
+  --animate-zoom-out: zoom-out 0.5s ease-in forwards;
+  --animate-zoom-pulse: zoom-pulse 1s ease-in-out infinite;
 
   @keyframes marquee {
     from {
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(-100% - var(--gap)));
+      transform: translateX(-50%);
     }
   }
 
@@ -59,6 +66,37 @@
       transform: translateY(calc(-100% - var(--gap)));
     }
   }
+
+  @keyframes zoom-in {
+    from {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes zoom-out {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  @keyframes zoom-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
 }
 
 body {
@@ -67,12 +105,42 @@ body {
   color: white;         /* permet de scroll*/
 }
 
+.Playfair{
+  font-family: "Lavishly Yours", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.google-flex {
+   font-family: "Google Sans Flex", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 10,
+    "wdth" 300,
+    "GRAD" 0,
+    "ROND" 0;
+}
+
+.google-yuyu {
+  font-family: "Yuyu", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.cinzel {
+  font-family: "Cinzel", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
 body::-webkit-scrollbar {
   width: 0px;
   height: 0px;
   display: none; /* Chrome, Safari, Opera */
 }
-
 
 .c-space {
   @apply sm:px-10 px-5 lg:px-15;
@@ -80,6 +148,17 @@ body::-webkit-scrollbar {
 
 .hover-animation {
   @apply hover:-translate-y-1 duration-200;
+}
+
+/* Zoom au survol */
+.hover-zoom {
+  @apply transition-transform duration-300;
+}
+.hover-zoom:hover {
+  @apply scale-105;
+}
+.hover-zoom-lg:hover {
+  @apply scale-110;
 }
 
 .section-spacing {
@@ -222,4 +301,29 @@ body::-webkit-scrollbar {
 
 .animate-spin-slow {
   animation: spinSlow 8s linear infinite;
+}
+
+.animate-perso {
+  animation: bouncePing 1s ease-in-out infinite;
+}
+@keyframes bouncePing {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+@keyframes floatSlow { 
+  0%,100% { transform:translateY(0); } 
+  50% { transform:translateY(-10px); } 
 }
