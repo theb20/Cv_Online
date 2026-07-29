@@ -78,8 +78,8 @@ export default function CookieConsent() {
               <div className="flex items-center justify-between px-7 pt-6 pb-2">
                 {/* Logo */}
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "#1a237e" }}>
-                    <img src="/assets/favicon/favicon.svg" alt="logo" />
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center overflow-hidden" style={{ background: "#1a237e" }}>
+                    <img src="/assets/favicon/favicon.svg" alt="logo" className="w-8 h-8" />
                   </div>
                   <span className="font-bold text-gray-900 text-sm">Frédérick Ahobaut</span>
                 </div>

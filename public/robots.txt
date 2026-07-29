@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /login
 
-Sitemap: https://moncv-dev.web.app/sitemap.xml
+Sitemap: https://www.ahobaut.fr/sitemap.xml
