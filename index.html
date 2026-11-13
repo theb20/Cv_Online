@@ -100,7 +100,19 @@
 
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!--
+        Cette app est une SPA rendue côté client (createRoot remplace tout le
+        contenu de #root au montage). Les robots qui n'exécutent pas le JS
+        (ou qui l'exécutent trop tard) ne voient donc jamais le <h1> réel du
+        Hero, d'où l'alerte "Balise H1 manquante" côté Bing. Ce H1 de secours
+        est visuellement masqué (technique sr-only) et disparaît dès que
+        React monte — aucun doublon visible pour les vrais visiteurs.
+      -->
+      <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
+        Frédérick Ahobaut — Développeur Full Stack
+      </h1>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
 
     <noscript>

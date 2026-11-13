@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { projects as defaultProjects } from '../data/projects';
 import { experiences as defaultExperiences } from '../data/experiences';
 import { reviews as defaultReviews } from '../constants';
-import { googleSheetService } from '../config/Services/googleSheetService';
+import { portfolioApiService } from '../config/Services/portfolioApiService';
 import { collection, query, where, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "../config/firebase";
 
@@ -23,19 +23,18 @@ export const DataProvider = ({ children }) => {
     let unsubscribeFirestore = () => {};
 
     const initData = async () => {
-      // 1. Try to fetch from Google Sheets
-      const sheetData = await googleSheetService.fetchAllData();
-      
+      // 1. Try to fetch from the Realty Hub backend (Back/)
+      const apiData = await portfolioApiService.fetchAllData();
+
       let currentBaseReviews = defaultReviews;
 
-      if (sheetData && (sheetData.projects || sheetData.experiences)) {
-        console.log("Using Google Sheet Data", sheetData);
-        currentBaseReviews = sheetData.reviews || defaultReviews;
-        
+      if (apiData && (apiData.projects?.length || apiData.experiences?.length)) {
+        console.log("Using backend API data", apiData);
+
         setData(prev => ({
           ...prev,
-          projects: sheetData.projects || prev.projects,
-          experiences: sheetData.experiences || prev.experiences,
+          projects: apiData.projects?.length ? apiData.projects : prev.projects,
+          experiences: apiData.experiences?.length ? apiData.experiences : prev.experiences,
           reviews: currentBaseReviews, // Will be overwritten by Firestore if available
           source: 'remote',
           loading: false

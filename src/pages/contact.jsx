@@ -11,8 +11,7 @@ import {
   FileText, 
   Calendar 
 } from 'lucide-react';
-import requestService from '../config/Services/requestService.js';
-import emailjs from '@emailjs/browser';
+import { portfolioContactApiService } from '../config/Services/portfolioContactApiService.js';
 
 // ============================================
 // COMPOSANTS RÉUTILISABLES
@@ -173,7 +172,7 @@ const FAQCard = ({ question, answer }) => (
 // COMPOSANT PRINCIPAL
 // ============================================
 
-const ContactPage = () => {
+const ContactPage = ({ isEmbedded = false }) => {
   const [formData, setFormData] = useState({
     nom: '',
     email: '',
@@ -185,6 +184,7 @@ const ContactPage = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -218,58 +218,44 @@ const ContactPage = () => {
     }
 
     setErrors({});
+    setSubmitError(false);
     setLoading(true);
 
-    try {
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    const projectTypeLabel = projectTypes.find(t => t.value === formData.typeProjet)?.label || formData.typeProjet;
+    const budgetLabel = budgets.find(b => b.value === formData.budget)?.label || formData.budget;
+    const deadlineLabel = delais.find(d => d.value === formData.delai)?.label || formData.delai;
 
-      if (serviceId && templateId && publicKey) {
-          try {
-            await emailjs.send(
-              serviceId,
-              templateId,
-              {
-                from_name: formData.nom,
-                from_email: formData.email,
-                company: formData.entreprise || "Non spécifié",
-                project_type: projectTypes.find(t => t.value === formData.typeProjet)?.label || formData.typeProjet,
-                budget: budgets.find(b => b.value === formData.budget)?.label || formData.budget,
-                deadline: delais.find(d => d.value === formData.delai)?.label || formData.delai,
-                message: formData.description,
-              },
-              publicKey
-            );
-            
-            setSubmitted(true);
-            setFormData({
-              nom: '',
-              email: '',
-              entreprise: '',
-              typeProjet: '',
-              budget: '',
-              delai: '',
-              description: '',
-            });
-            setTimeout(() => setSubmitted(false), 5000);
+    const ok = await portfolioContactApiService.submit({
+      name: formData.nom,
+      email: formData.email,
+      subject: `${projectTypeLabel}${formData.entreprise ? ` — ${formData.entreprise}` : ""}`,
+      message: [
+        `Entreprise : ${formData.entreprise || "Non spécifié"}`,
+        `Budget : ${budgetLabel}`,
+        `Délai : ${deadlineLabel}`,
+        "",
+        formData.description,
+      ].join("\n"),
+    });
 
-          } catch (emailError) {
-            console.error('EmailJS Error:', emailError);
-            alert(`Erreur d'envoi EmailJS : ${JSON.stringify(emailError)}`);
-            throw emailError; // Re-throw to be caught by outer catch
-          }
-      } else {
-          console.warn("EmailJS configuration missing. ServiceID:", !!serviceId, "TemplateID:", !!templateId, "Key:", !!publicKey);
-          alert("Configuration EmailJS manquante. Vérifiez le fichier .env");
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          setSubmitted(true); // Fallback simulation
-      }
-    } catch (error) {
-      console.error('Erreur lors de la création de la demande :', error);
-    } finally {
-      setLoading(false);
+    if (ok) {
+      setSubmitted(true);
+      setFormData({
+        nom: '',
+        email: '',
+        entreprise: '',
+        typeProjet: '',
+        budget: '',
+        delai: '',
+        description: '',
+      });
+      setTimeout(() => setSubmitted(false), 5000);
+    } else {
+      setSubmitError(true);
+      setTimeout(() => setSubmitError(false), 6000);
     }
+
+    setLoading(false);
   };
 
   // ============================================
@@ -395,7 +381,7 @@ const faqs = [
   // ============================================
 
   return (
-    <div  className="min-h-screen section-spacing z-20 flex flex-col items-center justify-center relative z-7 text-white">
+    <div  className="min-h-screen bg-neutral-900 z-20 flex flex-col items-center justify-center relative z-7 text-white">
       {/* Hero Section */}
       <section className="relative w-screen py-20 px-6 overflow-hidden" id="contact">
         <div 
@@ -410,9 +396,15 @@ const faqs = [
               Contactez-moi
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6">
-              Discutons de votre projet
-            </h1>
+            {isEmbedded ? (
+              <h2 className="text-5xl md:text-7xl font-medium tracking-tight mb-6">
+                Discutons de votre projet
+              </h2>
+            ) : (
+              <h1 className="text-5xl md:text-7xl font-medium tracking-tight mb-6">
+                Discutons de votre projet
+              </h1>
+            )}
             
             <p className="text-xl text-neutral-400 leading-relaxed">
               Vous avez un projet en tête ? Une question ? N'hésitez pas à me contacter. 
@@ -480,6 +472,18 @@ const faqs = [
                   <div>
                     <p className="text-green-400 font-medium">Message envoyé avec succès !</p>
                     <p className="text-sm text-neutral-400">Je vous répondrai dans les plus brefs délais.</p>
+                  </div>
+                </div>
+             )}
+
+             {submitError && (
+                <div className="mb-6 fixed top-19 right-10 z-10 animate-fade-in p-4 bg-red-900/20 border border-red-800 rounded-xl flex items-center gap-3">
+                  <div className="w-8 h-8 bg-red-900/50 rounded-lg flex items-center justify-center">
+                    <Send className="w-4 h-4 text-red-400" />
+                  </div>
+                  <div>
+                    <p className="text-red-400 font-medium">Échec de l&apos;envoi</p>
+                    <p className="text-sm text-neutral-400">Réessayez ou écrivez-moi directement à frederick@ahobaut.fr.</p>
                   </div>
                 </div>
              )}

@@ -101,9 +101,9 @@ export const Timeline = ({ data = [] }) => {
                 <span className="uppercase tracking-wider text-sm">{currentExp.position}</span>
               </div>
               
-              <h1 className="text-5xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter uppercase">
+              <h2 className="text-5xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter uppercase">
                 {currentExp.company}
-              </h1>
+              </h2>
               
               <p className="text-lg md:text-xl text-neutral-300 mb-8 max-w-lg leading-relaxed line-clamp-3">
                 {currentExp.description}

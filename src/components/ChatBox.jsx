@@ -16,10 +16,9 @@ import {
 // ==========================================
 // BRAND
 // ==========================================
-// Palette claire et professionnelle, cohérente avec l'identité :
-//   --ink   : #0D1B2A (navy)   — texte fort, surfaces sombres
-//   --accent: #E85D04 (orange) — accents, liens, états actifs (usage parcimonieux)
-// Surfaces blanches/slate, bordures discrètes, ombres douces.
+// Palette monochrome premium (même famille que la VoiceCallCard) :
+//   header sombre #1b1e26 → #0c0d11, surfaces blanches/grises, accents noir/blanc.
+// Pas de couleur décorative — noir / blanc / gris uniquement.
 
 // Petit monogramme réutilisé partout en guise d'avatar de l'assistant
 const Monogram = ({ size = 'md' }) => {
@@ -44,20 +43,20 @@ const contactIcon = (type) => {
 };
 
 // ==========================================
-// RICH DATA COMPONENTS — light theme
+// RICH DATA COMPONENTS — monochrome
 // ==========================================
 
 const levelStyles = (level) => {
   const l = (level || '').toLowerCase();
-  if (l === 'expert')   return 'bg-emerald-50 text-emerald-700 border-emerald-100';
-  if (l === 'avancé' || l === 'advanced') return 'bg-[#E85D04]/8 text-[#E85D04] border-[#E85D04]/15';
-  return 'bg-slate-100 text-slate-500 border-slate-200';
+  if (l === 'expert') return 'bg-black text-white border-black';
+  if (l === 'avancé' || l === 'advanced') return 'bg-slate-100 text-slate-700 border-slate-200';
+  return 'bg-slate-50 text-slate-500 border-slate-200';
 };
 
 const levelDot = (level) => {
   const l = (level || '').toLowerCase();
-  if (l === 'expert') return 'bg-emerald-500';
-  if (l === 'avancé' || l === 'advanced') return 'bg-[#E85D04]';
+  if (l === 'expert') return 'bg-black';
+  if (l === 'avancé' || l === 'advanced') return 'bg-slate-500';
   return 'bg-slate-300';
 };
 
@@ -93,7 +92,7 @@ const ProjectsList = ({ projects, total }) => (
           <div className="flex items-start justify-between mb-1.5">
             <h4 className="font-semibold text-slate-900 text-sm leading-snug">{project.title}</h4>
             {project.url && (
-              <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#E85D04] ml-2 flex-shrink-0 transition-colors">
+              <a href={project.url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-black ml-2 flex-shrink-0 transition-colors">
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
@@ -123,16 +122,16 @@ const ContactsList = ({ contacts }) => (
       <a key={i} href={contact.link}
         target={contact.type === 'email' || contact.type === 'phone' ? '_self' : '_blank'}
         rel="noopener noreferrer"
-        className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl hover:border-[#E85D04]/30 hover:shadow-sm transition-all group"
+        className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl hover:border-black/30 hover:shadow-sm transition-all group"
       >
-        <span className="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 group-hover:bg-[#E85D04]/8 group-hover:text-[#E85D04] transition-colors">
+        <span className="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center flex-shrink-0 group-hover:bg-black group-hover:text-white transition-colors">
           {contactIcon(contact.type)}
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-0.5">{contact.label}</p>
-          <p className="text-xs font-medium text-slate-700 truncate group-hover:text-[#E85D04] transition-colors">{contact.value}</p>
+          <p className="text-xs font-medium text-slate-700 truncate group-hover:text-black transition-colors">{contact.value}</p>
         </div>
-        <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-[#E85D04] transition-colors flex-shrink-0" />
+        <ExternalLink className="w-3 h-3 text-slate-300 group-hover:text-black transition-colors flex-shrink-0" />
       </a>
     ))}
   </div>
@@ -142,7 +141,7 @@ const StrengthsList = ({ strengths }) => (
   <div className="mt-3 grid grid-cols-2 gap-2">
     {strengths.map((s, i) => (
       <div key={i} className="p-3.5 bg-white border border-slate-200 rounded-xl hover:border-slate-300 hover:shadow-sm transition-all">
-        <div className="text-2xl font-bold text-[#E85D04] mb-1 tracking-tight">{s.value}</div>
+        <div className="text-2xl font-bold text-black mb-1 tracking-tight">{s.value}</div>
         <div className="text-[10px] font-semibold text-slate-800 uppercase tracking-wide mb-1">{s.title}</div>
         <div className="text-[10px] text-slate-400 leading-snug">{s.description}</div>
       </div>
@@ -155,7 +154,7 @@ const EducationList = ({ education, certifications }) => (
     {education?.length > 0 && (
       <div className="space-y-2">
         <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
-          <GraduationCap className="w-3.5 h-3.5 text-[#0D1B2A]" />
+          <GraduationCap className="w-3.5 h-3.5 text-black" />
           <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Formation</h4>
         </div>
         {education.map((edu, i) => (
@@ -164,7 +163,7 @@ const EducationList = ({ education, certifications }) => (
               <div className="flex items-start justify-between mb-1">
                 <h5 className="font-semibold text-slate-900 text-xs leading-snug">{edu.diploma}</h5>
                 <span className={`px-2 py-0.5 rounded-md text-[9px] font-semibold uppercase tracking-wide whitespace-nowrap ml-2 border ${
-                  edu.status === 'Terminé' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-[#E85D04]/8 text-[#E85D04] border-[#E85D04]/15'
+                  edu.status === 'Terminé' ? 'bg-black text-white border-black' : 'bg-slate-100 text-slate-600 border-slate-200'
                 }`}>{edu.status}</span>
               </div>
               <p className="text-xs text-slate-500">{edu.school}</p>
@@ -177,13 +176,13 @@ const EducationList = ({ education, certifications }) => (
     {certifications?.length > 0 && (
       <div className="space-y-2">
         <div className="flex items-center gap-2 pb-2 border-b border-slate-200">
-          <Award className="w-3.5 h-3.5 text-[#E85D04]" />
+          <Award className="w-3.5 h-3.5 text-black" />
           <h4 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">Certifications</h4>
         </div>
         {certifications.map((cert, i) => (
           <div key={i} className="flex items-start gap-3 p-3 bg-white border border-slate-200 rounded-xl">
-            <div className="w-8 h-8 bg-[#E85D04]/8 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Award className="w-4 h-4 text-[#E85D04]" />
+            <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Award className="w-4 h-4 text-black" />
             </div>
             <div className="flex-1 min-w-0">
               <h5 className="font-semibold text-slate-900 text-xs mb-0.5 leading-snug">{cert.name}</h5>
@@ -191,7 +190,7 @@ const EducationList = ({ education, certifications }) => (
               <div className="flex items-center gap-2">
                 <span className="text-[10px] text-slate-400">{cert.year}</span>
                 <span className={`px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase border ${
-                  cert.status === 'En cours' ? 'bg-[#E85D04]/8 text-[#E85D04] border-[#E85D04]/15' : 'bg-emerald-50 text-emerald-700 border-emerald-100'
+                  cert.status === 'En cours' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-black text-white border-black'
                 }`}>{cert.status}</span>
               </div>
             </div>
@@ -225,7 +224,7 @@ const Message = ({ message, isUser, onSpeak }) => {
   if (isUser) {
     return (
       <div className="flex justify-end animate-fadeIn">
-        <div className="max-w-[78%] px-4 py-2.5 rounded-2xl rounded-tr-sm bg-[#0D1B2A] text-white shadow-sm">
+        <div className="max-w-[78%] px-4 py-2.5 rounded-2xl rounded-tr-sm bg-[#0c0d11] text-white shadow-sm">
           <p className="text-sm leading-relaxed">{message.text}</p>
         </div>
       </div>
@@ -245,7 +244,7 @@ const Message = ({ message, isUser, onSpeak }) => {
           {!message.isStreaming && onSpeak && (
             <button
               onClick={() => onSpeak(message.text)}
-              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 text-slate-300 hover:text-[#E85D04] transition-all rounded-lg hover:bg-slate-50"
+              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 text-slate-300 hover:text-black transition-all rounded-lg hover:bg-slate-50"
               title="Écouter"
             >
               <Volume2 className="w-3.5 h-3.5" />
@@ -320,7 +319,7 @@ const FlipText = () => {
 };
 
 // ==========================================
-// WELCOME SCREEN — MagicRings + FlipText
+// WELCOME SCREEN — MagicRings (monochrome) + FlipText
 // ==========================================
 
 const WelcomeScreen = ({ onSuggestion }) => {
@@ -333,12 +332,12 @@ const WelcomeScreen = ({ onSuggestion }) => {
 
   return (
     <div className="relative flex flex-col w-full h-full overflow-hidden bg-white">
-      {/* ── MagicRings background ── */}
+      {/* ── MagicRings background — teintes grises, cohérent monochrome ── */}
       <div className="absolute inset-0 opacity-80 h-full w-full pointer-events-none">
         <MagicRings
-          color='#ff0000ff'
-          colorTwo='#9b27daff'
-          colorThree='#40ee80ff'
+          color='#9ca3af'
+          colorTwo='#4b5563'
+          colorThree='#d1d5db'
           ringCount={5}
           speed={0.8}
           attenuation={12}
@@ -360,7 +359,7 @@ const WelcomeScreen = ({ onSuggestion }) => {
       {/* ── Content ── */}
       <div className="relative flex flex-col items-center justify-center flex-1 px-6 text-center text-black/60 h-full">
         <div className="relative mb-5 pt-20">
-          <div className="w-76 h-50  flex items-center justify-center "> 
+          <div className="w-76 h-50  flex items-center justify-center ">
             <img src="/ai.png" className="animate-fadeIn w-full h-full" alt="logo ai" />
           </div>
         </div>
@@ -373,9 +372,9 @@ const WelcomeScreen = ({ onSuggestion }) => {
           <FlipText />
         </h2>
 
-        
 
-        
+
+
       </div>
     </div>
   );
@@ -471,7 +470,7 @@ const AIChatbot = () => {
     const aiId = Date.now() + 1;
 
     try {
-      await sendChatMessage(trimmed, snapshot, (chunk) => {
+      const result = await sendChatMessage(trimmed, snapshot, (chunk) => {
         setIsLoading(false);
         setMessages(prev => {
           const exists = prev.find(m => m.id === aiId);
@@ -482,8 +481,8 @@ const AIChatbot = () => {
         });
       });
 
-      // Mark stream done
-      setMessages(prev => prev.map(m => m.id === aiId ? { ...m, isStreaming: false } : m));
+      // Mark stream done + attache les données de la carte riche (si le modèle en a fourni)
+      setMessages(prev => prev.map(m => m.id === aiId ? { ...m, isStreaming: false, type: result.type, data: result.data } : m));
       if (!isActive) setHasUnread(true);
       await loadInitialData();
     } catch (error) {
@@ -528,80 +527,67 @@ const AIChatbot = () => {
         .suggestion-scroll { scrollbar-width: none; }
         .suggestion-scroll::-webkit-scrollbar { display: none; }
 
-        @keyframes glowRotate {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
         .markdown-content p:not(:last-child) { margin-bottom: 0.75rem; }
         .markdown-content ul, .markdown-content ol { margin-bottom: 0.75rem; padding-left: 1.25rem; }
         .markdown-content ul { list-style-type: disc; }
         .markdown-content ol { list-style-type: decimal; }
         .markdown-content li { margin-bottom: 0.25rem; }
-        .markdown-content li::marker { color: #E85D04; }
-        .markdown-content strong { font-weight: 700; color: #0D1B2A; }
-        .markdown-content h1, .markdown-content h2, .markdown-content h3 { font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #0D1B2A; }
+        .markdown-content li::marker { color: #0c0d11; }
+        .markdown-content strong { font-weight: 700; color: #0c0d11; }
+        .markdown-content h1, .markdown-content h2, .markdown-content h3 { font-weight: 700; margin-top: 1rem; margin-bottom: 0.5rem; color: #0c0d11; }
         .markdown-content code { background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: monospace; font-size: 0.85em; }
-        .markdown-content a { color: #E85D04; text-decoration: underline; }
+        .markdown-content a { color: #0c0d11; text-decoration: underline; }
         .markdown-content img { max-width: 100%; height: auto; border-radius: 0.75rem; margin-top: 0.75rem; margin-bottom: 0.75rem; border: 1px solid #e2e8f0; }
-        
+
       `}</style>
 
       <div className="relative z-[1000]">
 
-        {/* ── Floating Button ── */}
+        {/* ── Floating Button — cercle noir plein, façon bouton play/pause ── */}
         <button
-  onClick={() => setIsActive(!isActive)}
-  aria-label={isActive ? 'Fermer le chat' : 'Ouvrir le chat'}
-  className={`fixed bottom-6 right-6 z-[1000] transition-all duration-500 ${
-    isActive
-      ? 'scale-0 opacity-0 pointer-events-none'
-      : 'scale-100 opacity-100 animate-float'
-  }`}
->
- <div className="relative w-14 h-14 rounded-2xl flex items-center justify-center">
-
-  <div className="absolute inset-0 rounded-2xl animate-spin-slow">
-    <div className="w-full h-full rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500 blur-md opacity-70"></div>
-  </div>
-
-  <div className="relative w-14 h-14 rounded-2xl bg-black/10 backdrop-blur-sm flex items-center justify-center">
-    <img
-      src="/ai.png"
-      alt="AI"
-      className="w-12 h-12 rounded-2xl object-cover"
-    />
-  </div>
-
-</div>
+          onClick={() => setIsActive(!isActive)}
+          aria-label={isActive ? 'Fermer le chat' : 'Ouvrir le chat'}
+          className={`fixed bottom-6 right-6 z-[1000] transition-all duration-500 ${
+            isActive
+              ? 'scale-0 opacity-0 pointer-events-none'
+              : 'scale-100 opacity-100 animate-float'
+          }`}
+        >
+          <div className="w-14 h-14 rounded-full bg-black shadow-[0_10px_30px_rgba(0,0,0,0.35)] flex items-center justify-center hover:bg-gray-900 transition-colors">
+            <img
+              src="/ai.png"
+              alt="AI"
+              className="w-9 h-9 rounded-full object-cover"
+            />
+          </div>
         </button>
 
         {/* ── Chat Window ── */}
         {isActive && (
           <div className="fixed inset-3 md:bottom-6 md:right-6 md:left-auto md:top-auto md:inset-auto md:w-[420px] md:h-[600px] z-[1000] animate-slideUp">
-            <div className="flex flex-col h-full rounded-2xl overflow-hidden border border-slate-200 shadow-2xl shadow-slate-400/30 bg-white">
+            <div className="flex flex-col h-full rounded-[28px] overflow-hidden shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] bg-white">
 
-              {/* ── Header ── */}
-              <div className="relative px-4 py-3.5 border-b border-slate-200 bg-white flex-shrink-0">
+              {/* ── Header — panneau sombre, façon VoiceCallCard ── */}
+              <div
+                className="relative px-5 py-4 flex-shrink-0"
+                style={{ background: 'linear-gradient(180deg, #1b1e26 0%, #0c0d11 100%)' }}
+              >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <img src="/ai.png" className="w-12 h-12 rounded-2xl object-cover" alt="" />
-                    </div>
+                    <img src="/ai.png" className="w-10 h-10 rounded-2xl object-cover" alt="" />
                     <div>
-                      <h1 className="text-sm font-semibold text-slate-900 tracking-tight">Assistant · Fredo</h1>
-                      
+                      <h1 className="text-sm font-semibold text-white tracking-tight">Assistant · Fredo</h1>
+                      <p className="text-[11px] text-white/40 mt-0.5">{isLoading ? 'Réflexion…' : 'En ligne'}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
                     <button onClick={resetChat}
-                      className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-all"
+                      className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-xl transition-all"
                       title="Réinitialiser">
                       <RotateCcw className="w-4 h-4" />
                     </button>
                     <button onClick={() => setIsActive(false)}
-                      className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-all"
+                      className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-xl transition-all"
                       title="Fermer">
                       <X className="w-4 h-4" />
                     </button>
@@ -628,7 +614,7 @@ const AIChatbot = () => {
                 <div className="px-4 py-2.5 border-t border-slate-200 bg-white flex gap-2 overflow-x-auto suggestion-scroll flex-shrink-0">
                   {suggestions.map((s, i) => (
                     <button key={i} onClick={() => sendMessage(s.text || s)}
-                      className="flex-shrink-0 px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-[#E85D04]/8 hover:border-[#E85D04]/30 hover:text-[#E85D04] rounded-xl text-[11px] text-slate-600 whitespace-nowrap transition-all font-medium">
+                      className="flex-shrink-0 px-3 py-1.5 bg-slate-50 border border-slate-200 hover:bg-black hover:border-black hover:text-white rounded-xl text-[11px] text-slate-600 whitespace-nowrap transition-all font-medium">
                       {s.text || s}
                     </button>
                   ))}
@@ -661,7 +647,7 @@ const AIChatbot = () => {
                       title={isListening ? 'Arrêter le micro' : 'Parler'}
                       className={`p-2.5 rounded-xl text-white shadow-sm transition-all flex-shrink-0 disabled:opacity-30 ${
                         isListening
-                          ? 'bg-red-500 hover:bg-red-600 animate-pulse'
+                          ? 'bg-black animate-pulse'
                           : 'bg-slate-400 hover:bg-slate-500'
                       }`}
                     >
@@ -672,7 +658,7 @@ const AIChatbot = () => {
                     <button
                       onClick={stopSpeaking}
                       title="Arrêter la lecture"
-                      className="p-2.5 bg-[#E85D04] hover:bg-[#E85D04]/80 rounded-xl text-white shadow-sm transition-all flex-shrink-0"
+                      className="p-2.5 bg-black hover:bg-gray-800 rounded-xl text-white shadow-sm transition-all flex-shrink-0"
                     >
                       <VolumeX className="w-4 h-4" />
                     </button>
@@ -680,7 +666,7 @@ const AIChatbot = () => {
                     <button
                       onClick={() => sendMessage()}
                       disabled={!input.trim() || isLoading}
-                      className="p-2.5 bg-[#0D1B2A] hover:bg-[#E85D04] rounded-xl text-white shadow-sm disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-[#0D1B2A] transition-all flex-shrink-0"
+                      className="p-2.5 bg-black hover:bg-gray-800 rounded-xl text-white shadow-sm disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
                     >
                       <Send className="w-4 h-4" />
                     </button>

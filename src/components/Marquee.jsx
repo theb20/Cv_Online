@@ -7,11 +7,14 @@ export default function Marquee({
   children,
   vertical = false,
   repeat = 2,
+  duration,
+  style,
   ...props
 }) {
   return (
     <div
       {...props}
+      style={{ ...(duration ? { "--duration": duration } : null), ...style }}
       className={cn(
         "group flex overflow-hidden",
         vertical ? "flex-col" : "flex-row",

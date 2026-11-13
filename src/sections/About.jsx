@@ -27,11 +27,6 @@ const SKILLS = [
   { cat: "DevOps",     items: ["Docker", "GitHub Actions", "Firebase Hosting", "Railway", "Git", "Vite", "Figma", "Linux"] },
 ];
 
-const STATS = [
-  { value: "4+",    label: "ans d'expérience" },
-  { value: "30+",   label: "projets livrés" },
-  { value: "2",     label: "pays, 1 timezone" },
-];
 
 export default function About() {
   const ref = useRef(null);
@@ -118,29 +113,6 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2, ease: E }}
-            style={{ display: "flex", flexDirection: "column", gap: 0 }}
-          >
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: "#aaa", margin: "0 0 20px" }}>
-              En chiffres
-            </p>
-            {STATS.map((s, i) => (
-              <div key={i} style={{ padding: "20px 0", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
-                <p style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: 800, color: "#0A0A0A", margin: 0, fontFamily: F_DISPLAY, letterSpacing: "-0.04em" }}>
-                  {s.value}
-                </p>
-                <p style={{ fontSize: 12, color: "#999", margin: "4px 0 0" }}>{s.label}</p>
-              </div>
-            ))}
-            <div style={{ padding: "20px 0" }}>
-              <p style={{ fontSize: 13, color: "#555", fontStyle: "italic", lineHeight: 1.5, margin: 0 }}>
-                "{p.availability}"
-              </p>
-            </div>
-          </motion.div>
         </div>
       </div>
 

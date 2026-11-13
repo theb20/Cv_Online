@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   Home, Bell, MessageCircle, Plus, Settings,
   Search, X, ExternalLink, Github, Compass,
-  Star, Zap, Heart, ChevronDown, Package,
-  CheckCircle, Clock, Filter, Camera
+  Star, Zap, Heart, ChevronDown,
+  Filter, Camera
 } from "lucide-react";
 import Masonry from "react-masonry-css";
 import SEO from "../components/SEO";
@@ -46,131 +46,56 @@ const typeStyle = (t = "") => {
   return TYPE_STYLE.personnel;
 };
 
-// ─── SIDEBAR TOOLTIP ──────────────────────────────────────────────────────────
-const SidebarTip = ({ label, children }) => (
-  <div className="relative group flex justify-center">
-    {children}
-    <span className="
-      absolute left-full ml-3 top-1/2 -translate-y-1/2
-      bg-gray-900 text-white text-xs px-2.5 py-1.5 rounded-lg
-      whitespace-nowrap pointer-events-none z-[60]
-      opacity-0 group-hover:opacity-100
-      translate-x-1 group-hover:translate-x-0
-      transition-all duration-150
-    ">{label}</span>
-  </div>
-);
-
-// ─── SIDEBAR (icônes uniquement) ───────────────────────────────────────────────
-const PinterestSidebar = ({ active, setActive, projects, onMessage }) => {
-  const inProd = projects.filter(p => ["En Production","En production","En Ligne"].includes(p.status)).length;
-  const inDev  = projects.filter(p => p.status?.toLowerCase().includes("développement")).length;
-
-  const navItems = [
-    { icon: MessageCircle, label: "Laisser un avis", id: "msg",  action: onMessage },
-  ];
-
-  return (
-    <aside className="fixed left-0 top-0 h-screen w-16 hidden lg:flex flex-col items-center py-4 z-50"
-      style={{ background: "#fff", borderRight: "1px solid #efefef" }}>
-
-      {/* Logo */}
-      <SidebarTip label="Devfolio">
-        <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-black text-sm cursor-pointer hover:scale-110 transition-transform mb-3"
-          style={{ background: "#ffffffff" }}></div>
-      </SidebarTip>
-
-      {/* Nav */}
-      <nav className="flex flex-col gap-1 w-full px-2">
-        {navItems.map(({ icon: Icon, label, id, action }) => (
-          <SidebarTip key={id} label={label}>
-            <button onClick={() => action ? action() : setActive(id)}
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:bg-gray-100"
-              style={{
-                color:      active === id ? "#111" : "#767676",
-                background: active === id ? "#f0f0f0" : "transparent",
-              }}>
-              <Icon size={20} />
-            </button>
-          </SidebarTip>
-        ))}
-      </nav>
-
-      <div className="w-8 h-px my-3" style={{ background: "#efefef" }} />
-
-      {/* Stats */}
-      <div className="flex flex-col gap-1 w-full px-2">
-        {[
-          { icon: Package,     val: projects.length, label: `${projects.length} projets`, color: "#6366f1" },
-          { icon: CheckCircle, val: inProd,           label: `${inProd} en production`,   color: "#22c55e" },
-          { icon: Clock,       val: inDev,            label: `${inDev} en développement`, color: "#f59e0b" },
-        ].map(({ icon: Icon, val, label, color }) => (
-          <SidebarTip key={label} label={label}>
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center relative hover:bg-gray-50 cursor-default transition-colors">
-              <Icon size={18} style={{ color }} />
-              <span className="absolute -top-0.5 -right-0.5 text-[9px]  text-white px-1 py-0.5 rounded-full leading-none"
-                style={{ background: color }}>{val}</span>
-            </div>
-          </SidebarTip>
-        ))}
-      </div>
-
-      <div className="flex-1" />
-
-      {/* Bottom */}
-      <div className="flex flex-col gap-1 w-full px-2 pb-1 pt-3 border-t border-gray-100">
-     
-        
-        <SidebarTip label="Frédérick Ahobaut — Développeur Full Stack">
-          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm cursor-pointer hover:scale-105 transition-transform mt-1"
-            style={{ background: "linear-gradient(135deg,#E85D04,#e60023)" }}>
-            <img src="/assets/favicon/favicon.svg" alt="" />
-          </div>
-        </SidebarTip>
-      </div>
-    </aside>
-  );
-};
-
 // ─── HEADER ───────────────────────────────────────────────────────────────────
-const PinterestHeader = ({ search, setSearch, activeFilter, setActiveFilter, categories }) => (
-  <header className="sticky top-0 z-40 px-5 py-3"
-    style={{ background: "rgba(250,250,250,.95)", backdropFilter: "blur(8px)", borderBottom: "1px solid #efefef" }}>
+const PinterestHeader = ({ search, setSearch, activeFilter, setActiveFilter, categories, count }) => (
+  <header className="sticky top-3 z-40 px-4 md:px-6 mb-5">
+    <div className="flex items-center gap-3 rounded-2xl bg-white px-4 py-3"
+      style={{ border: "1px solid #eee", boxShadow: "0 12px 32px -12px rgba(17,17,17,.12), 0 2px 6px rgba(17,17,17,.04)" }}>
 
-    {/* Search row */}
-    <div className="flex items-center gap-3 mb-3">
-      <div className="flex-1 flex items-center gap-3 rounded-full px-4 py-2.5 transition-all focus-within:ring-2 focus-within:ring-black/10"
-        style={{ background: "#efefef" }}>
-        <Search size={17} className="text-gray-500 flex-shrink-0" />
+      <div className="flex-shrink-0 flex items-center gap-2.5 rounded-full pl-4 pr-3 py-2 w-48 md:w-64 transition-all focus-within:ring-2 focus-within:ring-[#E85D04]/30 focus-within:border-[#E85D04]/40"
+        style={{ background: "#f7f7f7", border: "1px solid transparent" }}>
+        <Search size={16} className="text-gray-400 flex-shrink-0" />
         <input
           value={search}
           onChange={e => setSearch(e.target.value)}
-          placeholder="Rechercher des projets"
-          className="flex-1 bg-transparent text-sm outline-none text-gray-900 placeholder-gray-500"
+          placeholder="Rechercher"
+          className="flex-1 min-w-0 bg-transparent text-sm outline-none text-gray-900 placeholder-gray-400"
         />
         {search && (
           <button onClick={() => setSearch("")} className="text-gray-400 hover:text-gray-600 flex-shrink-0">
-            <X size={16} />
+            <X size={14} />
           </button>
         )}
       </div>
-    </div>
 
-    {/* Category chips */}
-    <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
-      {categories.map(cat => {
-        const active = activeFilter === cat;
-        return (
-          <button key={cat} onClick={() => setActiveFilter(cat)}
-            className="flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95"
-            style={{
-              background: active ? "#111" : "#efefef",
-              color:       active ? "#fff" : "#111",
-            }}>
-            {cat}
-          </button>
-        );
-      })}
+      <div className="w-px self-stretch bg-gray-100 flex-shrink-0" />
+
+      {/* Category chips */}
+      <div className="relative flex-1 min-w-0">
+        <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          {categories.map(cat => {
+            const active = activeFilter === cat;
+            return (
+              <button key={cat} onClick={() => setActiveFilter(cat)}
+                className="flex-shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all hover:scale-105 active:scale-95"
+                style={{
+                  background: active ? "linear-gradient(135deg,#E85D04,#111)" : "#f5f5f5",
+                  color:       active ? "#fff" : "#444",
+                  boxShadow:   active ? "0 4px 14px rgba(232,93,4,.25)" : "none",
+                }}>
+                {cat}
+              </button>
+            );
+          })}
+        </div>
+        {/* Scroll fade hint */}
+        <div className="pointer-events-none absolute right-0 top-0 bottom-1 w-10"
+          style={{ background: "linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.95))" }} />
+      </div>
+
+      <span className="hidden md:block flex-shrink-0 text-xs font-medium text-gray-400 whitespace-nowrap">
+        {count} projet{count !== 1 ? "s" : ""}
+      </span>
     </div>
   </header>
 );
@@ -388,7 +313,6 @@ export default function ProjectCatalog() {
   const { projects } = useData();
   const [search,       setSearch]       = useState("");
   const [activeFilter, setActiveFilter] = useState("Tous");
-  const [sideActive,   setSideActive]   = useState("home");
   const [user,         setUser]         = useState(null);
   const [reviewOpen,   setReviewOpen]   = useState(false);
 
@@ -421,23 +345,21 @@ export default function ProjectCatalog() {
 
       <ReviewModal isOpen={reviewOpen} onClose={() => setReviewOpen(false)} />
 
-      <div className="min-h-screen pt-15" style={{ background: "#fafafa" }}>
+      <div className="min-h-screen pt-25" style={{ background: "#fafafa" }}>
 
-        {/* Sidebar */}
-        <PinterestSidebar
-          active={sideActive} setActive={setSideActive}
-          projects={projects}
-          onMessage={() => setReviewOpen(true)}
-        />
+        {/* Le design (grille façon Pinterest) ne prévoit pas de gros titre visuel,
+            mais chaque page doit avoir un <h1> sémantique pour le SEO/l'a11y. */}
+        <h1 className="sr-only">Projets — Frédérick Ahobaut, Développeur Full Stack</h1>
 
         {/* Main content */}
-        <div className="lg:ml-16 pb-16 lg:pb-0">
+        <div className="pb-16 lg:pb-0">
           <PinterestHeader
             search={search}
             setSearch={setSearch}
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
             categories={allCats}
+            count={displayed.length}
           />
           <PinterestGrid projects={displayed} user={user} />
         </div>

@@ -104,34 +104,7 @@ export default function LandingFinPro() {
                 </div>
               </div>
             </div>
-            <div
-              className="relative w-full sm:w-auto text-center sm:text-right pb-0 sm:pb-5"
-              style={{ flexShrink: 0 }}
-            >
-              <div
-                className="relative sm:absolute sm:-top-14 sm:right-0 z-1"
-                style={{
-                  fontFamily: "'Anton',sans-serif",
-                  fontSize: "clamp(48px,7vw,100px)",
-                  color: "rgba(242,233,216,0.35)",
-                  lineHeight: 1,
-                }}
-              >
-                {hero.year}
-              </div>
-              <div
-                className="relative z-2 text-white bg-[#ff5a1f] pt-0 pb-6 sm:pb-30 rounded-0"
-                style={{
-                  fontWeight: 700,
-                  fontSize: 14,
-                  letterSpacing: 1.5,
-                  textTransform: "uppercase",
-                  marginTop: 6,
-                }}
-              >
-                {hero.tags}
-              </div>
-            </div>
+           
           </div>
         </div>
 

@@ -95,8 +95,20 @@
   }
 }
 
+/* Allows <Marquee duration="..."> to override the animation speed per
+   instance. Declared unlayered (outside @theme/@layer) so it always
+   wins over the Tailwind-generated `.animate-marquee` utility, and
+   directly on the class so var(--duration) resolves against each
+   element's own inherited value instead of freezing at :root. */
+.animate-marquee {
+  animation-duration: var(--duration, 8s);
+}
+.animate-marquee-vertical {
+  animation-duration: var(--duration, 50s);
+}
+
 body {
-  background: #030412;
+  background: #ffffff;
   font-family: "Inter", sans-serif;
   color: white;         /* permet de scroll*/
 }
